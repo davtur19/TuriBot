@@ -1,0 +1,22 @@
+{
+  "name": "davtur19/turibot",
+  "description": "A simple way to communicate with Telegram APIs in PHP.",
+  "type": "project",
+  "license": "AGPL-3.0-or-later",
+  "require": {
+    "ext-json": "*",
+    "ext-curl": "*",
+    "php": "^7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "TuriBot\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "davtur19",
+      "email": "dav.tur19@gmail.com"
+    }
+  ]
+}
