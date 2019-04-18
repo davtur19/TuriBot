@@ -1,14 +1,16 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-
+require_once __DIR__ . '/vendor/autoload.php'; //comment this line if you don't have Composer, and uncomment the 4 lines below
+//require_once __DIR__ . '/src/ApiStruct.php';
+//require_once __DIR__ . '/src/Api.php';
+//require_once __DIR__ . '/src/EasyVars.php';
+//require_once __DIR__ . '/src/Client.php';
 use TuriBot\Client;
 
 
 if (!function_exists('curl_version')) {
     exit('You must install or enable php-curl');
 }
-
 
 //security check
 //var_dump($_POST['yes'], $_POST['api'], $_POST['link'], $_POST['connections'], $_POST['no'], $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']);
@@ -23,7 +25,7 @@ if (isset($_POST['no']) and $_POST['no'] !== '') {
 if (isset($_POST['api'])) {
     $token = explode(":", $_POST['api']);
     if ((!is_numeric($token[0])) or (!(sizeof($token) === 2)) or (!(preg_match_all('/[a-zA-Z0-9_-]/', $token[1],
-                $matches, PREG_SET_ORDER, 0) === strlen($token[1])))) {
+                            $matches, PREG_SET_ORDER, 0) === strlen($token[1])))) {
         exit('Invalid token');
     }
 }
@@ -48,7 +50,7 @@ if (isset($_POST['yes'])) {
     } else {
         $link = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $explode = explode('setup.php', $link);
-        $link = $explode[0] . 'index.php';
+        $link = $explode[0] . 'webhook.php';
     }
 
     echo '<p><input type="hidden" name="link" value="' . htmlspecialchars($link) . '" /></p>';
@@ -102,7 +104,7 @@ if (isset($_POST['yes'])) {
     $explode = explode('setup.php', $actual_link);
 
     echo '<p>Is the link correct?</p>';
-    echo '<p>' . htmlspecialchars($explode[0]) . 'index.php</p>';
+    echo '<p>' . htmlspecialchars($explode[0]) . 'webhook.php</p>';
     echo '<p><button type="submit" name="yes">Yes</button>';
     echo '<button type="submit" name="no">No</button></p>';
 

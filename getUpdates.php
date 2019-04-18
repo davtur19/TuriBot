@@ -1,8 +1,12 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-
+require_once __DIR__ . '/vendor/autoload.php'; //comment this line if you don't have Composer, and uncomment the 4 lines below
+//require_once __DIR__ . '/src/ApiStruct.php';
+//require_once __DIR__ . '/src/Api.php';
+//require_once __DIR__ . '/src/EasyVars.php';
+//require_once __DIR__ . '/src/Client.php';
 use TuriBot\Client;
+
 
 $client = new Client("TOKEN");
 $offset = 0;

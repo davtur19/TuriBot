@@ -1,8 +1,12 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
-
+require_once __DIR__ . '/vendor/autoload.php'; //comment this line if you don't have Composer, and uncomment the 4 lines below
+//require_once __DIR__ . '/src/ApiStruct.php';
+//require_once __DIR__ . '/src/Api.php';
+//require_once __DIR__ . '/src/EasyVars.php';
+//require_once __DIR__ . '/src/Client.php';
 use TuriBot\Client;
+
 
 if (!isset($_GET["api"])) {
     die();
@@ -26,22 +30,22 @@ if (isset($update->message) or isset($update->edited_message)) {
     if ($text == "/help") {
 
         $menu["inline_keyboard"] = [
-            [
                 [
-                    "text"          => "Button 1",
-                    "callback_data" => "btn1",
-                ],
-            ],
-            [
-                [
-                    "text"          => "Button 2",
-                    "callback_data" => "btn2",
+                        [
+                                "text" => "Button 1",
+                                "callback_data" => "btn1",
+                        ],
                 ],
                 [
-                    "text"          => "Button 3",
-                    "callback_data" => "btn3",
+                        [
+                                "text" => "Button 2",
+                                "callback_data" => "btn2",
+                        ],
+                        [
+                                "text" => "Button 3",
+                                "callback_data" => "btn3",
+                        ],
                 ],
-            ],
         ];
 
         $a = $client->sendMessage($chat_id, "ping", null, null, null, null, $menu);
@@ -72,22 +76,22 @@ if (isset($update->callback_query)) {
 
     $menu = [];
     $menu["inline_keyboard"] = [
-        [
             [
-                "text"          => "Button 1",
-                "callback_data" => "btn1",
-            ],
-        ],
-        [
-            [
-                "text"          => "Button 2",
-                "callback_data" => "btn2",
+                    [
+                            "text" => "Button 1",
+                            "callback_data" => "btn1",
+                    ],
             ],
             [
-                "text"          => "Button 3",
-                "callback_data" => "btn3",
+                    [
+                            "text" => "Button 2",
+                            "callback_data" => "btn2",
+                    ],
+                    [
+                            "text" => "Button 3",
+                            "callback_data" => "btn3",
+                    ],
             ],
-        ],
     ];
 
     if ($update->callback_query->data == "btn1") {
