@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php'; //comment this line if you don't have Composer, and uncomment the 4 lines below
-//require_once __DIR__ . '/src/ApiStruct.php';
-//require_once __DIR__ . '/src/Api.php';
-//require_once __DIR__ . '/src/EasyVars.php';
-//require_once __DIR__ . '/src/Client.php';
+require_once __DIR__ . "/vendor/autoload.php"; //comment this line if you don't have Composer, and uncomment the 4 lines below
+//require_once __DIR__ . "/src/ApiStruct.php";
+//require_once __DIR__ . "/src/Api.php";
+//require_once __DIR__ . "/src/EasyVars.php";
+//require_once __DIR__ . "/src/Client.php";
 use TuriBot\Client;
 
 
@@ -30,42 +30,30 @@ if (isset($update->message) or isset($update->edited_message)) {
     if ($text == "/help") {
 
         $menu["inline_keyboard"] = [
+            [
                 [
-                        [
-                                "text" => "Button 1",
-                                "callback_data" => "btn1",
-                        ],
+                    "text"          => "Button 1",
+                    "callback_data" => "btn1",
+                ],
+            ],
+            [
+                [
+                    "text"          => "Button 2",
+                    "callback_data" => "btn2",
                 ],
                 [
-                        [
-                                "text" => "Button 2",
-                                "callback_data" => "btn2",
-                        ],
-                        [
-                                "text" => "Button 3",
-                                "callback_data" => "btn3",
-                        ],
+                    "text"          => "Button 3",
+                    "callback_data" => "btn3",
                 ],
+            ],
         ];
 
-        $a = $client->sendMessage($chat_id, "ping", null, null, null, null, $menu);
-        //$client->sendMessage($chat_id, "pong ".var_export($a, true));
-    }
-
-    /*
-    if ($text == "/test") {
-        $test = $client->debug(true, false);
-        $client->sendMessage($chat_id, "True = 1, False = 0".PHP_EOL.$test);
-    }
-
-    if ($input = $client->command('/ciao', 1)) {
-        $client->sendMessage($chat_id, "Ciao");
-        $client->debug($input[1]);
+        $a = $client->sendMessage($chat_id, "help", null, null, null, null, $menu);
     }
 
     if ($text == "/var") {
-        $client->debug($client->easy->chat_id, $client->easy->text, $client->easy->message_id, $client->easy->first_name, $client->easy->from_id, $client->easy->chat_type);
-    }*/
+        $client->debug($chat_id, $client->easy->message_id, ["key" => "value"], "pong", 3.14);
+    }
 }
 
 if (isset($update->callback_query)) {
@@ -74,24 +62,23 @@ if (isset($update->callback_query)) {
     $message_chat_id = $update->callback_query->message->chat->id;
     $message_message_id = $update->callback_query->message->message_id;
 
-    $menu = [];
     $menu["inline_keyboard"] = [
+        [
             [
-                    [
-                            "text" => "Button 1",
-                            "callback_data" => "btn1",
-                    ],
+                "text"          => "Button 1",
+                "callback_data" => "btn1",
+            ],
+        ],
+        [
+            [
+                "text"          => "Button 2",
+                "callback_data" => "btn2",
             ],
             [
-                    [
-                            "text" => "Button 2",
-                            "callback_data" => "btn2",
-                    ],
-                    [
-                            "text" => "Button 3",
-                            "callback_data" => "btn3",
-                    ],
+                "text"          => "Button 3",
+                "callback_data" => "btn3",
             ],
+        ],
     ];
 
     if ($update->callback_query->data == "btn1") {

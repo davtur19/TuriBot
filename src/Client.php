@@ -100,22 +100,20 @@ class Client extends Api
     /*
      * Make var_export() and send it in the actual chat_id
      *
+     * @param int|string chat_id for the target chat
      * @param mixed,... unlimited optional variable to send
      *
      * @return bool true if can send message, otherwise false
      */
-    public function debug(...$vars): bool
-    {
-        if ($this->easy->chat_id === 0) {
-            return false;
-        }
 
+    public function debug($chat_id, ...$vars): bool
+    {
         foreach ($vars as $debug) {
             $str = var_export($debug, true);
             $array_str = str_split($str, 4050);
 
             foreach ($array_str as $value) {
-                $result = $this->sendMessage($this->easy->chat_id, 'Debug:' . PHP_EOL . $value);
+                $result = $this->sendMessage($chat_id, "Debug:" . PHP_EOL . $value);
                 if ($result->ok === false) {
                     return false;
                 }
@@ -125,43 +123,4 @@ class Client extends Api
         return true;
     }
 
-
-    /*
-     * Search in text for command
-     *
-     * @param string command to search
-     *
-     * @param int number of parameters required by the command
-     *
-     * @return mixed true if the command is found, otherwise false; if parameters are passed it will return the exploded array with ' '
-     */
-    public function command(string $input, int $parameters = null)
-    {
-        if ($this->easy->text === '' or $this->easy->chat_id === 0) {
-            return false;
-        }
-        if (!isset($parameters)) {
-            //or strcasecmp($this->easy->text,$input . $this->nicknamebot) === 0
-            if (strcasecmp($this->easy->text, $input) === 0 or stripos($this->easy->text, $input . ' ') === 0) {
-                return true;
-            }
-
-            return false;
-        } elseif (stripos($this->easy->text, $input) === 0) {
-            if ($parameters === 0) {
-                return true;
-            }
-            $save = explode(' ', $this->easy->text, $parameters + 1);
-            for ($i = 1; $i <= $parameters; $i++) {
-                if (!isset($save[$i]) or $save[$i] == '') {
-                    //sendMessage($chat_id, 'Error: unspecified text.' . PHP_EOL . 'How to use:' . PHP_EOL . $input . str_repeat(' [text]', $parameters));
-                    return false;
-                }
-            }
-
-            return $save;
-        }
-
-        return false;
-    }
 }
