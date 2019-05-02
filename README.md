@@ -1,10 +1,11 @@
 # TuriBot
 
-# Take a look to oop branch (WIP)
-https://github.com/davtur19/TuriBot/tree/oop
+# Outdated
+This brach will not be updated anymore, use the [new version](https://github.com/davtur19/TuriBot)
+
+This code _shouldn't_ present bugs or major problems but I do not recommend using it
 
 # Intro
-
 TuriBot is a simple way to communicate with Telegram APIs in PHP
 
 Documentation is only in Italian at the moment
@@ -20,7 +21,6 @@ Documentation is only in Italian at the moment
 1. Editare commands.php e fare il proprio bot.
 
 ## CronJob
-
 Per usare i cronjob basterà creare un file a parte e inculudere base_functions.php per avere tutte le funzioni base.
 
 ## Attenzione⚠️
