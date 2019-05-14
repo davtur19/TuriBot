@@ -21,6 +21,9 @@ class Client extends Api
         $this->endpoint = "https://api.telegram.org/bot" . $token . "/";
         $this->json_payload = $json_payload;
         $this->curl = curl_init();
+        if ($this->curl === false) {
+            exit('curl error');
+        }
 
         curl_setopt_array($this->curl, [
             CURLOPT_RETURNTRANSFER => true,
@@ -35,7 +38,7 @@ class Client extends Api
 
 
     /*
-     * @return stdClass of update received from webhook
+     * @return \stdClass of update received from webhook
      */
 
     public function getUpdate(): \stdClass
@@ -49,7 +52,7 @@ class Client extends Api
 
     /*
      * @param string $path Path of file
-     * @return CURLFile of $path
+     * @return \CURLFile of $path
      */
 
     public function inputFile(string $path): \CURLFile
@@ -66,10 +69,10 @@ class Client extends Api
      * @param string $method The method of Bot API
      * @param array $args Argument for the method of Bot API
      *
-     * @return stdClass getUpdate if jsonPayload, otherwise response of Telegram
+     * @return \stdClass getUpdate if jsonPayload, otherwise response of Telegram
      */
 
-    public function Request(string $method, array $args = [])
+    public function Request(string $method, array $args = []): \stdClass
     {
         if ($this->json_payload) {
             $args["method"] = $method;
