@@ -18,10 +18,5 @@
       "name": "davtur19",
       "email": "dav.tur19@gmail.com"
     }
-  ],
-  "archive": {
-    "exclude": [
-      "/examples/*"
-    ]
-  }
+  ]
 }
