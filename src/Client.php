@@ -21,9 +21,6 @@ class Client extends Api
         $this->endpoint = "https://api.telegram.org/bot" . $token . "/";
         $this->json_payload = $json_payload;
         $this->curl = curl_init();
-        if ($this->curl === false) {
-            exit('curl error');
-        }
 
         curl_setopt_array($this->curl, [
             CURLOPT_RETURNTRANSFER => true,
@@ -103,8 +100,8 @@ class Client extends Api
     /*
      * Make var_export() and send it in the actual chat_id
      *
-     * @param int|string chat_id for the target chat
-     * @param mixed,... unlimited optional variable to send
+     * @param int|string $chat_id for the target chat
+     * @param mixed,... $var unlimited optional variable to send
      *
      * @return bool true if can send message, otherwise false
      */
