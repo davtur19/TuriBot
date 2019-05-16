@@ -4,7 +4,7 @@
 
 namespace TuriBot;
 
-abstract Class Api implements ApiStruct
+abstract Class Api implements ApiInterface
 {
 
     public function getUpdates(

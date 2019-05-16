@@ -2,7 +2,7 @@
 
 namespace TuriBot;
 
-interface ApiStruct
+interface ApiInterface
 {
     function Request(string $method, array $data);
 }
