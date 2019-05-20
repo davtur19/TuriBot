@@ -18,5 +18,8 @@ composer require davtur19/turibot
 - All methods have the parameters in the same order as the [BotAPIs](https://core.telegram.org/bots/api#available-methods)
 - The `reply_markup` parameters already have a json_encode in the functions, you just need to pass arrays
 
+## Security
+https://github.com/php-telegram-bot/core/wiki/Securing-&-Hardening-your-Telegram-Bot
+
 ## Contributors
 - [andrew-ld](https://github.com/andrew-ld)
