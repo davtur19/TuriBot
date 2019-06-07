@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "../vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
 use TuriBot\Client;
 
@@ -21,6 +21,11 @@ while (true) {
                     $client->sendMessage($chat_id, "pong");
                 } else {
                     $client->sendMessage($chat_id, $easy->message_id);
+                }
+
+                if($easy->text == "test") {
+                    $result = $client->sendMessage($chat_id, "test");
+                    $client->debug($chat_id, $result);
                 }
                 //$client->sendPhoto($chat_id, $client->inputFile("photo.png"));
             }

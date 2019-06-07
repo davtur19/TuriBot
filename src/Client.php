@@ -90,9 +90,30 @@ class Client extends Api
                 CURLOPT_URL        => $this->endpoint . $method,
                 CURLOPT_POSTFIELDS => $args,
             ]);
-            $result = curl_exec($this->curl);
+            $resultCurl = curl_exec($this->curl);
+            if ($resultCurl === false) {
+                $arr = [
+                    "ok"          => false,
+                    "error_code"  => curl_errno($this->curl),
+                    "description" => curl_error($this->curl),
+                    "curl_error"  => true
+                ];
 
-            return json_decode($result);
+                $resultCurl = json_encode($arr);
+            }
+
+            $resultJson = json_decode($resultCurl);
+            if ($resultJson === null) {
+                $arr = [
+                    "ok"          => false,
+                    "error_code"  => json_last_error(),
+                    "description" => json_last_error_msg(),
+                    "json_error"  => true
+                ];
+                $resultJson = json_decode(json_encode($arr));
+            }
+
+            return $resultJson;
         }
     }
 
