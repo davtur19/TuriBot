@@ -23,7 +23,7 @@ while (true) {
                     $client->sendMessage($chat_id, $easy->message_id);
                 }
 
-                if($easy->text == "test") {
+                if ($easy->text == "test") {
                     $result = $client->sendMessage($chat_id, "test");
                     $client->debug($chat_id, $result);
                 }
