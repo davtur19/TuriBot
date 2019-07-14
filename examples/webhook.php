@@ -17,14 +17,14 @@ if (isset($update->message) or isset($update->edited_message)) {
     $message_id = $client->easy->message_id;
     $text = $client->easy->text;
 
-    if ($text == "/start") {
+    if ($text === "/start") {
         $client->sendMessage($chat_id, "ping");
         $client->sendMessage($chat_id, "pong");
         $client->forwardMessage($chat_id, $chat_id, null, $message_id);
         $client->sendPhoto($chat_id, $client->inputFile("TuriPixel.png"), "File upload");
     }
 
-    if ($text == "/help") {
+    if ($text === "/help") {
 
         $menu["inline_keyboard"] = [
             [
@@ -48,7 +48,7 @@ if (isset($update->message) or isset($update->edited_message)) {
         $a = $client->sendMessage($chat_id, "help", null, null, null, null, $menu);
     }
 
-    if ($text == "/var") {
+    if ($text === "/var") {
         $client->debug($chat_id, $client->easy->message_id, ["key" => "value"], "pong", 3.14);
     }
 }
