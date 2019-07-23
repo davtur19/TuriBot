@@ -11,7 +11,7 @@ function sendGame(
     $response = RESPONSE
 ) {
     $args = [
-        'chat_id' => $chat_id,
+        'chat_id'         => $chat_id,
         'game_short_name' => $game_short_name,
     ];
 
@@ -45,7 +45,7 @@ function setGameScore(
 ) {
     $args = [
         'user_id' => $user_id,
-        'score' => $score,
+        'score'   => $score,
     ];
 
     if (isset($force)) {

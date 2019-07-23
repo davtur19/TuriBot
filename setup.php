@@ -21,8 +21,9 @@ if (isset($_POST['no']) and $_POST['no'] !== '') {
 
 if (isset($_POST['api'])) {
     $token = explode(":", $_POST['api']);
-    if ((!is_numeric($token[0])) or (!(sizeof($token) === 2)) or (!(preg_match_all('/[a-zA-Z0-9_-]/', $token[1], $matches,
-                PREG_SET_ORDER, 0) === strlen($token[1])))) {
+    if ((!is_numeric($token[0])) or
+        (!(sizeof($token) === 2)) or
+        (!(preg_match_all('/[a-zA-Z0-9_-]/', $token[1], $matches, PREG_SET_ORDER, 0) === strlen($token[1])))) {
         exit('Invalid token');
     }
 }

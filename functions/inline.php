@@ -14,7 +14,7 @@ function answerInlineQuery(
     $results = json_encode($results);
     $args = [
         'inline_query_id' => $inline_query_id,
-        'results' => $results,
+        'results'         => $results,
     ];
 
     if (isset($cache_time)) {

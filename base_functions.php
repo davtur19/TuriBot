@@ -33,15 +33,15 @@ function curlRequest($method, $args = [])
         $curlRequestSession = curl_init();
         curl_setopt_array($curlRequestSession, [
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_TIMEOUT => 120,
-            CURLOPT_HTTPHEADER => ["Connection: Keep-Alive", "Keep-Alive: 120"]
+            CURLOPT_POST           => true,
+            CURLOPT_HEADER         => false,
+            CURLOPT_TIMEOUT        => 120,
+            CURLOPT_HTTPHEADER     => ["Connection: Keep-Alive", "Keep-Alive: 120"]
         ]);
     }
 
     curl_setopt_array($curlRequestSession, [
-        CURLOPT_URL => 'https://api.telegram.org/bot' . $_GET['api'] . '/' . $method,
+        CURLOPT_URL        => 'https://api.telegram.org/bot' . $_GET['api'] . '/' . $method,
         CURLOPT_POSTFIELDS => $args,
     ]);
     $response = curl_exec($curlRequestSession);
@@ -56,15 +56,15 @@ function curlRequestApi($api, $method, $args = [])
         $curlRequestSession = curl_init();
         curl_setopt_array($curlRequestSession, [
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_TIMEOUT => 120,
-            CURLOPT_HTTPHEADER => ["Connection: Keep-Alive", "Keep-Alive: 120"]
+            CURLOPT_POST           => true,
+            CURLOPT_HEADER         => false,
+            CURLOPT_TIMEOUT        => 120,
+            CURLOPT_HTTPHEADER     => ["Connection: Keep-Alive", "Keep-Alive: 120"]
         ]);
     }
 
     curl_setopt_array($curlRequestSession, [
-        CURLOPT_URL => 'https://api.telegram.org/bot' . $api . '/' . $method,
+        CURLOPT_URL        => 'https://api.telegram.org/bot' . $api . '/' . $method,
         CURLOPT_POSTFIELDS => $args,
     ]);
     $response = curl_exec($curlRequestSession);
@@ -85,7 +85,7 @@ function sendMessage(
 ) {
     $args = [
         'chat_id' => $chat_id,
-        'text' => $text,
+        'text'    => $text,
     ];
 
     if (isset($parse_mode)) {
@@ -115,9 +115,9 @@ function sendMessage(
 function forwardMessage($chat_id, $from_chat_id, $message_id, $disable_notification = null, $response = RESPONSE)
 {
     $args = [
-        'chat_id' => $chat_id,
+        'chat_id'      => $chat_id,
         'from_chat_id' => $from_chat_id,
-        'message_id' => $message_id,
+        'message_id'   => $message_id,
     ];
 
     if (isset($disable_notification)) {
@@ -131,17 +131,18 @@ function forwardMessage($chat_id, $from_chat_id, $message_id, $disable_notificat
 }
 
 
-include_once 'functions/media.php';
-include_once 'functions/edit.php';
-include_once 'functions/admin.php';
-include_once 'functions/get_info.php';
-include_once 'functions/status.php';
-include_once 'functions/location.php';
-include_once 'functions/updates.php';
-include_once 'functions/inline.php';
-include_once 'functions/stickers.php';
-include_once 'functions/payments.php';
-include_once 'functions/games.php';
+require_once 'functions/media.php';
+require_once 'functions/edit.php';
+require_once 'functions/admin.php';
+require_once 'functions/get_info.php';
+require_once 'functions/status.php';
+require_once 'functions/location.php';
+require_once 'functions/updates.php';
+require_once 'functions/inline.php';
+require_once 'functions/stickers.php';
+require_once 'functions/payments.php';
+require_once 'functions/games.php';
+require_once 'functions/poll.php';
 
-include_once 'functions/input.php';
-include_once 'functions/debug.php';
+require_once 'functions/input.php';
+require_once 'functions/debug.php';

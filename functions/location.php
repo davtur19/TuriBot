@@ -12,8 +12,8 @@ function sendLocation(
     $response = RESPONSE
 ) {
     $args = [
-        'chat_id' => $chat_id,
-        'latitude' => $latitude,
+        'chat_id'   => $chat_id,
+        'latitude'  => $latitude,
         'longitude' => $longitude,
     ];
 
@@ -48,7 +48,7 @@ function editMessageLiveLocation(
     $response = RESPONSE
 ) {
     $args = [
-        'latitude' => $latitude,
+        'latitude'  => $latitude,
         'longitude' => $longitude,
     ];
 
@@ -95,11 +95,9 @@ function stopMessageLiveLocation(
     }
 
     if ($response === true) {
-        return isset($args) ? curlRequest('stopMessageLiveLocation', $args) :
-            curlRequest('stopMessageLiveLocation');
+        return isset($args) ? curlRequest('stopMessageLiveLocation', $args) : curlRequest('stopMessageLiveLocation');
     }
-    return isset($args) ? jsonPayload('stopMessageLiveLocation', $args) :
-        jsonPayload('stopMessageLiveLocation');
+    return isset($args) ? jsonPayload('stopMessageLiveLocation', $args) : jsonPayload('stopMessageLiveLocation');
 }
 
 
@@ -117,11 +115,11 @@ function sendVenue(
     $response = RESPONSE
 ) {
     $args = [
-        'chat_id' => $chat_id,
-        'latitude' => $latitude,
+        'chat_id'   => $chat_id,
+        'latitude'  => $latitude,
         'longitude' => $longitude,
-        'title' => $title,
-        'address' => $address,
+        'title'     => $title,
+        'address'   => $address,
     ];
 
     if (isset($foursquare_id)) {

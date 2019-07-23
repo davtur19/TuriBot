@@ -25,17 +25,17 @@ if (isset($text) and isset($chat_id)) {
         $menu['inline_keyboard'] = [
             [
                 [
-                    'text' => 'Button 1',
+                    'text'          => 'Button 1',
                     'callback_data' => 'btn1'
                 ]
             ],
             [
                 [
-                    'text' => 'Button 2',
+                    'text'          => 'Button 2',
                     'callback_data' => 'btn2'
                 ],
                 [
-                    'text' => 'Button 3',
+                    'text'          => 'Button 3',
                     'callback_data' => 'btn3'
                 ]
             ]
@@ -58,11 +58,11 @@ if (isset($text) and isset($chat_id)) {
     if (stripos($text, '/album') === 0) {
         $media = [
             [
-                'type' => 'photo',
+                'type'  => 'photo',
                 'media' => 'http://example/img/photo.jpg'
             ],
             [
-                'type' => 'photo',
+                'type'  => 'photo',
                 'media' => 'http://example/img/test.png'
             ]
         ];
@@ -104,17 +104,17 @@ if (isset($data) and isset($id) and isset($message_chat_id) and isset($message_m
         $menu['inline_keyboard'] = [
             [
                 [
-                    'text' => 'Button 1',
+                    'text'          => 'Button 1',
                     'callback_data' => 'btn1'
                 ]
             ],
             [
                 [
-                    'text' => 'Button 2',
+                    'text'          => 'Button 2',
                     'callback_data' => 'btn2'
                 ],
                 [
-                    'text' => 'Button 3',
+                    'text'          => 'Button 3',
                     'callback_data' => 'btn3'
                 ]
             ]

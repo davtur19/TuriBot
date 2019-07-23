@@ -4,7 +4,7 @@
 function setChatStickerSet($chat_id, $sticker_set_name, $response = RESPONSE)
 {
     $args = [
-        'chat_id' => $chat_id,
+        'chat_id'          => $chat_id,
         'sticker_set_name' => $sticker_set_name,
     ];
 
@@ -81,7 +81,7 @@ function uploadStickerFile($user_id, $png_sticker)
     $png_sticker = curl_file_create($file_name);
 
     $args = [
-        'user_id' => $user_id,
+        'user_id'     => $user_id,
         'png_sticker' => $png_sticker,
     ];
 
@@ -106,11 +106,11 @@ function createNewStickerSet(
     }
 
     $args = [
-        'user_id' => $user_id,
-        'name' => $name,
-        'title' => $title,
+        'user_id'     => $user_id,
+        'name'        => $name,
+        'title'       => $title,
         'png_sticker' => $png_sticker,
-        'emojis' => $emojis,
+        'emojis'      => $emojis,
     ];
 
     if (isset($contains_masks)) {
@@ -137,10 +137,10 @@ function addStickerToSet($user_id, $name, $png_sticker, $emojis, $mask_position 
     }
 
     $args = [
-        'user_id' => $user_id,
-        'name' => $name,
+        'user_id'     => $user_id,
+        'name'        => $name,
         'png_sticker' => $png_sticker,
-        'emojis' => $emojis,
+        'emojis'      => $emojis,
     ];
 
     if (isset($mask_position)) {
@@ -158,7 +158,7 @@ function addStickerToSet($user_id, $name, $png_sticker, $emojis, $mask_position 
 function setStickerPositionInSet($sticker, $position, $response = RESPONSE)
 {
     $args = [
-        'sticker' => $sticker,
+        'sticker'  => $sticker,
         'position' => $position,
     ];
 

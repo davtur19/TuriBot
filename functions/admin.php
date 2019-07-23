@@ -138,7 +138,7 @@ function setChatPhoto($chat_id, $photo)
 
     $args = [
         'chat_id' => $chat_id,
-        'photo' => $photo,
+        'photo'   => $photo,
     ];
 
     return curlRequest('setChatPhoto', $args);
@@ -162,7 +162,7 @@ function setChatTitle($chat_id, $title, $response = RESPONSE)
 {
     $args = [
         'chat_id' => $chat_id,
-        'title' => $title,
+        'title'   => $title,
     ];
 
     if ($response === true) {
@@ -192,7 +192,7 @@ function setChatDescription($chat_id, $description = null, $response = RESPONSE)
 function pinChatMessage($chat_id, $message_id, $disable_notification = null, $response = RESPONSE)
 {
     $args = [
-        'chat_id' => $chat_id,
+        'chat_id'    => $chat_id,
         'message_id' => $message_id,
     ];
 

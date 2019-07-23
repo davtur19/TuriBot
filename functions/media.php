@@ -21,7 +21,7 @@ function sendPhoto(
 
     $args = [
         'chat_id' => $chat_id,
-        'photo' => $photo,
+        'photo'   => $photo,
     ];
 
     if (isset($caption)) {
@@ -76,7 +76,7 @@ function sendAudio(
 
     $args = [
         'chat_id' => $chat_id,
-        'audio' => $audio,
+        'audio'   => $audio,
     ];
 
     if (isset($caption)) {
@@ -139,7 +139,7 @@ function sendDocument(
     }
 
     $args = [
-        'chat_id' => $chat_id,
+        'chat_id'  => $chat_id,
         'document' => $document,
     ];
 
@@ -199,7 +199,7 @@ function sendVideo(
 
     $args = [
         'chat_id' => $chat_id,
-        'video' => $video,
+        'video'   => $video,
     ];
 
     if (isset($duration)) {
@@ -268,7 +268,7 @@ function sendAnimation(
     }
 
     $args = [
-        'chat_id' => $chat_id,
+        'chat_id'   => $chat_id,
         'animation' => $animation,
     ];
 
@@ -327,7 +327,7 @@ function sendVoice(
 
     $args = [
         'chat_id' => $chat_id,
-        'voice' => $voice,
+        'voice'   => $voice,
     ];
     if (isset($caption)) {
         $args['caption'] = $caption;
@@ -381,7 +381,7 @@ function sendVideoNote(
     }
 
     $args = [
-        'chat_id' => $chat_id,
+        'chat_id'    => $chat_id,
         'video_note' => $video_note,
     ];
 
@@ -418,7 +418,7 @@ function sendMediaGroup($chat_id, $media, $disable_notification = null, $reply_t
     $media = json_encode($media);
     $args = [
         'chat_id' => $chat_id,
-        'media' => $media,
+        'media'   => $media,
     ];
 
     if (isset($disable_notification)) {
@@ -444,9 +444,9 @@ function sendContact(
     $response = RESPONSE
 ) {
     $args = [
-        'chat_id' => $chat_id,
+        'chat_id'      => $chat_id,
         'phone_number' => $phone_number,
-        'first_name' => $first_name,
+        'first_name'   => $first_name,
     ];
 
     if (isset($last_name)) {

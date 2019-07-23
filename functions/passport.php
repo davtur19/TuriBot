@@ -5,7 +5,7 @@ function setPassportDataErrors($user_id, $errors, $response = RESPONSE)
 {
     $args = [
         'user_id' => $user_id,
-        'errors' => $errors,
+        'errors'  => $errors,
     ];
 
     if ($response === true) {

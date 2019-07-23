@@ -29,14 +29,14 @@ function sendInvoice(
     $response = RESPONSE
 ) {
     $args = [
-        'chat_id' => $chat_id,
-        'title' => $title,
-        'description' => $description,
-        'payload' => $payload,
-        'provider_token' => $provider_token,
+        'chat_id'         => $chat_id,
+        'title'           => $title,
+        'description'     => $description,
+        'payload'         => $payload,
+        'provider_token'  => $provider_token,
         'start_parameter' => $start_parameter,
-        'currency' => $currency,
-        'prices' => $prices,
+        'currency'        => $currency,
+        'prices'          => $prices,
     ];
 
     if (isset($provider_data)) {
@@ -103,7 +103,7 @@ function answerShippingQuery(
 ) {
     $args = [
         'shipping_query_id' => $shipping_query_id,
-        'ok' => $ok,
+        'ok'                => $ok,
     ];
 
     if (isset($shipping_options)) {
@@ -125,7 +125,7 @@ function answerPreCheckoutQuery($pre_checkout_query_id, $ok, $error_message = nu
 {
     $args = [
         'pre_checkout_query_id' => $pre_checkout_query_id,
-        'ok' => $ok,
+        'ok'                    => $ok,
     ];
 
     if (isset($error_message)) {

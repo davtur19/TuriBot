@@ -73,11 +73,9 @@ function editMessageCaption(
     }
 
     if ($response === true) {
-        return isset($args) ? curlRequest('editMessageCaption', $args) :
-            curlRequest('editMessageCaption');
+        return isset($args) ? curlRequest('editMessageCaption', $args) : curlRequest('editMessageCaption');
     }
-    return isset($args) ? jsonPayload('editMessageCaption', $args) :
-        jsonPayload('editMessageCaption');
+    return isset($args) ? jsonPayload('editMessageCaption', $args) : jsonPayload('editMessageCaption');
 }
 
 
@@ -103,18 +101,16 @@ function editMessageReplyMarkup(
     }
 
     if ($response === true) {
-        return isset($args) ? curlRequest('editMessageReplyMarkup', $args) :
-            curlRequest('editMessageReplyMarkup');
+        return isset($args) ? curlRequest('editMessageReplyMarkup', $args) : curlRequest('editMessageReplyMarkup');
     }
-    return isset($args) ? jsonPayload('editMessageReplyMarkup', $args) :
-        jsonPayload('editMessageReplyMarkup');
+    return isset($args) ? jsonPayload('editMessageReplyMarkup', $args) : jsonPayload('editMessageReplyMarkup');
 }
 
 
 function deleteMessage($chat_id, $message_id, $response = RESPONSE)
 {
     $args = [
-        'chat_id' => $chat_id,
+        'chat_id'    => $chat_id,
         'message_id' => $message_id,
     ];
 
@@ -152,9 +148,7 @@ function editMessageMedia(
     }
 
     if ($response === true) {
-        return isset($args) ? curlRequest('editMessageMedia', $args) :
-            curlRequest('editMessageMedia');
+        return isset($args) ? curlRequest('editMessageMedia', $args) : curlRequest('editMessageMedia');
     }
-    return isset($args) ? jsonPayload('editMessageMedia', $args) :
-        jsonPayload('editMessageMedia');
+    return isset($args) ? jsonPayload('editMessageMedia', $args) : jsonPayload('editMessageMedia');
 }

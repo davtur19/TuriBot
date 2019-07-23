@@ -5,7 +5,7 @@ function sendChatAction($chat_id, $action, $response = RESPONSE)
 {
     $args = [
         'chat_id' => $chat_id,
-        'action' => $action,
+        'action'  => $action,
     ];
 
     if ($response === true) {
