@@ -23,3 +23,8 @@ https://github.com/php-telegram-bot/core/wiki/Securing-&-Hardening-your-Telegram
 
 ## Contributors
 - [andrew-ld](https://github.com/andrew-ld)
+
+## Old version
+I don't recommend its use, but it could be useful for those unfamiliar with OOP and would like to start learning how PHP and Telegram Bot Api work.
+
+https://github.com/davtur19/TuriBot/tree/old
