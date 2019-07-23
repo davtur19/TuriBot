@@ -8,7 +8,7 @@ This code _shouldn't_ present bugs or major problems but I do not recommend usin
 # Intro
 TuriBot is a simple way to communicate with Telegram APIs in PHP
 
-Documentation is only in Italian at the moment
+
 
 # Guida
 ## Setup
@@ -263,6 +263,10 @@ Questa è la divisione delle varie funzioni nei file, sono chiamate con lo stess
     |       answerShippingQuery
     |       sendInvoice
     |       
+    +---poll.php
+    |       sendPoll
+    |       stopPoll
+    |
     +---status.php
     |       answerCallbackQuery
     |       sendChatAction
