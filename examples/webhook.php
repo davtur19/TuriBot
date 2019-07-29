@@ -17,14 +17,14 @@ if (isset($update->message) or isset($update->edited_message)) {
     $message_id = $client->easy->message_id;
     $text = $client->easy->text;
 
-    if ($text == "/start") {
+    if ($text === "/start") {
         $client->sendMessage($chat_id, "ping");
         $client->sendMessage($chat_id, "pong");
         $client->forwardMessage($chat_id, $chat_id, null, $message_id);
         $client->sendPhoto($chat_id, $client->inputFile("TuriPixel.png"), "File upload");
     }
 
-    if ($text == "/help") {
+    if ($text === "/help") {
 
         $menu["inline_keyboard"] = [
             [
@@ -48,7 +48,7 @@ if (isset($update->message) or isset($update->edited_message)) {
         $a = $client->sendMessage($chat_id, "help", null, null, null, null, $menu);
     }
 
-    if ($text == "/var") {
+    if ($text === "/var") {
         $client->debug($chat_id, $client->easy->message_id, ["key" => "value"], "pong", 3.14);
     }
 }
@@ -78,13 +78,13 @@ if (isset($update->callback_query)) {
         ],
     ];
 
-    if ($update->callback_query->data == "btn1") {
+    if ($update->callback_query->data === "btn1") {
         $client->answerCallbackQuery($id, "Button 1");
         $client->editMessageText($message_chat_id, $message_message_id, null, "Button 1", null, null, $menu);
-    } elseif ($update->callback_query->data == "btn2") {
+    } elseif ($update->callback_query->data === "btn2") {
         $client->answerCallbackQuery($id, "Button 2");
         $client->editMessageText($message_chat_id, $message_message_id, null, "Button 2", null, null, $menu);
-    } elseif ($update->callback_query->data == "btn3") {
+    } elseif ($update->callback_query->data === "btn3") {
         $client->answerCallbackQuery($id, "Button 3");
         $client->editMessageText($message_chat_id, $message_message_id, null, "Button 3", null, null, $menu);
     }

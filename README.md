@@ -16,7 +16,7 @@ composer require davtur19/turibot
 ## Usage
 - Look at the examples ([webhook.php](https://github.com/davtur19/TuriBot/blob/master/examples/webhook.php) and [getUpdates.php](https://github.com/davtur19/TuriBot/blob/master/examples/getUpdates.php)), it's very simple if you know PHP and OOP
 - All methods have the parameters in the same order as the [BotAPIs](https://core.telegram.org/bots/api#available-methods)
-- The `reply_markup` parameters already have a json_encode in the functions, you just need to pass arrays
+- The `reply_markup` and `permissions` parameters already have a json_encode in the functions, you just need to pass arrays
 
 ## Security
 https://github.com/php-telegram-bot/core/wiki/Securing-&-Hardening-your-Telegram-Bot

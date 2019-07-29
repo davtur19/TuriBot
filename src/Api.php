@@ -769,35 +769,17 @@ abstract Class Api implements ApiInterface
     public function restrictChatMember(
         $chat_id,
         int $user_id,
-        int $until_date = null,
-        bool $can_send_messages = null,
-        bool $can_send_media_messages = null,
-        bool $can_send_other_messages = null,
-        bool $can_add_web_page_previews = null
+        array $permissions,
+        int $until_date = null
     ) {
         $args = [
-            'chat_id' => $chat_id,
-            'user_id' => $user_id
+            'chat_id'     => $chat_id,
+            'user_id'     => $user_id,
+            'permissions' => json_encode($permissions)
         ];
 
         if ($until_date !== null) {
             $args['until_date'] = $until_date;
-        }
-
-        if ($can_send_messages !== null) {
-            $args['can_send_messages'] = $can_send_messages;
-        }
-
-        if ($can_send_media_messages !== null) {
-            $args['can_send_media_messages'] = $can_send_media_messages;
-        }
-
-        if ($can_send_other_messages !== null) {
-            $args['can_send_other_messages'] = $can_send_other_messages;
-        }
-
-        if ($can_add_web_page_previews !== null) {
-            $args['can_add_web_page_previews'] = $can_add_web_page_previews;
         }
 
         return $this->Request('restrictChatMember', $args);
@@ -853,6 +835,18 @@ abstract Class Api implements ApiInterface
         }
 
         return $this->Request('promoteChatMember', $args);
+    }
+
+    public function setChatPermissions(
+        $chat_id,
+        array $permissions
+    ) {
+        $args = [
+            'chat_id'     => $chat_id,
+            'permissions' => json_encode($permissions)
+        ];
+
+        return $this->Request('setChatPermissions', $args);
     }
 
     public function exportChatInviteLink(
