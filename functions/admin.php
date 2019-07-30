@@ -107,14 +107,17 @@ function promoteChatMember(
 }
 
 
-function setChatPermissions($chat_id, $permissions)
+function setChatPermissions($chat_id, $permissions, $response = RESPONSE)
 {
     $args = [
         'chat_id'     => $chat_id,
         'permissions' => json_encode($permissions),
     ];
 
-    return curlRequest('setChatPermissions', $args);
+    if ($response === true) {
+        return curlRequest('setChatPermissions', $args);
+    }
+    return jsonPayload('setChatPermissions', $args);
 }
 
 
