@@ -36,32 +36,18 @@ function unbanChatMember($chat_id, $user_id, $response = RESPONSE)
 function restrictChatMember(
     $chat_id,
     $user_id,
+    $permissions,
     $until_date = null,
-    $can_send_messages = null,
-    $can_send_media_messages = null,
-    $can_send_other_messages = null,
-    $can_add_web_page_previews = null,
     $response = RESPONSE
 ) {
     $args = [
-        'chat_id' => $chat_id,
-        'user_id' => $user_id,
+        'chat_id'     => $chat_id,
+        'user_id'     => $user_id,
+        'permissions' => json_encode($permissions),
     ];
 
     if (isset($until_date)) {
         $args['until_date'] = $until_date;
-    }
-    if (isset($can_send_messages)) {
-        $args['can_send_messages'] = $can_send_messages;
-    }
-    if (isset($can_send_media_messages)) {
-        $args['can_send_media_messages'] = $can_send_media_messages;
-    }
-    if (isset($can_send_other_messages)) {
-        $args['can_send_other_messages'] = $can_send_other_messages;
-    }
-    if (isset($can_add_web_page_previews)) {
-        $args['can_add_web_page_previews'] = $can_add_web_page_previews;
     }
 
     if ($response === true) {
@@ -118,6 +104,17 @@ function promoteChatMember(
         return curlRequest('promoteChatMember', $args);
     }
     return jsonPayload('promoteChatMember', $args);
+}
+
+
+function setChatPermissions($chat_id, $permissions)
+{
+    $args = [
+        'chat_id'     => $chat_id,
+        'permissions' => json_encode($permissions),
+    ];
+
+    return curlRequest('setChatPermissions', $args);
 }
 
 

@@ -8,9 +8,14 @@ This code _shouldn't_ present bugs or major problems but I do not recommend usin
 # Intro
 TuriBot is a simple way to communicate with Telegram APIs in PHP
 
-Documentation is only in Italian at the moment
+- All methods have the parameters in the same order as the [BotAPIs](https://core.telegram.org/bots/api#available-methods)
+- The `reply_markup` and `permissions` parameters already have a json_encode in the functions, you just need to pass arrays
 
-# Guida
+## Security
+https://github.com/php-telegram-bot/core/wiki/Securing-&-Hardening-your-Telegram-Bot
+
+
+# Guida (only ita)
 ## Setup
 1. Caricare i file su un webserver o usare `git clone https://github.com/davtur19/TuriBot.git NomeCartella`
 
