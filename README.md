@@ -210,6 +210,7 @@ Questa è la divisione delle varie funzioni nei file, sono chiamate con lo stess
     |       leaveChat
     |       pinChatMessage
     |       promoteChatMember
+    |       setChatPermissions
     |       restrictChatMember
     |       setChatDescription
     |       setChatPhoto
@@ -268,6 +269,10 @@ Questa è la divisione delle varie funzioni nei file, sono chiamate con lo stess
     |       answerShippingQuery
     |       sendInvoice
     |       
+    +---poll.php
+    |       sendPoll
+    |       stopPoll
+    |
     +---status.php
     |       answerCallbackQuery
     |       sendChatAction
