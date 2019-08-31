@@ -19,7 +19,7 @@ function command($input, $parameters = null, $custom = '')
     }
 
     if (!isset($parameters)) {
-        if (stripos($text, trim($input)) === 0) {
+        if (strcasecmp($text, trim($input)) === 0) {
             return true;
         }
         return false;
