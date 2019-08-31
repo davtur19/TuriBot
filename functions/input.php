@@ -23,7 +23,7 @@ function command($input, $parameters = null, $custom = '')
             return true;
         }
         return false;
-    } elseif (stripos($text, $input) === 0) {
+    } elseif (stripos($text, trim($input)) === 0) {
         if ($parameters === 0) {
             return true;
         }
