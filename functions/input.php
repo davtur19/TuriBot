@@ -1,5 +1,5 @@
 <?php
-
+// con parameters a 0 da strcasecmp diventa stripos
 function command($input, $parameters = null, $custom = '')
 {
     global $text;
@@ -19,7 +19,7 @@ function command($input, $parameters = null, $custom = '')
     }
 
     if (!isset($parameters)) {
-        if (strcasecmp($text, trim($input)) === 0) {
+        if (strcasecmp($text, trim($input)) === 0 or strcasecmp($text, trim($input) . $nickname) === 0) {
             return true;
         }
         return false;
