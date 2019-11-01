@@ -40,6 +40,19 @@ while (true) {
                     $result = $client->restrictChatMember($chat_id, $reply_id, $perm);
                     $client->debug($chat_id, $result);
                 }
+            } elseif (isset($update->inline_query)) {
+                $out = (string)rand();
+                $results[] = [
+                    'type'                  => 'article',
+                    'id'                    => $out,
+                    'title'                 => $out,
+                    'input_message_content' => [
+                        'message_text'             => $out,
+                        'disable_web_page_preview' => true
+                    ],
+                ];
+                $client->answerInlineQuery($update->inline_query->id, $results, 1, false);
+                unset($results);
             }
 
         }

@@ -471,13 +471,13 @@ abstract Class Api implements ApiInterface
 
     public function sendMediaGroup(
         $chat_id,
-        $media,
+        array $media,
         bool $disable_notification = null,
         int $reply_to_message_id = null
     ) {
         $args = [
             'chat_id' => $chat_id,
-            'media'   => $media
+            'media'   => json_encode($media)
         ];
 
         if ($disable_notification !== null) {
@@ -677,7 +677,7 @@ abstract Class Api implements ApiInterface
         $args = [
             'chat_id'  => $chat_id,
             'question' => $question,
-            'options'  => $options
+            'options'  => json_encode($options)
         ];
 
         if ($disable_notification !== null) {
@@ -1258,7 +1258,7 @@ abstract Class Api implements ApiInterface
         $png_sticker,
         string $emojis,
         bool $contains_masks = null,
-        $mask_position = null
+        array $mask_position = null
     ) {
         $args = [
             'user_id'     => $user_id,
@@ -1273,7 +1273,7 @@ abstract Class Api implements ApiInterface
         }
 
         if ($mask_position !== null) {
-            $args['mask_position'] = $mask_position;
+            $args['mask_position'] = json_encode($mask_position);
         }
 
         return $this->Request('createNewStickerSet', $args);
@@ -1284,7 +1284,7 @@ abstract Class Api implements ApiInterface
         string $name,
         $png_sticker,
         string $emojis,
-        $mask_position = null
+        array $mask_position = null
     ) {
         $args = [
             'user_id'     => $user_id,
@@ -1294,7 +1294,7 @@ abstract Class Api implements ApiInterface
         ];
 
         if ($mask_position !== null) {
-            $args['mask_position'] = $mask_position;
+            $args['mask_position'] = json_encode($mask_position);
         }
 
         return $this->Request('addStickerToSet', $args);
@@ -1324,7 +1324,7 @@ abstract Class Api implements ApiInterface
 
     public function answerInlineQuery(
         string $inline_query_id,
-        $results,
+        array $results,
         int $cache_time = null,
         bool $is_personal = null,
         string $next_offset = null,
@@ -1333,7 +1333,7 @@ abstract Class Api implements ApiInterface
     ) {
         $args = [
             'inline_query_id' => $inline_query_id,
-            'results'         => $results
+            'results'         => json_encode($results)
         ];
 
         if ($cache_time !== null) {
@@ -1368,7 +1368,7 @@ abstract Class Api implements ApiInterface
         string $start_parameter,
         string $currency,
         $prices,
-        string $provider_data = null,
+        array $provider_data = null,
         string $photo_url = null,
         int $photo_size = null,
         int $photo_width = null,
@@ -1396,7 +1396,7 @@ abstract Class Api implements ApiInterface
         ];
 
         if ($provider_data !== null) {
-            $args['provider_data'] = $provider_data;
+            $args['provider_data'] = json_encode($provider_data);
         }
 
         if ($photo_url !== null) {
@@ -1459,18 +1459,18 @@ abstract Class Api implements ApiInterface
     }
 
     public function answerShippingQuery(
-        string $shipping_query_id,
+        array $shipping_query_id,
         bool $ok,
-        $shipping_options = null,
+        array $shipping_options = null,
         string $error_message = null
     ) {
         $args = [
-            'shipping_query_id' => $shipping_query_id,
+            'shipping_query_id' => json_encode($shipping_query_id),
             'ok'                => $ok
         ];
 
         if ($shipping_options !== null) {
-            $args['shipping_options'] = $shipping_options;
+            $args['shipping_options'] = json_encode($shipping_options);
         }
 
         if ($error_message !== null) {
