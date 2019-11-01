@@ -35,7 +35,7 @@ while (true) {
 
                 if ($easy->text === "/mute" and isset($reply_id)) {
                     $perm = [
-                        'can_send_messages' => false
+                        "can_send_messages" => false
                     ];
                     $result = $client->restrictChatMember($chat_id, $reply_id, $perm);
                     $client->debug($chat_id, $result);
@@ -43,12 +43,12 @@ while (true) {
             } elseif (isset($update->inline_query)) {
                 $out = (string)rand();
                 $results[] = [
-                    'type'                  => 'article',
-                    'id'                    => $out,
-                    'title'                 => $out,
-                    'input_message_content' => [
-                        'message_text'             => $out,
-                        'disable_web_page_preview' => true
+                    "type"                  => "article",
+                    "id"                    => $out,
+                    "title"                 => $out,
+                    "input_message_content" => [
+                        "message_text"             => $out,
+                        "disable_web_page_preview" => true
                     ],
                 ];
                 $client->answerInlineQuery($update->inline_query->id, $results, 1, false);
