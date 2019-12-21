@@ -88,7 +88,7 @@ class Client extends Api
         } else {
             curl_setopt_array($this->curl, [
                 CURLOPT_URL        => $this->endpoint . $method,
-                CURLOPT_POSTFIELDS => $args,
+                CURLOPT_POSTFIELDS => empty($args) ? null : $args,
             ]);
             $resultCurl = curl_exec($this->curl);
             if ($resultCurl === false) {
