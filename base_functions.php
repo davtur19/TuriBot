@@ -26,7 +26,7 @@ function jsonPayload($method, $args = [])
 }
 
 
-function curlRequest($method, $args = [])
+function curlRequest($method, $args = null)
 {
     global $curlRequestSession;
     if (!isset($curlRequestSession)) {
@@ -42,14 +42,14 @@ function curlRequest($method, $args = [])
 
     curl_setopt_array($curlRequestSession, [
         CURLOPT_URL        => 'https://api.telegram.org/bot' . $_GET['api'] . '/' . $method,
-        CURLOPT_POSTFIELDS => $args,
+        CURLOPT_POSTFIELDS => empty($args) ? null : $args,
     ]);
     $response = curl_exec($curlRequestSession);
     return json_decode($response, true);
 }
 
 
-function curlRequestApi($api, $method, $args = [])
+function curlRequestApi($api, $method, $args = null)
 {
     global $curlRequestSession;
     if (!isset($curlRequestSession)) {
@@ -65,7 +65,7 @@ function curlRequestApi($api, $method, $args = [])
 
     curl_setopt_array($curlRequestSession, [
         CURLOPT_URL        => 'https://api.telegram.org/bot' . $api . '/' . $method,
-        CURLOPT_POSTFIELDS => $args,
+        CURLOPT_POSTFIELDS => empty($args) ? null : $args,
     ]);
     $response = curl_exec($curlRequestSession);
     return json_decode($response, true);
