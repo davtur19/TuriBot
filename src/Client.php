@@ -38,7 +38,7 @@ class Client extends Api
      * @return \stdClass of update received from webhook
      */
 
-    public function getUpdate(): \stdClass
+    public function getUpdate(): ?\stdClass
     {
         $update = json_decode(file_get_contents("php://input"));
         $this->easy = new EasyVars($update);
