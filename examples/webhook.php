@@ -6,11 +6,14 @@ use TuriBot\Client;
 
 
 if (!isset($_GET["api"])) {
-    die();
+    exit();
 }
 
 $client = new Client($_GET["api"], false);
 $update = $client->getUpdate();
+if (!isset($update)) {
+    exit('json error');
+}
 
 if (isset($update->message) or isset($update->edited_message)) {
     $chat_id = $client->easy->chat_id;
