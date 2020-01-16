@@ -12,6 +12,19 @@ PHP 7.1 or higher with curl extension
 ```sh
 composer require davtur19/turibot
 ```
+### Webhook
+Setup recommended: open [setupWebhook.php](https://github.com/davtur19/TuriBot/blob/master/examples/setupWebhook.php) in your browser and follow the setup wizard.
+
+Manual setup: set webhook to the file [webhook.php](https://github.com/davtur19/TuriBot/blob/master/examples/webhook.php), and as parameter GET "api" set your token.
+
+Example for manual setup:
+```sh
+curl https://api.telegram.org/botTOKEN/setWebhook?url=https://WEBSITE/DIR/webhook.php?api=TOKEN
+```
+Alternatively if you don't want to use GET, just change [this piece of code](https://github.com/davtur19/TuriBot/blob/master/examples/webhook.php#L8-L12).
+
+### GetUpdates
+[Setup Token](https://github.com/davtur19/TuriBot/blob/master/examples/getUpdates.php#L8)
 
 ## Usage
 - Look at the examples ([webhook.php](https://github.com/davtur19/TuriBot/blob/master/examples/webhook.php) and [getUpdates.php](https://github.com/davtur19/TuriBot/blob/master/examples/getUpdates.php)), it's very simple if you know PHP and OOP

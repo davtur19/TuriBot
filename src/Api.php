@@ -837,6 +837,20 @@ abstract Class Api implements ApiInterface
         return $this->Request('promoteChatMember', $args);
     }
 
+    public function setChatAdministratorCustomTitle(
+        $chat_id,
+        int $user_id,
+        string $custom_title
+    ) {
+        $args = [
+            'chat_id'      => $chat_id,
+            'user_id'      => $user_id,
+            'custom_title' => $custom_title
+        ];
+
+        return $this->Request('setChatAdministratorCustomTitle', $args);
+    }
+
     public function setChatPermissions(
         $chat_id,
         array $permissions
