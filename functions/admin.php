@@ -107,6 +107,21 @@ function promoteChatMember(
 }
 
 
+function setChatAdministratorCustomTitle($chat_id, $user_id, $custom_title, $response = RESPONSE)
+{
+    $args = [
+        'chat_id'      => $chat_id,
+        'permissions'  => $user_id,
+        'custom_title' => $custom_title
+    ];
+
+    if ($response === true) {
+        return curlRequest('setChatAdministratorCustomTitle', $args);
+    }
+    return jsonPayload('setChatAdministratorCustomTitle', $args);
+}
+
+
 function setChatPermissions($chat_id, $permissions, $response = RESPONSE)
 {
     $args = [
