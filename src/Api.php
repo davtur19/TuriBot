@@ -670,6 +670,11 @@ abstract Class Api implements ApiInterface
         $chat_id,
         string $question,
         array $options,
+        bool $is_anonymous = null,
+        string $type = null,
+        bool $allows_multiple_answers = null,
+        int $correct_option_id = null,
+        bool $is_closed = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
         array $reply_markup = null
@@ -679,6 +684,26 @@ abstract Class Api implements ApiInterface
             'question' => $question,
             'options'  => json_encode($options)
         ];
+
+        if ($is_anonymous !== null) {
+            $args['is_anonymous'] = $is_anonymous;
+        }
+
+        if ($type !== null) {
+            $args['type'] = $type;
+        }
+
+        if ($allows_multiple_answers !== null) {
+            $args['allows_multiple_answers'] = $allows_multiple_answers;
+        }
+
+        if ($correct_option_id !== null) {
+            $args['correct_option_id'] = $correct_option_id;
+        }
+
+        if ($is_closed !== null) {
+            $args['is_closed'] = $is_closed;
+        }
 
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
