@@ -8,9 +8,9 @@ abstract Class Api implements ApiInterface
 {
 
     public function getUpdates(
-        \int $offset = null,
-        \int $limit = null,
-        \int $timeout = null,
+        int $offset = null,
+        int $limit = null,
+        int $timeout = null,
         array $allowed_updates = null
     ) {
         $args = [];
@@ -35,9 +35,9 @@ abstract Class Api implements ApiInterface
     }
 
     public function setWebhook(
-        \string $url,
+        string $url,
         \CURLFile $certificate = null,
-        \int $max_connections = null,
+        int $max_connections = null,
         array $allowed_updates = null
     ) {
         $args = [
@@ -76,11 +76,11 @@ abstract Class Api implements ApiInterface
 
     public function sendMessage(
         $chat_id,
-        \string $text,
-        \string $parse_mode = null,
-        \bool $disable_web_page_preview = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        string $text,
+        string $parse_mode = null,
+        bool $disable_web_page_preview = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -114,8 +114,8 @@ abstract Class Api implements ApiInterface
     public function forwardMessage(
         $chat_id,
         $from_chat_id,
-        \bool $disable_notification = null,
-        \int $message_id
+        bool $disable_notification = null,
+        int $message_id
     ) {
         $args = [
             'chat_id'      => $chat_id,
@@ -133,10 +133,10 @@ abstract Class Api implements ApiInterface
     public function sendPhoto(
         $chat_id,
         $photo,
-        \string $caption = null,
-        \string $parse_mode = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        string $caption = null,
+        string $parse_mode = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -170,14 +170,14 @@ abstract Class Api implements ApiInterface
     public function sendAudio(
         $chat_id,
         $audio,
-        \string $caption = null,
-        \string $parse_mode = null,
-        \int $duration = null,
-        \string $performer = null,
-        \string $title = null,
+        string $caption = null,
+        string $parse_mode = null,
+        int $duration = null,
+        string $performer = null,
+        string $title = null,
         $thumb = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -228,10 +228,10 @@ abstract Class Api implements ApiInterface
         $chat_id,
         $document,
         $thumb = null,
-        \string $caption = null,
-        \string $parse_mode = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        string $caption = null,
+        string $parse_mode = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -269,15 +269,15 @@ abstract Class Api implements ApiInterface
     public function sendVideo(
         $chat_id,
         $video,
-        \int $duration = null,
-        \int $width = null,
-        \int $height = null,
+        int $duration = null,
+        int $width = null,
+        int $height = null,
         $thumb = null,
-        \string $caption = null,
-        \string $parse_mode = null,
-        \bool $supports_streaming = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        string $caption = null,
+        string $parse_mode = null,
+        bool $supports_streaming = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -331,14 +331,14 @@ abstract Class Api implements ApiInterface
     public function sendAnimation(
         $chat_id,
         $animation,
-        \int $duration = null,
-        \int $width = null,
-        \int $height = null,
+        int $duration = null,
+        int $width = null,
+        int $height = null,
         $thumb = null,
-        \string $caption = null,
-        \string $parse_mode = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        string $caption = null,
+        string $parse_mode = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -388,11 +388,11 @@ abstract Class Api implements ApiInterface
     public function sendVoice(
         $chat_id,
         $voice,
-        \string $caption = null,
-        \string $parse_mode = null,
-        \int $duration = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        string $caption = null,
+        string $parse_mode = null,
+        int $duration = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -430,11 +430,11 @@ abstract Class Api implements ApiInterface
     public function sendVideoNote(
         $chat_id,
         $video_note,
-        \int $duration = null,
-        \int $length = null,
+        int $duration = null,
+        int $length = null,
         $thumb = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -472,8 +472,8 @@ abstract Class Api implements ApiInterface
     public function sendMediaGroup(
         $chat_id,
         array $media,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null
+        bool $disable_notification = null,
+        int $reply_to_message_id = null
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -495,9 +495,9 @@ abstract Class Api implements ApiInterface
         $chat_id,
         float $latitude,
         float $longitude,
-        \int $live_period = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        int $live_period = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -527,8 +527,8 @@ abstract Class Api implements ApiInterface
 
     public function editMessageLiveLocation(
         $chat_id = null,
-        \int $message_id = null,
-        \string $inline_message_id = null,
+        int $message_id = null,
+        string $inline_message_id = null,
         float $latitude,
         float $longitude,
         array $reply_markup = null
@@ -559,8 +559,8 @@ abstract Class Api implements ApiInterface
 
     public function stopMessageLiveLocation(
         $chat_id = null,
-        \int $message_id = null,
-        \string $inline_message_id = null,
+        int $message_id = null,
+        string $inline_message_id = null,
         array $reply_markup = null
     ) {
         $args = [];
@@ -588,12 +588,12 @@ abstract Class Api implements ApiInterface
         $chat_id,
         float $latitude,
         float $longitude,
-        \string $title,
-        \string $address,
-        \string $foursquare_id = null,
-        \string $foursquare_type = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        string $title,
+        string $address,
+        string $foursquare_id = null,
+        string $foursquare_type = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -629,12 +629,12 @@ abstract Class Api implements ApiInterface
 
     public function sendContact(
         $chat_id,
-        \string $phone_number,
-        \string $first_name,
-        \string $last_name = null,
-        \string $vcard = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        string $phone_number,
+        string $first_name,
+        string $last_name = null,
+        string $vcard = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -668,15 +668,15 @@ abstract Class Api implements ApiInterface
 
     public function sendPoll(
         $chat_id,
-        \string $question,
+        string $question,
         array $options,
-        \bool $is_anonymous = null,
-        \string $type = null,
-        \bool $allows_multiple_answers = null,
-        \int $correct_option_id = null,
-        \bool $is_closed = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        bool $is_anonymous = null,
+        string $type = null,
+        bool $allows_multiple_answers = null,
+        int $correct_option_id = null,
+        bool $is_closed = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -722,7 +722,7 @@ abstract Class Api implements ApiInterface
 
     public function sendChatAction(
         $chat_id,
-        \string $action
+        string $action
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -733,9 +733,9 @@ abstract Class Api implements ApiInterface
     }
 
     public function getUserProfilePhotos(
-        \int $user_id,
-        \int $offset = null,
-        \int $limit = null
+        int $user_id,
+        int $offset = null,
+        int $limit = null
     ) {
         $args = [
             'user_id' => $user_id
@@ -753,7 +753,7 @@ abstract Class Api implements ApiInterface
     }
 
     public function getFile(
-        \string $file_id
+        string $file_id
     ) {
         $args = [
             'file_id' => $file_id
@@ -764,8 +764,8 @@ abstract Class Api implements ApiInterface
 
     public function kickChatMember(
         $chat_id,
-        \int $user_id,
-        \int $until_date = null
+        int $user_id,
+        int $until_date = null
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -781,7 +781,7 @@ abstract Class Api implements ApiInterface
 
     public function unbanChatMember(
         $chat_id,
-        \int $user_id
+        int $user_id
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -793,9 +793,9 @@ abstract Class Api implements ApiInterface
 
     public function restrictChatMember(
         $chat_id,
-        \int $user_id,
+        int $user_id,
         array $permissions,
-        \int $until_date = null
+        int $until_date = null
     ) {
         $args = [
             'chat_id'     => $chat_id,
@@ -812,15 +812,15 @@ abstract Class Api implements ApiInterface
 
     public function promoteChatMember(
         $chat_id,
-        \int $user_id,
-        \bool $can_change_info = null,
-        \bool $can_post_messages = null,
-        \bool $can_edit_messages = null,
-        \bool $can_delete_messages = null,
-        \bool $can_invite_users = null,
-        \bool $can_restrict_members = null,
-        \bool $can_pin_messages = null,
-        \bool $can_promote_members = null
+        int $user_id,
+        bool $can_change_info = null,
+        bool $can_post_messages = null,
+        bool $can_edit_messages = null,
+        bool $can_delete_messages = null,
+        bool $can_invite_users = null,
+        bool $can_restrict_members = null,
+        bool $can_pin_messages = null,
+        bool $can_promote_members = null
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -864,8 +864,8 @@ abstract Class Api implements ApiInterface
 
     public function setChatAdministratorCustomTitle(
         $chat_id,
-        \int $user_id,
-        \string $custom_title
+        int $user_id,
+        string $custom_title
     ) {
         $args = [
             'chat_id'      => $chat_id,
@@ -922,7 +922,7 @@ abstract Class Api implements ApiInterface
 
     public function setChatTitle(
         $chat_id,
-        \string $title
+        string $title
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -934,7 +934,7 @@ abstract Class Api implements ApiInterface
 
     public function setChatDescription(
         $chat_id,
-        \string $description = null
+        string $description = null
     ) {
         $args = [
             'chat_id' => $chat_id
@@ -949,8 +949,8 @@ abstract Class Api implements ApiInterface
 
     public function pinChatMessage(
         $chat_id,
-        \int $message_id,
-        \bool $disable_notification = null
+        int $message_id,
+        bool $disable_notification = null
     ) {
         $args = [
             'chat_id'    => $chat_id,
@@ -1016,7 +1016,7 @@ abstract Class Api implements ApiInterface
 
     public function getChatMember(
         $chat_id,
-        \int $user_id
+        int $user_id
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -1028,7 +1028,7 @@ abstract Class Api implements ApiInterface
 
     public function setChatStickerSet(
         $chat_id,
-        \string $sticker_set_name
+        string $sticker_set_name
     ) {
         $args = [
             'chat_id'          => $chat_id,
@@ -1049,11 +1049,11 @@ abstract Class Api implements ApiInterface
     }
 
     public function answerCallbackQuery(
-        \string $callback_query_id,
-        \string $text = null,
-        \bool $show_alert = null,
-        \string $url = null,
-        \int $cache_time = null
+        string $callback_query_id,
+        string $text = null,
+        bool $show_alert = null,
+        string $url = null,
+        int $cache_time = null
     ) {
         $args = [
             'callback_query_id' => $callback_query_id
@@ -1080,11 +1080,11 @@ abstract Class Api implements ApiInterface
 
     public function editMessageText(
         $chat_id = null,
-        \int $message_id = null,
-        \string $inline_message_id = null,
-        \string $text,
-        \string $parse_mode = null,
-        \bool $disable_web_page_preview = null,
+        int $message_id = null,
+        string $inline_message_id = null,
+        string $text,
+        string $parse_mode = null,
+        bool $disable_web_page_preview = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -1120,10 +1120,10 @@ abstract Class Api implements ApiInterface
 
     public function editMessageCaption(
         $chat_id = null,
-        \int $message_id = null,
-        \string $inline_message_id = null,
-        \string $caption = null,
-        \string $parse_mode = null,
+        int $message_id = null,
+        string $inline_message_id = null,
+        string $caption = null,
+        string $parse_mode = null,
         array $reply_markup = null
     ) {
         $args = [];
@@ -1157,8 +1157,8 @@ abstract Class Api implements ApiInterface
 
     public function editMessageMedia(
         $chat_id = null,
-        \int $message_id = null,
-        \string $inline_message_id = null,
+        int $message_id = null,
+        string $inline_message_id = null,
         $media,
         array $reply_markup = null
     ) {
@@ -1187,8 +1187,8 @@ abstract Class Api implements ApiInterface
 
     public function editMessageReplyMarkup(
         $chat_id = null,
-        \int $message_id = null,
-        \string $inline_message_id = null,
+        int $message_id = null,
+        string $inline_message_id = null,
         array $reply_markup = null
     ) {
         $args = [];
@@ -1214,7 +1214,7 @@ abstract Class Api implements ApiInterface
 
     public function stopPoll(
         $chat_id,
-        \int $message_id,
+        int $message_id,
         array $reply_markup = null
     ) {
         $args = [
@@ -1231,7 +1231,7 @@ abstract Class Api implements ApiInterface
 
     public function deleteMessage(
         $chat_id,
-        \int $message_id
+        int $message_id
     ) {
         $args = [
             'chat_id'    => $chat_id,
@@ -1244,8 +1244,8 @@ abstract Class Api implements ApiInterface
     public function sendSticker(
         $chat_id,
         $sticker,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -1269,7 +1269,7 @@ abstract Class Api implements ApiInterface
     }
 
     public function getStickerSet(
-        \string $name
+        string $name
     ) {
         $args = [
             'name' => $name
@@ -1279,7 +1279,7 @@ abstract Class Api implements ApiInterface
     }
 
     public function uploadStickerFile(
-        \int $user_id,
+        int $user_id,
         \CURLFile $png_sticker
     ) {
         $args = [
@@ -1291,12 +1291,12 @@ abstract Class Api implements ApiInterface
     }
 
     public function createNewStickerSet(
-        \int $user_id,
-        \string $name,
-        \string $title,
+        int $user_id,
+        string $name,
+        string $title,
         $png_sticker,
-        \string $emojis,
-        \bool $contains_masks = null,
+        string $emojis,
+        bool $contains_masks = null,
         array $mask_position = null
     ) {
         $args = [
@@ -1319,10 +1319,10 @@ abstract Class Api implements ApiInterface
     }
 
     public function addStickerToSet(
-        \int $user_id,
-        \string $name,
+        int $user_id,
+        string $name,
         $png_sticker,
-        \string $emojis,
+        string $emojis,
         array $mask_position = null
     ) {
         $args = [
@@ -1340,8 +1340,8 @@ abstract Class Api implements ApiInterface
     }
 
     public function setStickerPositionInSet(
-        \string $sticker,
-        \int $position
+        string $sticker,
+        int $position
     ) {
         $args = [
             'sticker'  => $sticker,
@@ -1352,7 +1352,7 @@ abstract Class Api implements ApiInterface
     }
 
     public function deleteStickerFromSet(
-        \string $sticker
+        string $sticker
     ) {
         $args = [
             'sticker' => $sticker
@@ -1362,13 +1362,13 @@ abstract Class Api implements ApiInterface
     }
 
     public function answerInlineQuery(
-        \string $inline_query_id,
+        string $inline_query_id,
         array $results,
-        \int $cache_time = null,
-        \bool $is_personal = null,
-        \string $next_offset = null,
-        \string $switch_pm_text = null,
-        \string $switch_pm_parameter = null
+        int $cache_time = null,
+        bool $is_personal = null,
+        string $next_offset = null,
+        string $switch_pm_text = null,
+        string $switch_pm_parameter = null
     ) {
         $args = [
             'inline_query_id' => $inline_query_id,
@@ -1399,28 +1399,28 @@ abstract Class Api implements ApiInterface
     }
 
     public function sendInvoice(
-        \int $chat_id,
-        \string $title,
-        \string $description,
-        \string $payload,
-        \string $provider_token,
-        \string $start_parameter,
-        \string $currency,
+        int $chat_id,
+        string $title,
+        string $description,
+        string $payload,
+        string $provider_token,
+        string $start_parameter,
+        string $currency,
         $prices,
         array $provider_data = null,
-        \string $photo_url = null,
-        \int $photo_size = null,
-        \int $photo_width = null,
-        \int $photo_height = null,
-        \bool $need_name = null,
-        \bool $need_phone_number = null,
-        \bool $need_email = null,
-        \bool $need_shipping_address = null,
-        \bool $send_phone_number_to_provider = null,
-        \bool $send_email_to_provider = null,
-        \bool $is_flexible = null,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        string $photo_url = null,
+        int $photo_size = null,
+        int $photo_width = null,
+        int $photo_height = null,
+        bool $need_name = null,
+        bool $need_phone_number = null,
+        bool $need_email = null,
+        bool $need_shipping_address = null,
+        bool $send_phone_number_to_provider = null,
+        bool $send_email_to_provider = null,
+        bool $is_flexible = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -1499,9 +1499,9 @@ abstract Class Api implements ApiInterface
 
     public function answerShippingQuery(
         array $shipping_query_id,
-        \bool $ok,
+        bool $ok,
         array $shipping_options = null,
-        \string $error_message = null
+        string $error_message = null
     ) {
         $args = [
             'shipping_query_id' => json_encode($shipping_query_id),
@@ -1520,9 +1520,9 @@ abstract Class Api implements ApiInterface
     }
 
     public function answerPreCheckoutQuery(
-        \string $pre_checkout_query_id,
-        \bool $ok,
-        \string $error_message = null
+        string $pre_checkout_query_id,
+        bool $ok,
+        string $error_message = null
     ) {
         $args = [
             'pre_checkout_query_id' => $pre_checkout_query_id,
@@ -1537,7 +1537,7 @@ abstract Class Api implements ApiInterface
     }
 
     public function setPassportDataErrors(
-        \int $user_id,
+        int $user_id,
         $errors
     ) {
         $args = [
@@ -1549,10 +1549,10 @@ abstract Class Api implements ApiInterface
     }
 
     public function sendGame(
-        \int $chat_id,
-        \string $game_short_name,
-        \bool $disable_notification = null,
-        \int $reply_to_message_id = null,
+        int $chat_id,
+        string $game_short_name,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -1576,13 +1576,13 @@ abstract Class Api implements ApiInterface
     }
 
     public function setGameScore(
-        \int $user_id,
-        \int $score,
-        \bool $force = null,
-        \bool $disable_edit_message = null,
-        \int $chat_id = null,
-        \int $message_id = null,
-        \string $inline_message_id = null
+        int $user_id,
+        int $score,
+        bool $force = null,
+        bool $disable_edit_message = null,
+        int $chat_id = null,
+        int $message_id = null,
+        string $inline_message_id = null
     ) {
         $args = [
             'user_id' => $user_id,
@@ -1613,10 +1613,10 @@ abstract Class Api implements ApiInterface
     }
 
     public function getGameHighScores(
-        \int $user_id,
-        \int $chat_id = null,
-        \int $message_id = null,
-        \string $inline_message_id = null
+        int $user_id,
+        int $chat_id = null,
+        int $message_id = null,
+        string $inline_message_id = null
     ) {
         $args = [
             'user_id' => $user_id
