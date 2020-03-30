@@ -720,6 +720,31 @@ abstract Class Api implements ApiInterface
         return $this->Request('sendPoll', $args);
     }
 
+    public function sendDice(
+        $chat_id,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
+        array $reply_markup = null
+    ) {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        if ($disable_notification !== null) {
+            $args['disable_notification'] = $disable_notification;
+        }
+
+        if ($reply_to_message_id !== null) {
+            $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($reply_markup !== null) {
+            $args['reply_markup'] = json_encode($reply_markup);
+        }
+
+        return $this->Request('sendDice', $args);
+    }
+
     public function sendChatAction(
         $chat_id,
         string $action
@@ -1078,6 +1103,21 @@ abstract Class Api implements ApiInterface
         return $this->Request('answerCallbackQuery', $args);
     }
 
+    public function setMyCommands(
+        array $commands
+    ) {
+        $args = [
+            'commands' => json_encode($commands)
+        ];
+
+        return $this->Request('setMyCommands', $args);
+    }
+
+    public function getMyCommands()
+    {
+        return $this->Request('getMyCommands', []);
+    }
+
     public function editMessageText(
         $chat_id = null,
         int $message_id = null,
@@ -1294,18 +1334,26 @@ abstract Class Api implements ApiInterface
         int $user_id,
         string $name,
         string $title,
-        $png_sticker,
+        $png_sticker = null,
+        \CURLFile $tgs_sticker = null,
         string $emojis,
         bool $contains_masks = null,
         array $mask_position = null
     ) {
         $args = [
-            'user_id'     => $user_id,
-            'name'        => $name,
-            'title'       => $title,
-            'png_sticker' => $png_sticker,
-            'emojis'      => $emojis
+            'user_id' => $user_id,
+            'name'    => $name,
+            'title'   => $title,
+            'emojis'  => $emojis
         ];
+
+        if ($png_sticker !== null) {
+            $args['png_sticker'] = $png_sticker;
+        }
+
+        if ($tgs_sticker !== null) {
+            $args['tgs_sticker'] = $tgs_sticker;
+        }
 
         if ($contains_masks !== null) {
             $args['contains_masks'] = $contains_masks;
@@ -1321,16 +1369,24 @@ abstract Class Api implements ApiInterface
     public function addStickerToSet(
         int $user_id,
         string $name,
-        $png_sticker,
+        $png_sticker = null,
+        \CURLFile $tgs_sticker = null,
         string $emojis,
         array $mask_position = null
     ) {
         $args = [
-            'user_id'     => $user_id,
-            'name'        => $name,
-            'png_sticker' => $png_sticker,
-            'emojis'      => $emojis
+            'user_id' => $user_id,
+            'name'    => $name,
+            'emojis'  => $emojis
         ];
+
+        if ($png_sticker !== null) {
+            $args['png_sticker'] = $png_sticker;
+        }
+
+        if ($tgs_sticker !== null) {
+            $args['tgs_sticker'] = $tgs_sticker;
+        }
 
         if ($mask_position !== null) {
             $args['mask_position'] = json_encode($mask_position);
@@ -1359,6 +1415,23 @@ abstract Class Api implements ApiInterface
         ];
 
         return $this->Request('deleteStickerFromSet', $args);
+    }
+
+    public function setStickerSetThumb(
+        string $name,
+        int $user_id,
+        $thumb = null
+    ) {
+        $args = [
+            'name'    => $name,
+            'user_id' => $user_id
+        ];
+
+        if ($thumb !== null) {
+            $args['thumb'] = json_encode($thumb);
+        }
+
+        return $this->Request('setStickerSetThumb', $args);
     }
 
     public function answerInlineQuery(
