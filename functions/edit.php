@@ -148,7 +148,24 @@ function editMessageMedia(
     }
 
     if ($response === true) {
-        return isset($args) ? curlRequest('editMessageMedia', $args) : curlRequest('editMessageMedia');
+        return curlRequest('editMessageMedia', $args);
     }
-    return isset($args) ? jsonPayload('editMessageMedia', $args) : jsonPayload('editMessageMedia');
+    return jsonPayload('editMessageMedia', $args);
+}
+
+function setMyCommands($commands, $response = RESPONSE)
+{
+    $args = [
+        'commands' => json_encode($commands)
+    ];
+
+    if ($response === true) {
+        return curlRequest('editMessageMedia', $args);
+    }
+    return jsonPayload('editMessageMedia', $args);
+}
+
+function getMyCommands()
+{
+    return curlRequest('getMyCommands');
 }

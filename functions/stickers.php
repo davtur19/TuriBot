@@ -93,26 +93,36 @@ function createNewStickerSet(
     $user_id,
     $name,
     $title,
-    $png_sticker,
+    $png_sticker = null,
+    $tgs_sticker = null,
     $emojis,
     $contains_masks = null,
     $mask_position = null,
     $response = RESPONSE
 ) {
-    if ((stripos($png_sticker, 'http') === false) and (stripos($png_sticker, '.') !== false)) {
-        $file_name = realpath($png_sticker);
-        $png_sticker = curl_file_create($file_name);
-        $response = true;
-    }
-
     $args = [
-        'user_id'     => $user_id,
-        'name'        => $name,
-        'title'       => $title,
-        'png_sticker' => $png_sticker,
-        'emojis'      => $emojis,
+        'user_id' => $user_id,
+        'name'    => $name,
+        'title'   => $title,
+        'emojis'  => $emojis,
     ];
 
+    if (isset($png_sticker)) {
+        if ((stripos($png_sticker, 'http') === false) and (stripos($png_sticker, '.') !== false)) {
+            $file_name = realpath($png_sticker);
+            $png_sticker = curl_file_create($file_name);
+            $response = true;
+        }
+        $args['png_sticker'] = $png_sticker;
+    }
+    if (isset($tgs_sticker)) {
+        if ((stripos($tgs_sticker, 'http') === false) and (stripos($tgs_sticker, '.') !== false)) {
+            $file_name = realpath($tgs_sticker);
+            $tgs_sticker = curl_file_create($file_name);
+            $response = true;
+        }
+        $args['tgs_sticker'] = $tgs_sticker;
+    }
     if (isset($contains_masks)) {
         $args['contains_masks'] = $contains_masks;
     }
@@ -128,21 +138,38 @@ function createNewStickerSet(
 }
 
 
-function addStickerToSet($user_id, $name, $png_sticker, $emojis, $mask_position = null, $response = RESPONSE)
-{
-    if ((stripos($png_sticker, 'http') === false) and (stripos($png_sticker, '.') !== false)) {
-        $file_name = realpath($png_sticker);
-        $png_sticker = curl_file_create($file_name);
-        $response = true;
-    }
+function addStickerToSet(
+    $user_id,
+    $name,
+    $png_sticker = null,
+    $tgs_sticker = null,
+    $emojis,
+    $mask_position = null,
+    $response = RESPONSE
+) {
 
     $args = [
-        'user_id'     => $user_id,
-        'name'        => $name,
-        'png_sticker' => $png_sticker,
-        'emojis'      => $emojis,
+        'user_id' => $user_id,
+        'name'    => $name,
+        'emojis'  => $emojis,
     ];
 
+    if (isset($png_sticker)) {
+        if ((stripos($png_sticker, 'http') === false) and (stripos($png_sticker, '.') !== false)) {
+            $file_name = realpath($png_sticker);
+            $png_sticker = curl_file_create($file_name);
+            $response = true;
+        }
+        $args['png_sticker'] = $png_sticker;
+    }
+    if (isset($tgs_sticker)) {
+        if ((stripos($tgs_sticker, 'http') === false) and (stripos($tgs_sticker, '.') !== false)) {
+            $file_name = realpath($tgs_sticker);
+            $tgs_sticker = curl_file_create($file_name);
+            $response = true;
+        }
+        $args['tgs_sticker'] = $tgs_sticker;
+    }
     if (isset($mask_position)) {
         $mask_position = json_encode($mask_position);
         $args['mask_position'] = $mask_position;
@@ -174,6 +201,23 @@ function deleteStickerFromSet($sticker, $response = RESPONSE)
     $args = [
         'sticker' => $sticker,
     ];
+
+    if ($response === true) {
+        return curlRequest('deleteStickerFromSet', $args);
+    }
+    return jsonPayload('deleteStickerFromSet', $args);
+}
+
+function setStickerSetThumb($name, $user_id, $thumb = null, $response = RESPONSE)
+{
+    $args = [
+        'name'    => $name,
+        'user_id' => $user_id
+    ];
+
+    if ($thumb !== null) {
+        $args['thumb'] = json_encode($thumb);
+    }
 
     if ($response === true) {
         return curlRequest('deleteStickerFromSet', $args);

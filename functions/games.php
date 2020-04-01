@@ -89,3 +89,31 @@ function getGameHighScores($user_id, $chat_id = null, $message_id = null, $inlin
 
     return curlRequest('getGameHighScores', $args);
 }
+
+
+function sendDice(
+    $chat_id,
+    $disable_notification = null,
+    $reply_to_message_id = null,
+    $reply_markup = null,
+    $response = RESPONSE
+) {
+    $args = [
+        'chat_id' => $chat_id
+    ];
+
+    if ($disable_notification !== null) {
+        $args['disable_notification'] = $disable_notification;
+    }
+    if ($reply_to_message_id !== null) {
+        $args['reply_to_message_id'] = $reply_to_message_id;
+    }
+    if ($reply_markup !== null) {
+        $args['reply_markup'] = json_encode($reply_markup);
+    }
+
+    if ($response === true) {
+        return curlRequest('sendDice', $args);
+    }
+    return jsonPayload('sendDice', $args);
+}

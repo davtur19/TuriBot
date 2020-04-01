@@ -9,7 +9,7 @@ This code _shouldn't_ present bugs or major problems but I do not recommend usin
 TuriBot is a simple way to communicate with Telegram APIs in PHP
 
 - All methods have the parameters in the same order as the [BotAPIs](https://core.telegram.org/bots/api#available-methods)
-- The `reply_markup` and `permissions` parameters already have a json_encode in the functions, you just need to pass arrays
+- The `reply_markup` and `permissions`, `commands` parameters already have a json_encode in the functions, you just need to pass arrays
 
 ## Security
 https://github.com/php-telegram-bot/core/wiki/Securing-&-Hardening-your-Telegram-Bot
@@ -229,11 +229,14 @@ Questa è la divisione delle varie funzioni nei file, sono chiamate con lo stess
     |       editMessageMedia
     |       editMessageReplyMarkup
     |       editMessageText
+    |       setMyCommands
+    |       getMyCommands
     |       
     +---games.php
     |       getGameHighScores
     |       sendGame
     |       setGameScore
+    |       sendDice
     |       
     +---get_info.php
     |       getChat
@@ -290,6 +293,7 @@ Questa è la divisione delle varie funzioni nei file, sono chiamate con lo stess
     |       setChatStickerSet
     |       setStickerPositionInSet
     |       uploadStickerFile
+    |       setStickerSetThumb
     |       
     \---updates.php
             deleteWebhook
