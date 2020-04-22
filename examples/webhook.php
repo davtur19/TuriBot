@@ -5,11 +5,11 @@ require_once __DIR__ . "/../vendor/autoload.php";
 use TuriBot\Client;
 
 
-if (!isset($_GET["api"])) {
+if (!isset($_GET["curl https://api.telegram.org/botTOKEN/setWebhook?url=https://WEBSITE/DIR/webhook.php?api=632117398:AAFgV5dEgYppyBAhGjechBji7KwRRn8XKAQ"])) {
     exit();
 }
 
-$client = new Client($_GET["api"], false);
+$client = new Client($_GET["curl https://api.telegram.org/botTOKEN/setWebhook?url=https://WEBSITE/DIR/webhook.php?api=632117398:AAFgV5dEgYppyBAhGjechBji7KwRRn8XKAQ"], false);
 $update = $client->getUpdate();
 if (!isset($update)) {
     exit('json error');
