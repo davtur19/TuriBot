@@ -5,7 +5,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
 use TuriBot\Client;
 
 
-$client = new Client("TOKEN");
+$client = new Client("632117398:AAFgV5dEgYppyBAhGjechBji7KwRRn8XKAQ");
 $offset = 0;
 
 while (true) {
