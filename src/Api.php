@@ -4,7 +4,7 @@
 
 namespace TuriBot;
 
-abstract Class Api implements ApiInterface
+abstract class Api implements ApiInterface
 {
 
     public function getUpdates(
@@ -28,7 +28,7 @@ abstract Class Api implements ApiInterface
         }
 
         if ($allowed_updates !== null) {
-            $args['allowed_updates'] = $allowed_updates;
+            $args['allowed_updates'] = json_encode($allowed_updates);
         }
 
         return $this->Request('getUpdates', $args);
@@ -53,7 +53,7 @@ abstract Class Api implements ApiInterface
         }
 
         if ($allowed_updates !== null) {
-            $args['allowed_updates'] = $allowed_updates;
+            $args['allowed_updates'] = json_encode($allowed_updates);
         }
 
         return $this->Request('setWebhook', $args);
@@ -674,6 +674,10 @@ abstract Class Api implements ApiInterface
         string $type = null,
         bool $allows_multiple_answers = null,
         int $correct_option_id = null,
+        string $explanation = null,
+        string $explanation_parse_mode = null,
+        int $open_period = null,
+        int $close_date = null,
         bool $is_closed = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
@@ -701,6 +705,22 @@ abstract Class Api implements ApiInterface
             $args['correct_option_id'] = $correct_option_id;
         }
 
+        if ($explanation !== null) {
+            $args['explanation'] = $explanation;
+        }
+
+        if ($explanation_parse_mode !== null) {
+            $args['explanation_parse_mode'] = $explanation_parse_mode;
+        }
+
+        if ($open_period !== null) {
+            $args['open_period'] = $open_period;
+        }
+
+        if ($close_date !== null) {
+            $args['close_date'] = $close_date;
+        }
+
         if ($is_closed !== null) {
             $args['is_closed'] = $is_closed;
         }
@@ -722,6 +742,7 @@ abstract Class Api implements ApiInterface
 
     public function sendDice(
         $chat_id,
+        string $emoji = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
         array $reply_markup = null
@@ -729,6 +750,10 @@ abstract Class Api implements ApiInterface
         $args = [
             'chat_id' => $chat_id
         ];
+
+        if ($emoji !== null) {
+            $args['emoji'] = $emoji;
+        }
 
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
@@ -1199,11 +1224,11 @@ abstract Class Api implements ApiInterface
         $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        $media,
+        array $media,
         array $reply_markup = null
     ) {
         $args = [
-            'media' => $media
+            'media' => json_encode($media)
         ];
 
         if ($chat_id !== null) {
@@ -1369,20 +1394,17 @@ abstract Class Api implements ApiInterface
     public function addStickerToSet(
         int $user_id,
         string $name,
-        $png_sticker = null,
+        $png_sticker,
         \CURLFile $tgs_sticker = null,
         string $emojis,
         array $mask_position = null
     ) {
         $args = [
-            'user_id' => $user_id,
-            'name'    => $name,
-            'emojis'  => $emojis
+            'user_id'     => $user_id,
+            'name'        => $name,
+            'png_sticker' => $png_sticker,
+            'emojis'      => $emojis
         ];
-
-        if ($png_sticker !== null) {
-            $args['png_sticker'] = $png_sticker;
-        }
 
         if ($tgs_sticker !== null) {
             $args['tgs_sticker'] = $tgs_sticker;
@@ -1428,7 +1450,7 @@ abstract Class Api implements ApiInterface
         ];
 
         if ($thumb !== null) {
-            $args['thumb'] = json_encode($thumb);
+            $args['thumb'] = $thumb;
         }
 
         return $this->Request('setStickerSetThumb', $args);
@@ -1479,8 +1501,8 @@ abstract Class Api implements ApiInterface
         string $provider_token,
         string $start_parameter,
         string $currency,
-        $prices,
-        array $provider_data = null,
+        array $prices,
+        string $provider_data = null,
         string $photo_url = null,
         int $photo_size = null,
         int $photo_width = null,
@@ -1504,11 +1526,11 @@ abstract Class Api implements ApiInterface
             'provider_token'  => $provider_token,
             'start_parameter' => $start_parameter,
             'currency'        => $currency,
-            'prices'          => $prices
+            'prices'          => json_encode($prices)
         ];
 
         if ($provider_data !== null) {
-            $args['provider_data'] = json_encode($provider_data);
+            $args['provider_data'] = $provider_data;
         }
 
         if ($photo_url !== null) {
@@ -1571,13 +1593,13 @@ abstract Class Api implements ApiInterface
     }
 
     public function answerShippingQuery(
-        array $shipping_query_id,
+        string $shipping_query_id,
         bool $ok,
         array $shipping_options = null,
         string $error_message = null
     ) {
         $args = [
-            'shipping_query_id' => json_encode($shipping_query_id),
+            'shipping_query_id' => $shipping_query_id,
             'ok'                => $ok
         ];
 
@@ -1611,11 +1633,11 @@ abstract Class Api implements ApiInterface
 
     public function setPassportDataErrors(
         int $user_id,
-        $errors
+        array $errors
     ) {
         $args = [
             'user_id' => $user_id,
-            'errors'  => $errors
+            'errors'  => json_encode($errors)
         ];
 
         return $this->Request('setPassportDataErrors', $args);
