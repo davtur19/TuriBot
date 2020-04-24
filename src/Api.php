@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpOptionalBeforeRequiredParametersInspection */
 
-//functions automatically generated from https://core.telegram.org/bots/api
+//functions automatically generated from https://core.telegram.org/bots/api with https://github.com/davtur19/TuriBotGen
 
 namespace TuriBot;
 

@@ -34,6 +34,9 @@ Alternatively if you don't want to use GET, just change [this piece of code](htt
 ## Security
 https://github.com/php-telegram-bot/core/wiki/Securing-&-Hardening-your-Telegram-Bot
 
+## Generator
+https://github.com/davtur19/TuriBotGen
+
 ## Contributors
 - [andrew-ld](https://github.com/andrew-ld)
 
