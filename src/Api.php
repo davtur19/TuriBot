@@ -1,6 +1,7 @@
 <?php /** @noinspection PhpOptionalBeforeRequiredParametersInspection */
 
-//functions automatically generated from https://core.telegram.org/bots/api with https://github.com/davtur19/TuriBotGen
+//functions automatically generated from https://core.telegram.org/bots/api
+//generator source code https://github.com/davtur19/TuriBotGen
 
 namespace TuriBot;
 
@@ -37,8 +38,10 @@ abstract class Api implements ApiInterface
     public function setWebhook(
         string $url,
         \CURLFile $certificate = null,
+        string $ip_address = null,
         int $max_connections = null,
-        array $allowed_updates = null
+        array $allowed_updates = null,
+        bool $drop_pending_updates = null
     ) {
         $args = [
             'url' => $url
@@ -46,6 +49,10 @@ abstract class Api implements ApiInterface
 
         if ($certificate !== null) {
             $args['certificate'] = $certificate;
+        }
+
+        if ($ip_address !== null) {
+            $args['ip_address'] = $ip_address;
         }
 
         if ($max_connections !== null) {
@@ -56,12 +63,23 @@ abstract class Api implements ApiInterface
             $args['allowed_updates'] = json_encode($allowed_updates);
         }
 
+        if ($drop_pending_updates !== null) {
+            $args['drop_pending_updates'] = $drop_pending_updates;
+        }
+
         return $this->Request('setWebhook', $args);
     }
 
-    public function deleteWebhook()
-    {
-        return $this->Request('deleteWebhook', []);
+    public function deleteWebhook(
+        bool $drop_pending_updates = null
+    ) {
+        $args = [];
+
+        if ($drop_pending_updates !== null) {
+            $args['drop_pending_updates'] = $drop_pending_updates;
+        }
+
+        return $this->Request('deleteWebhook', $args);
     }
 
     public function getWebhookInfo()
@@ -74,13 +92,25 @@ abstract class Api implements ApiInterface
         return $this->Request('getMe', []);
     }
 
+    public function logOut()
+    {
+        return $this->Request('logOut', []);
+    }
+
+    public function close()
+    {
+        return $this->Request('close', []);
+    }
+
     public function sendMessage(
         $chat_id,
         string $text,
         string $parse_mode = null,
+        array $entities = null,
         bool $disable_web_page_preview = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -90,6 +120,10 @@ abstract class Api implements ApiInterface
 
         if ($parse_mode !== null) {
             $args['parse_mode'] = $parse_mode;
+        }
+
+        if ($entities !== null) {
+            $args['entities'] = json_encode($entities);
         }
 
         if ($disable_web_page_preview !== null) {
@@ -102,6 +136,10 @@ abstract class Api implements ApiInterface
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -130,13 +168,64 @@ abstract class Api implements ApiInterface
         return $this->Request('forwardMessage', $args);
     }
 
+    public function copyMessage(
+        $chat_id,
+        $from_chat_id,
+        int $message_id,
+        string $caption = null,
+        string $parse_mode = null,
+        array $caption_entities = null,
+        bool $disable_notification = null,
+        int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
+        array $reply_markup = null
+    ) {
+        $args = [
+            'chat_id'      => $chat_id,
+            'from_chat_id' => $from_chat_id,
+            'message_id'   => $message_id
+        ];
+
+        if ($caption !== null) {
+            $args['caption'] = $caption;
+        }
+
+        if ($parse_mode !== null) {
+            $args['parse_mode'] = $parse_mode;
+        }
+
+        if ($caption_entities !== null) {
+            $args['caption_entities'] = json_encode($caption_entities);
+        }
+
+        if ($disable_notification !== null) {
+            $args['disable_notification'] = $disable_notification;
+        }
+
+        if ($reply_to_message_id !== null) {
+            $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        }
+
+        if ($reply_markup !== null) {
+            $args['reply_markup'] = json_encode($reply_markup);
+        }
+
+        return $this->Request('copyMessage', $args);
+    }
+
     public function sendPhoto(
         $chat_id,
         $photo,
         string $caption = null,
         string $parse_mode = null,
+        array $caption_entities = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -152,12 +241,20 @@ abstract class Api implements ApiInterface
             $args['parse_mode'] = $parse_mode;
         }
 
+        if ($caption_entities !== null) {
+            $args['caption_entities'] = json_encode($caption_entities);
+        }
+
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
         }
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -172,12 +269,14 @@ abstract class Api implements ApiInterface
         $audio,
         string $caption = null,
         string $parse_mode = null,
+        array $caption_entities = null,
         int $duration = null,
         string $performer = null,
         string $title = null,
         $thumb = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -191,6 +290,10 @@ abstract class Api implements ApiInterface
 
         if ($parse_mode !== null) {
             $args['parse_mode'] = $parse_mode;
+        }
+
+        if ($caption_entities !== null) {
+            $args['caption_entities'] = json_encode($caption_entities);
         }
 
         if ($duration !== null) {
@@ -217,6 +320,10 @@ abstract class Api implements ApiInterface
             $args['reply_to_message_id'] = $reply_to_message_id;
         }
 
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        }
+
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
         }
@@ -230,8 +337,11 @@ abstract class Api implements ApiInterface
         $thumb = null,
         string $caption = null,
         string $parse_mode = null,
+        array $caption_entities = null,
+        bool $disable_content_type_detection = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -251,12 +361,24 @@ abstract class Api implements ApiInterface
             $args['parse_mode'] = $parse_mode;
         }
 
+        if ($caption_entities !== null) {
+            $args['caption_entities'] = json_encode($caption_entities);
+        }
+
+        if ($disable_content_type_detection !== null) {
+            $args['disable_content_type_detection'] = $disable_content_type_detection;
+        }
+
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
         }
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -275,9 +397,11 @@ abstract class Api implements ApiInterface
         $thumb = null,
         string $caption = null,
         string $parse_mode = null,
+        array $caption_entities = null,
         bool $supports_streaming = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -309,6 +433,10 @@ abstract class Api implements ApiInterface
             $args['parse_mode'] = $parse_mode;
         }
 
+        if ($caption_entities !== null) {
+            $args['caption_entities'] = json_encode($caption_entities);
+        }
+
         if ($supports_streaming !== null) {
             $args['supports_streaming'] = $supports_streaming;
         }
@@ -319,6 +447,10 @@ abstract class Api implements ApiInterface
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -337,8 +469,10 @@ abstract class Api implements ApiInterface
         $thumb = null,
         string $caption = null,
         string $parse_mode = null,
+        array $caption_entities = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -370,12 +504,20 @@ abstract class Api implements ApiInterface
             $args['parse_mode'] = $parse_mode;
         }
 
+        if ($caption_entities !== null) {
+            $args['caption_entities'] = json_encode($caption_entities);
+        }
+
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
         }
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -390,9 +532,11 @@ abstract class Api implements ApiInterface
         $voice,
         string $caption = null,
         string $parse_mode = null,
+        array $caption_entities = null,
         int $duration = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -408,6 +552,10 @@ abstract class Api implements ApiInterface
             $args['parse_mode'] = $parse_mode;
         }
 
+        if ($caption_entities !== null) {
+            $args['caption_entities'] = json_encode($caption_entities);
+        }
+
         if ($duration !== null) {
             $args['duration'] = $duration;
         }
@@ -418,6 +566,10 @@ abstract class Api implements ApiInterface
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -435,6 +587,7 @@ abstract class Api implements ApiInterface
         $thumb = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -462,6 +615,10 @@ abstract class Api implements ApiInterface
             $args['reply_to_message_id'] = $reply_to_message_id;
         }
 
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        }
+
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
         }
@@ -473,7 +630,8 @@ abstract class Api implements ApiInterface
         $chat_id,
         array $media,
         bool $disable_notification = null,
-        int $reply_to_message_id = null
+        int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -488,6 +646,10 @@ abstract class Api implements ApiInterface
             $args['reply_to_message_id'] = $reply_to_message_id;
         }
 
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        }
+
         return $this->Request('sendMediaGroup', $args);
     }
 
@@ -495,9 +657,13 @@ abstract class Api implements ApiInterface
         $chat_id,
         float $latitude,
         float $longitude,
+        float $horizontal_accuracy = null,
         int $live_period = null,
+        int $heading = null,
+        int $proximity_alert_radius = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -506,8 +672,20 @@ abstract class Api implements ApiInterface
             'longitude' => $longitude
         ];
 
+        if ($horizontal_accuracy !== null) {
+            $args['horizontal_accuracy'] = $horizontal_accuracy;
+        }
+
         if ($live_period !== null) {
             $args['live_period'] = $live_period;
+        }
+
+        if ($heading !== null) {
+            $args['heading'] = $heading;
+        }
+
+        if ($proximity_alert_radius !== null) {
+            $args['proximity_alert_radius'] = $proximity_alert_radius;
         }
 
         if ($disable_notification !== null) {
@@ -516,6 +694,10 @@ abstract class Api implements ApiInterface
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -531,6 +713,9 @@ abstract class Api implements ApiInterface
         string $inline_message_id = null,
         float $latitude,
         float $longitude,
+        float $horizontal_accuracy = null,
+        int $heading = null,
+        int $proximity_alert_radius = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -548,6 +733,18 @@ abstract class Api implements ApiInterface
 
         if ($inline_message_id !== null) {
             $args['inline_message_id'] = $inline_message_id;
+        }
+
+        if ($horizontal_accuracy !== null) {
+            $args['horizontal_accuracy'] = $horizontal_accuracy;
+        }
+
+        if ($heading !== null) {
+            $args['heading'] = $heading;
+        }
+
+        if ($proximity_alert_radius !== null) {
+            $args['proximity_alert_radius'] = $proximity_alert_radius;
         }
 
         if ($reply_markup !== null) {
@@ -592,8 +789,11 @@ abstract class Api implements ApiInterface
         string $address,
         string $foursquare_id = null,
         string $foursquare_type = null,
+        string $google_place_id = null,
+        string $google_place_type = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -612,12 +812,24 @@ abstract class Api implements ApiInterface
             $args['foursquare_type'] = $foursquare_type;
         }
 
+        if ($google_place_id !== null) {
+            $args['google_place_id'] = $google_place_id;
+        }
+
+        if ($google_place_type !== null) {
+            $args['google_place_type'] = $google_place_type;
+        }
+
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
         }
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -635,6 +847,7 @@ abstract class Api implements ApiInterface
         string $vcard = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -659,6 +872,10 @@ abstract class Api implements ApiInterface
             $args['reply_to_message_id'] = $reply_to_message_id;
         }
 
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        }
+
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
         }
@@ -676,11 +893,13 @@ abstract class Api implements ApiInterface
         int $correct_option_id = null,
         string $explanation = null,
         string $explanation_parse_mode = null,
+        array $explanation_entities = null,
         int $open_period = null,
         int $close_date = null,
         bool $is_closed = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -713,6 +932,10 @@ abstract class Api implements ApiInterface
             $args['explanation_parse_mode'] = $explanation_parse_mode;
         }
 
+        if ($explanation_entities !== null) {
+            $args['explanation_entities'] = json_encode($explanation_entities);
+        }
+
         if ($open_period !== null) {
             $args['open_period'] = $open_period;
         }
@@ -733,6 +956,10 @@ abstract class Api implements ApiInterface
             $args['reply_to_message_id'] = $reply_to_message_id;
         }
 
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        }
+
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
         }
@@ -745,6 +972,7 @@ abstract class Api implements ApiInterface
         string $emoji = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -761,6 +989,10 @@ abstract class Api implements ApiInterface
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -831,12 +1063,17 @@ abstract class Api implements ApiInterface
 
     public function unbanChatMember(
         $chat_id,
-        int $user_id
+        int $user_id,
+        bool $only_if_banned = null
     ) {
         $args = [
             'chat_id' => $chat_id,
             'user_id' => $user_id
         ];
+
+        if ($only_if_banned !== null) {
+            $args['only_if_banned'] = $only_if_banned;
+        }
 
         return $this->Request('unbanChatMember', $args);
     }
@@ -863,6 +1100,7 @@ abstract class Api implements ApiInterface
     public function promoteChatMember(
         $chat_id,
         int $user_id,
+        bool $is_anonymous = null,
         bool $can_change_info = null,
         bool $can_post_messages = null,
         bool $can_edit_messages = null,
@@ -876,6 +1114,10 @@ abstract class Api implements ApiInterface
             'chat_id' => $chat_id,
             'user_id' => $user_id
         ];
+
+        if ($is_anonymous !== null) {
+            $args['is_anonymous'] = $is_anonymous;
+        }
 
         if ($can_change_info !== null) {
             $args['can_change_info'] = $can_change_info;
@@ -1015,13 +1257,28 @@ abstract class Api implements ApiInterface
     }
 
     public function unpinChatMessage(
+        $chat_id,
+        int $message_id = null
+    ) {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        if ($message_id !== null) {
+            $args['message_id'] = $message_id;
+        }
+
+        return $this->Request('unpinChatMessage', $args);
+    }
+
+    public function unpinAllChatMessages(
         $chat_id
     ) {
         $args = [
             'chat_id' => $chat_id
         ];
 
-        return $this->Request('unpinChatMessage', $args);
+        return $this->Request('unpinAllChatMessages', $args);
     }
 
     public function leaveChat(
@@ -1149,6 +1406,7 @@ abstract class Api implements ApiInterface
         string $inline_message_id = null,
         string $text,
         string $parse_mode = null,
+        array $entities = null,
         bool $disable_web_page_preview = null,
         array $reply_markup = null
     ) {
@@ -1172,6 +1430,10 @@ abstract class Api implements ApiInterface
             $args['parse_mode'] = $parse_mode;
         }
 
+        if ($entities !== null) {
+            $args['entities'] = json_encode($entities);
+        }
+
         if ($disable_web_page_preview !== null) {
             $args['disable_web_page_preview'] = $disable_web_page_preview;
         }
@@ -1189,6 +1451,7 @@ abstract class Api implements ApiInterface
         string $inline_message_id = null,
         string $caption = null,
         string $parse_mode = null,
+        array $caption_entities = null,
         array $reply_markup = null
     ) {
         $args = [];
@@ -1211,6 +1474,10 @@ abstract class Api implements ApiInterface
 
         if ($parse_mode !== null) {
             $args['parse_mode'] = $parse_mode;
+        }
+
+        if ($caption_entities !== null) {
+            $args['caption_entities'] = json_encode($caption_entities);
         }
 
         if ($reply_markup !== null) {
@@ -1311,6 +1578,7 @@ abstract class Api implements ApiInterface
         $sticker,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -1324,6 +1592,10 @@ abstract class Api implements ApiInterface
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {
@@ -1394,17 +1666,20 @@ abstract class Api implements ApiInterface
     public function addStickerToSet(
         int $user_id,
         string $name,
-        $png_sticker,
+        $png_sticker = null,
         \CURLFile $tgs_sticker = null,
         string $emojis,
         array $mask_position = null
     ) {
         $args = [
-            'user_id'     => $user_id,
-            'name'        => $name,
-            'png_sticker' => $png_sticker,
-            'emojis'      => $emojis
+            'user_id' => $user_id,
+            'name'    => $name,
+            'emojis'  => $emojis
         ];
+
+        if ($png_sticker !== null) {
+            $args['png_sticker'] = $png_sticker;
+        }
 
         if ($tgs_sticker !== null) {
             $args['tgs_sticker'] = $tgs_sticker;
@@ -1516,6 +1791,7 @@ abstract class Api implements ApiInterface
         bool $is_flexible = null,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -1585,6 +1861,10 @@ abstract class Api implements ApiInterface
             $args['reply_to_message_id'] = $reply_to_message_id;
         }
 
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        }
+
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
         }
@@ -1648,6 +1928,7 @@ abstract class Api implements ApiInterface
         string $game_short_name,
         bool $disable_notification = null,
         int $reply_to_message_id = null,
+        bool $allow_sending_without_reply = null,
         array $reply_markup = null
     ) {
         $args = [
@@ -1661,6 +1942,10 @@ abstract class Api implements ApiInterface
 
         if ($reply_to_message_id !== null) {
             $args['reply_to_message_id'] = $reply_to_message_id;
+        }
+
+        if ($allow_sending_without_reply !== null) {
+            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
         }
 
         if ($reply_markup !== null) {

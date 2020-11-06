@@ -16,9 +16,12 @@ class Client extends Api
      * @param bool $json_payload if true enable json payload, otherwise use always curl
      */
 
-    public function __construct(string $token, bool $json_payload = false)
-    {
-        $this->endpoint = "https://api.telegram.org/bot" . $token . "/";
+    public function __construct(
+        string $token,
+        bool $json_payload = false,
+        string $endpoint = "https://api.telegram.org/bot"
+    ) {
+        $this->endpoint = $endpoint . $token . "/";
         $this->json_payload = $json_payload;
         $this->curl = curl_init();
 
