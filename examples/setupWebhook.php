@@ -62,7 +62,7 @@ if (isset($_POST["yes"])) {
 
     $client = new Client($api);
 
-    $responseWebhook = $client->setWebhook($link, null, $connections);
+    $responseWebhook = $client->setWebhook($link, null, null, $connections);
     $response = $client->getMe();
 
     if (($responseWebhook->description == "Webhook was set" or $responseWebhook->description == "Webhook is already set") and $response->ok == true) {
