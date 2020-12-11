@@ -48,7 +48,7 @@ if (isset($update->message) or isset($update->edited_message)) {
             ],
         ];
 
-        $a = $client->sendMessage($chat_id, "help", null, null, null, null, $menu);
+        $a = $client->sendMessage($chat_id, "help", null, null, null, null, null, null, $menu);
     }
 
     if ($text === "/var") {
@@ -83,12 +83,12 @@ if (isset($update->callback_query)) {
 
     if ($update->callback_query->data === "btn1") {
         $client->answerCallbackQuery($id, "Button 1");
-        $client->editMessageText($message_chat_id, $message_message_id, null, "Button 1", null, null, $menu);
+        $client->editMessageText($message_chat_id, $message_message_id, null, "Button 1", null, null, null, $menu);
     } elseif ($update->callback_query->data === "btn2") {
         $client->answerCallbackQuery($id, "Button 2");
-        $client->editMessageText($message_chat_id, $message_message_id, null, "Button 2", null, null, $menu);
+        $client->editMessageText($message_chat_id, $message_message_id, null, "Button 2", null, null, null, $menu);
     } elseif ($update->callback_query->data === "btn3") {
         $client->answerCallbackQuery($id, "Button 3");
-        $client->editMessageText($message_chat_id, $message_message_id, null, "Button 3", null, null, $menu);
+        $client->editMessageText($message_chat_id, $message_message_id, null, "Button 3", null, null, null, $menu);
     }
 }
