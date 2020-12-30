@@ -14,12 +14,15 @@ class Client extends Api
     /*
      * @param string $token Bot API token
      * @param bool $json_payload if true enable json payload, otherwise use always curl
+     * @param string $endpoint custom endpoint url for self hosted BotApi
+     * @param array $curl_options change curl settings, to be able to use a proxy or something else, use it at your own risk
      */
 
     public function __construct(
         string $token,
         bool $json_payload = false,
-        string $endpoint = "https://api.telegram.org/bot"
+        string $endpoint = "https://api.telegram.org/bot",
+        array $curl_options = []
     ) {
         $this->endpoint = $endpoint . $token . "/";
         $this->json_payload = $json_payload;
@@ -34,6 +37,10 @@ class Client extends Api
             CURLOPT_CONNECTTIMEOUT => 2,
             CURLOPT_HTTPHEADER     => ["Connection: Keep-Alive", "Keep-Alive: 120"],
         ]);
+
+        if (!empty($curl_options)) {
+            curl_setopt_array($this->curl, $curl_options);
+        }
     }
 
 
