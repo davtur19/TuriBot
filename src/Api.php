@@ -1047,7 +1047,8 @@ abstract class Api implements ApiInterface
     public function kickChatMember(
         $chat_id,
         int $user_id,
-        int $until_date = null
+        int $until_date = null,
+        bool $revoke_messages = null
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -1056,6 +1057,10 @@ abstract class Api implements ApiInterface
 
         if ($until_date !== null) {
             $args['until_date'] = $until_date;
+        }
+
+        if ($revoke_messages !== null) {
+            $args['revoke_messages'] = $revoke_messages;
         }
 
         return $this->Request('kickChatMember', $args);
@@ -1101,14 +1106,16 @@ abstract class Api implements ApiInterface
         $chat_id,
         int $user_id,
         bool $is_anonymous = null,
-        bool $can_change_info = null,
+        bool $can_manage_chat = null,
         bool $can_post_messages = null,
         bool $can_edit_messages = null,
         bool $can_delete_messages = null,
-        bool $can_invite_users = null,
+        bool $can_manage_voice_chats = null,
         bool $can_restrict_members = null,
-        bool $can_pin_messages = null,
-        bool $can_promote_members = null
+        bool $can_promote_members = null,
+        bool $can_change_info = null,
+        bool $can_invite_users = null,
+        bool $can_pin_messages = null
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -1119,8 +1126,8 @@ abstract class Api implements ApiInterface
             $args['is_anonymous'] = $is_anonymous;
         }
 
-        if ($can_change_info !== null) {
-            $args['can_change_info'] = $can_change_info;
+        if ($can_manage_chat !== null) {
+            $args['can_manage_chat'] = $can_manage_chat;
         }
 
         if ($can_post_messages !== null) {
@@ -1135,20 +1142,28 @@ abstract class Api implements ApiInterface
             $args['can_delete_messages'] = $can_delete_messages;
         }
 
-        if ($can_invite_users !== null) {
-            $args['can_invite_users'] = $can_invite_users;
+        if ($can_manage_voice_chats !== null) {
+            $args['can_manage_voice_chats'] = $can_manage_voice_chats;
         }
 
         if ($can_restrict_members !== null) {
             $args['can_restrict_members'] = $can_restrict_members;
         }
 
-        if ($can_pin_messages !== null) {
-            $args['can_pin_messages'] = $can_pin_messages;
-        }
-
         if ($can_promote_members !== null) {
             $args['can_promote_members'] = $can_promote_members;
+        }
+
+        if ($can_change_info !== null) {
+            $args['can_change_info'] = $can_change_info;
+        }
+
+        if ($can_invite_users !== null) {
+            $args['can_invite_users'] = $can_invite_users;
+        }
+
+        if ($can_pin_messages !== null) {
+            $args['can_pin_messages'] = $can_pin_messages;
         }
 
         return $this->Request('promoteChatMember', $args);
@@ -1188,6 +1203,60 @@ abstract class Api implements ApiInterface
         ];
 
         return $this->Request('exportChatInviteLink', $args);
+    }
+
+    public function createChatInviteLink(
+        $chat_id,
+        int $expire_date = null,
+        int $member_limit = null
+    ) {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        if ($expire_date !== null) {
+            $args['expire_date'] = $expire_date;
+        }
+
+        if ($member_limit !== null) {
+            $args['member_limit'] = $member_limit;
+        }
+
+        return $this->Request('createChatInviteLink', $args);
+    }
+
+    public function editChatInviteLink(
+        $chat_id,
+        string $invite_link,
+        int $expire_date = null,
+        int $member_limit = null
+    ) {
+        $args = [
+            'chat_id'     => $chat_id,
+            'invite_link' => $invite_link
+        ];
+
+        if ($expire_date !== null) {
+            $args['expire_date'] = $expire_date;
+        }
+
+        if ($member_limit !== null) {
+            $args['member_limit'] = $member_limit;
+        }
+
+        return $this->Request('editChatInviteLink', $args);
+    }
+
+    public function revokeChatInviteLink(
+        $chat_id,
+        string $invite_link
+    ) {
+        $args = [
+            'chat_id'     => $chat_id,
+            'invite_link' => $invite_link
+        ];
+
+        return $this->Request('revokeChatInviteLink', $args);
     }
 
     public function setChatPhoto(
