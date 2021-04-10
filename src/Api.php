@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpOptionalBeforeRequiredParametersInspection */
+<?php
+/** @noinspection PhpOptionalBeforeRequiredParametersInspection */
 
 //functions automatically generated from https://core.telegram.org/bots/api
 //generator source code https://github.com/davtur19/TuriBotGen
@@ -145,8 +146,12 @@ abstract class Api implements ApiInterface
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
         }
-
-        return $this->Request('sendMessage', $args);
+        
+        $req = $this->Request('sendMessage', $args);
+        if ($req->ok == false){
+            $this->debug($chat_id,'Error on sendMessage : '.$req->description);
+        }
+        return $req;
     }
 
     public function forwardMessage(
