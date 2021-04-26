@@ -1838,14 +1838,16 @@ abstract class Api implements ApiInterface
     }
 
     public function sendInvoice(
-        int $chat_id,
+        $chat_id,
         string $title,
         string $description,
         string $payload,
         string $provider_token,
-        string $start_parameter,
         string $currency,
         array $prices,
+        int $max_tip_amount = null,
+        array $suggested_tip_amounts = null,
+        string $start_parameter = null,
         string $provider_data = null,
         string $photo_url = null,
         int $photo_size = null,
@@ -1864,15 +1866,26 @@ abstract class Api implements ApiInterface
         array $reply_markup = null
     ) {
         $args = [
-            'chat_id'         => $chat_id,
-            'title'           => $title,
-            'description'     => $description,
-            'payload'         => $payload,
-            'provider_token'  => $provider_token,
-            'start_parameter' => $start_parameter,
-            'currency'        => $currency,
-            'prices'          => json_encode($prices)
+            'chat_id'        => $chat_id,
+            'title'          => $title,
+            'description'    => $description,
+            'payload'        => $payload,
+            'provider_token' => $provider_token,
+            'currency'       => $currency,
+            'prices'         => json_encode($prices)
         ];
+
+        if ($max_tip_amount !== null) {
+            $args['max_tip_amount'] = $max_tip_amount;
+        }
+
+        if ($suggested_tip_amounts !== null) {
+            $args['suggested_tip_amounts'] = json_encode($suggested_tip_amounts);
+        }
+
+        if ($start_parameter !== null) {
+            $args['start_parameter'] = $start_parameter;
+        }
 
         if ($provider_data !== null) {
             $args['provider_data'] = $provider_data;
