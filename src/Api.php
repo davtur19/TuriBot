@@ -1044,7 +1044,7 @@ abstract class Api implements ApiInterface
         return $this->Request('getFile', $args);
     }
 
-    public function kickChatMember(
+    public function banChatMember(
         $chat_id,
         int $user_id,
         int $until_date = null,
@@ -1063,7 +1063,7 @@ abstract class Api implements ApiInterface
             $args['revoke_messages'] = $revoke_messages;
         }
 
-        return $this->Request('kickChatMember', $args);
+        return $this->Request('banChatMember', $args);
     }
 
     public function unbanChatMember(
@@ -1380,14 +1380,14 @@ abstract class Api implements ApiInterface
         return $this->Request('getChatAdministrators', $args);
     }
 
-    public function getChatMembersCount(
+    public function getChatMemberCount(
         $chat_id
     ) {
         $args = [
             'chat_id' => $chat_id
         ];
 
-        return $this->Request('getChatMembersCount', $args);
+        return $this->Request('getChatMemberCount', $args);
     }
 
     public function getChatMember(
@@ -1455,18 +1455,57 @@ abstract class Api implements ApiInterface
     }
 
     public function setMyCommands(
-        array $commands
+        array $commands,
+        array $scope = null,
+        string $language_code = null
     ) {
         $args = [
             'commands' => json_encode($commands)
         ];
 
+        if ($scope !== null) {
+            $args['scope'] = json_encode($scope);
+        }
+
+        if ($language_code !== null) {
+            $args['language_code'] = $language_code;
+        }
+
         return $this->Request('setMyCommands', $args);
     }
 
-    public function getMyCommands()
-    {
-        return $this->Request('getMyCommands', []);
+    public function deleteMyCommands(
+        array $scope = null,
+        string $language_code = null
+    ) {
+        $args = [];
+
+        if ($scope !== null) {
+            $args['scope'] = json_encode($scope);
+        }
+
+        if ($language_code !== null) {
+            $args['language_code'] = $language_code;
+        }
+
+        return $this->Request('deleteMyCommands', $args);
+    }
+
+    public function getMyCommands(
+        array $scope = null,
+        string $language_code = null
+    ) {
+        $args = [];
+
+        if ($scope !== null) {
+            $args['scope'] = json_encode($scope);
+        }
+
+        if ($language_code !== null) {
+            $args['language_code'] = $language_code;
+        }
+
+        return $this->Request('getMyCommands', $args);
     }
 
     public function editMessageText(
