@@ -26,6 +26,19 @@ if (isset($update->message) or isset($update->edited_message)) {
         $client->forwardMessage($chat_id, $chat_id, null, $message_id);
         $client->sendPhoto($chat_id, $client->inputFile("TuriPixel.png"), "File upload");
     }
+    
+    $mainmenu = $bot->keyboard(
+        [
+            ["button 0"],
+            ["button 1", "button 2"],
+            ["button 3", "button 4", "button 5"],
+            ["button 6", "button 7", "button 8", "button 9"]
+        ]
+    );
+    
+    if ($text == "/keyboard") {
+        $client->sendMessage($chat_id, "Loaded Keyboard",null,null,null,null,null,null, $mainmenu);
+    }
 
     if ($text === "/help") {
 
