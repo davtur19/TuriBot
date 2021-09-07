@@ -34,6 +34,23 @@ abstract class Api implements ApiInterface
 
         return $this->Request('getUpdates', $args);
     }
+    
+    public function keyboard(
+        $menu
+    ) {
+        $toret = [];
+        foreach ($menu as $submenu) {
+            $tmp = [];
+            foreach ($submenu as $text) {
+                $tmp[] = ["text" => $text];
+            }
+            $toret[] = $tmp;
+        }
+        return [
+            "keyboard" => $toret,
+            "resize_keyboard" => true
+        ];
+    }
 
     public function setWebhook(
         string $url,
