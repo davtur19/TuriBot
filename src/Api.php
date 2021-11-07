@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpOptionalBeforeRequiredParametersInspection */
+<?php
+/** @noinspection PhpUnused */
 
 //functions automatically generated from https://core.telegram.org/bots/api
 //generator source code https://github.com/davtur19/TuriBotGen
@@ -153,16 +154,19 @@ abstract class Api implements ApiInterface
         $chat_id,
         $from_chat_id,
         bool $disable_notification = null,
-        int $message_id
+        int $message_id = null
     ) {
         $args = [
             'chat_id'      => $chat_id,
-            'from_chat_id' => $from_chat_id,
-            'message_id'   => $message_id
+            'from_chat_id' => $from_chat_id
         ];
 
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
+        }
+
+        if ($message_id !== null) {
+            $args['message_id'] = $message_id;
         }
 
         return $this->Request('forwardMessage', $args);
@@ -711,17 +715,14 @@ abstract class Api implements ApiInterface
         $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        float $latitude,
-        float $longitude,
+        float $latitude = null,
+        float $longitude = null,
         float $horizontal_accuracy = null,
         int $heading = null,
         int $proximity_alert_radius = null,
         array $reply_markup = null
     ) {
-        $args = [
-            'latitude'  => $latitude,
-            'longitude' => $longitude
-        ];
+        $args = [];
 
         if ($chat_id !== null) {
             $args['chat_id'] = $chat_id;
@@ -733,6 +734,14 @@ abstract class Api implements ApiInterface
 
         if ($inline_message_id !== null) {
             $args['inline_message_id'] = $inline_message_id;
+        }
+
+        if ($latitude !== null) {
+            $args['latitude'] = $latitude;
+        }
+
+        if ($longitude !== null) {
+            $args['longitude'] = $longitude;
         }
 
         if ($horizontal_accuracy !== null) {
@@ -1207,12 +1216,18 @@ abstract class Api implements ApiInterface
 
     public function createChatInviteLink(
         $chat_id,
+        string $name = null,
         int $expire_date = null,
-        int $member_limit = null
+        int $member_limit = null,
+        bool $creates_join_request = null
     ) {
         $args = [
             'chat_id' => $chat_id
         ];
+
+        if ($name !== null) {
+            $args['name'] = $name;
+        }
 
         if ($expire_date !== null) {
             $args['expire_date'] = $expire_date;
@@ -1220,6 +1235,10 @@ abstract class Api implements ApiInterface
 
         if ($member_limit !== null) {
             $args['member_limit'] = $member_limit;
+        }
+
+        if ($creates_join_request !== null) {
+            $args['creates_join_request'] = $creates_join_request;
         }
 
         return $this->Request('createChatInviteLink', $args);
@@ -1228,13 +1247,19 @@ abstract class Api implements ApiInterface
     public function editChatInviteLink(
         $chat_id,
         string $invite_link,
+        string $name = null,
         int $expire_date = null,
-        int $member_limit = null
+        int $member_limit = null,
+        bool $creates_join_request = null
     ) {
         $args = [
             'chat_id'     => $chat_id,
             'invite_link' => $invite_link
         ];
+
+        if ($name !== null) {
+            $args['name'] = $name;
+        }
 
         if ($expire_date !== null) {
             $args['expire_date'] = $expire_date;
@@ -1242,6 +1267,10 @@ abstract class Api implements ApiInterface
 
         if ($member_limit !== null) {
             $args['member_limit'] = $member_limit;
+        }
+
+        if ($creates_join_request !== null) {
+            $args['creates_join_request'] = $creates_join_request;
         }
 
         return $this->Request('editChatInviteLink', $args);
@@ -1257,6 +1286,30 @@ abstract class Api implements ApiInterface
         ];
 
         return $this->Request('revokeChatInviteLink', $args);
+    }
+
+    public function approveChatJoinRequest(
+        $chat_id,
+        int $user_id
+    ) {
+        $args = [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id
+        ];
+
+        return $this->Request('approveChatJoinRequest', $args);
+    }
+
+    public function declineChatJoinRequest(
+        $chat_id,
+        int $user_id
+    ) {
+        $args = [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id
+        ];
+
+        return $this->Request('declineChatJoinRequest', $args);
     }
 
     public function setChatPhoto(
@@ -1512,15 +1565,13 @@ abstract class Api implements ApiInterface
         $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        string $text,
+        string $text = null,
         string $parse_mode = null,
         array $entities = null,
         bool $disable_web_page_preview = null,
         array $reply_markup = null
     ) {
-        $args = [
-            'text' => $text
-        ];
+        $args = [];
 
         if ($chat_id !== null) {
             $args['chat_id'] = $chat_id;
@@ -1532,6 +1583,10 @@ abstract class Api implements ApiInterface
 
         if ($inline_message_id !== null) {
             $args['inline_message_id'] = $inline_message_id;
+        }
+
+        if ($text !== null) {
+            $args['text'] = $text;
         }
 
         if ($parse_mode !== null) {
@@ -1599,12 +1654,10 @@ abstract class Api implements ApiInterface
         $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        array $media,
+        array $media = null,
         array $reply_markup = null
     ) {
-        $args = [
-            'media' => json_encode($media)
-        ];
+        $args = [];
 
         if ($chat_id !== null) {
             $args['chat_id'] = $chat_id;
@@ -1616,6 +1669,10 @@ abstract class Api implements ApiInterface
 
         if ($inline_message_id !== null) {
             $args['inline_message_id'] = $inline_message_id;
+        }
+
+        if ($media !== null) {
+            $args['media'] = json_encode($media);
         }
 
         if ($reply_markup !== null) {
@@ -1741,15 +1798,14 @@ abstract class Api implements ApiInterface
         string $title,
         $png_sticker = null,
         \CURLFile $tgs_sticker = null,
-        string $emojis,
+        string $emojis = null,
         bool $contains_masks = null,
         array $mask_position = null
     ) {
         $args = [
             'user_id' => $user_id,
             'name'    => $name,
-            'title'   => $title,
-            'emojis'  => $emojis
+            'title'   => $title
         ];
 
         if ($png_sticker !== null) {
@@ -1758,6 +1814,10 @@ abstract class Api implements ApiInterface
 
         if ($tgs_sticker !== null) {
             $args['tgs_sticker'] = $tgs_sticker;
+        }
+
+        if ($emojis !== null) {
+            $args['emojis'] = $emojis;
         }
 
         if ($contains_masks !== null) {
@@ -1776,13 +1836,12 @@ abstract class Api implements ApiInterface
         string $name,
         $png_sticker = null,
         \CURLFile $tgs_sticker = null,
-        string $emojis,
+        string $emojis = null,
         array $mask_position = null
     ) {
         $args = [
             'user_id' => $user_id,
-            'name'    => $name,
-            'emojis'  => $emojis
+            'name'    => $name
         ];
 
         if ($png_sticker !== null) {
@@ -1791,6 +1850,10 @@ abstract class Api implements ApiInterface
 
         if ($tgs_sticker !== null) {
             $args['tgs_sticker'] = $tgs_sticker;
+        }
+
+        if ($emojis !== null) {
+            $args['emojis'] = $emojis;
         }
 
         if ($mask_position !== null) {
