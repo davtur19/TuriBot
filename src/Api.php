@@ -1701,6 +1701,10 @@ abstract class Api implements ApiInterface
         }
 
         if ($media !== null) {
+            if (is_object($media['media'])) {
+                $args['upload'] = $media['media'];
+                $media['media'] = 'attach://upload';
+            }
             $args['media'] = json_encode($media);
         }
 
