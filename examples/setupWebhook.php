@@ -67,7 +67,7 @@ if (isset($_POST["yes"])) {
 
     if (($responseWebhook->description == "Webhook was set" or $responseWebhook->description == "Webhook is already set") and $response->ok == true) {
         $username = $response->result->username;
-        echo "Setup successful: <a href=\"http://t.me/" . $username . "\"> @" . $username . "</a>";
+        echo "Setup successful: <a href=\"https://t.me/" . $username . "\"> @" . $username . "</a>";
     } else {
         echo "Setup failed: API TOKEN wrong or impossible to connect to Telegram";
         echo "<p>" . htmlspecialchars($response->result->description) . "</p>";
