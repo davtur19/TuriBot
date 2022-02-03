@@ -1918,6 +1918,7 @@ abstract class Api implements ApiInterface
         string $title,
         $png_sticker = null,
         \CURLFile $tgs_sticker = null,
+        \CURLFile $webm_sticker = null,
         string $emojis = null,
         bool $contains_masks = null,
         array $mask_position = null
@@ -1934,6 +1935,10 @@ abstract class Api implements ApiInterface
 
         if ($tgs_sticker !== null) {
             $args['tgs_sticker'] = $tgs_sticker;
+        }
+
+        if ($webm_sticker !== null) {
+            $args['webm_sticker'] = $webm_sticker;
         }
 
         if ($emojis !== null) {
@@ -1956,6 +1961,7 @@ abstract class Api implements ApiInterface
         string $name,
         $png_sticker = null,
         \CURLFile $tgs_sticker = null,
+        \CURLFile $webm_sticker = null,
         string $emojis = null,
         array $mask_position = null
     ) {
@@ -1970,6 +1976,10 @@ abstract class Api implements ApiInterface
 
         if ($tgs_sticker !== null) {
             $args['tgs_sticker'] = $tgs_sticker;
+        }
+
+        if ($webm_sticker !== null) {
+            $args['webm_sticker'] = $webm_sticker;
         }
 
         if ($emojis !== null) {
