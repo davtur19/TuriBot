@@ -1,5 +1,6 @@
 <?php
 
+// if you move the example in the root of your project, you must change the path of the require_once below
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use TuriBot\Client;
@@ -23,7 +24,8 @@ if (isset($update->message) or isset($update->edited_message)) {
     if ($text === "/start") {
         $client->sendMessage($chat_id, "ping");
         $client->sendMessage($chat_id, "pong");
-        $client->forwardMessage($chat_id, $chat_id, null, $message_id);
+        $client->forwardMessage($chat_id, $chat_id, null, null, $message_id);
+        // you need to put your own .png file in the same directory as this file
         $client->sendPhoto($chat_id, $client->inputFile("TuriPixel.png"), "File upload");
     }
 
@@ -48,7 +50,7 @@ if (isset($update->message) or isset($update->edited_message)) {
             ],
         ];
 
-        $a = $client->sendMessage($chat_id, "help", null, null, null, null, null, null, $menu);
+        $a = $client->sendMessage($chat_id, "help", null, null, null, null, null, null, null, $menu);
     }
 
     if ($text === "/var") {

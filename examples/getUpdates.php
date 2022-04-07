@@ -1,5 +1,6 @@
 <?php
 
+// if you move the example in the root of your project, you must change the path of the require_once below
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use TuriBot\Client;
