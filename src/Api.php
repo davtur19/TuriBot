@@ -1206,7 +1206,7 @@ abstract class Api implements ApiInterface
         bool $can_post_messages = null,
         bool $can_edit_messages = null,
         bool $can_delete_messages = null,
-        bool $can_manage_voice_chats = null,
+        bool $can_manage_video_chats = null,
         bool $can_restrict_members = null,
         bool $can_promote_members = null,
         bool $can_change_info = null,
@@ -1238,8 +1238,8 @@ abstract class Api implements ApiInterface
             $args['can_delete_messages'] = $can_delete_messages;
         }
 
-        if ($can_manage_voice_chats !== null) {
-            $args['can_manage_voice_chats'] = $can_manage_voice_chats;
+        if ($can_manage_video_chats !== null) {
+            $args['can_manage_video_chats'] = $can_manage_video_chats;
         }
 
         if ($can_restrict_members !== null) {
@@ -1672,6 +1672,64 @@ abstract class Api implements ApiInterface
         return $this->Request('getMyCommands', $args);
     }
 
+    public function setChatMenuButton(
+        int $chat_id = null,
+        array $menu_button = null
+    ) {
+        $args = [];
+
+        if ($chat_id !== null) {
+            $args['chat_id'] = $chat_id;
+        }
+
+        if ($menu_button !== null) {
+            $args['menu_button'] = json_encode($menu_button);
+        }
+
+        return $this->Request('setChatMenuButton', $args);
+    }
+
+    public function getChatMenuButton(
+        int $chat_id = null
+    ) {
+        $args = [];
+
+        if ($chat_id !== null) {
+            $args['chat_id'] = $chat_id;
+        }
+
+        return $this->Request('getChatMenuButton', $args);
+    }
+
+    public function setMyDefaultAdministratorRights(
+        array $rights = null,
+        bool $for_channels = null
+    ) {
+        $args = [];
+
+        if ($rights !== null) {
+            $args['rights'] = json_encode($rights);
+        }
+
+        if ($for_channels !== null) {
+            $args['for_channels'] = $for_channels;
+        }
+
+        return $this->Request('setMyDefaultAdministratorRights', $args);
+    }
+
+    public function getMyDefaultAdministratorRights(
+        bool $for_channels = null
+    ) {
+        $args = [];
+
+        if ($for_channels !== null) {
+            $args['for_channels'] = $for_channels;
+        }
+
+        return $this->Request('getMyDefaultAdministratorRights', $args);
+    }
+
     public function editMessageText(
         $chat_id = null,
         int $message_id = null,
@@ -2067,6 +2125,18 @@ abstract class Api implements ApiInterface
         }
 
         return $this->Request('answerInlineQuery', $args);
+    }
+
+    public function answerWebAppQuery(
+        string $web_app_query_id,
+        array $result
+    ) {
+        $args = [
+            'web_app_query_id' => $web_app_query_id,
+            'result'           => json_encode($result)
+        ];
+
+        return $this->Request('answerWebAppQuery', $args);
     }
 
     public function sendInvoice(
