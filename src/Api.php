@@ -42,7 +42,8 @@ abstract class Api implements ApiInterface
         string $ip_address = null,
         int $max_connections = null,
         array $allowed_updates = null,
-        bool $drop_pending_updates = null
+        bool $drop_pending_updates = null,
+        string $secret_token = null
     ) {
         $args = [
             'url' => $url
@@ -66,6 +67,10 @@ abstract class Api implements ApiInterface
 
         if ($drop_pending_updates !== null) {
             $args['drop_pending_updates'] = $drop_pending_updates;
+        }
+
+        if ($secret_token !== null) {
+            $args['secret_token'] = $secret_token;
         }
 
         return $this->Request('setWebhook', $args);
@@ -2259,6 +2264,96 @@ abstract class Api implements ApiInterface
         }
 
         return $this->Request('sendInvoice', $args);
+    }
+
+    public function createInvoiceLink(
+        string $title,
+        string $description,
+        string $payload,
+        string $provider_token,
+        string $currency,
+        array $prices,
+        int $max_tip_amount = null,
+        array $suggested_tip_amounts = null,
+        string $provider_data = null,
+        string $photo_url = null,
+        int $photo_size = null,
+        int $photo_width = null,
+        int $photo_height = null,
+        bool $need_name = null,
+        bool $need_phone_number = null,
+        bool $need_email = null,
+        bool $need_shipping_address = null,
+        bool $send_phone_number_to_provider = null,
+        bool $send_email_to_provider = null,
+        bool $is_flexible = null
+    ) {
+        $args = [
+            'title'          => $title,
+            'description'    => $description,
+            'payload'        => $payload,
+            'provider_token' => $provider_token,
+            'currency'       => $currency,
+            'prices'         => json_encode($prices)
+        ];
+
+        if ($max_tip_amount !== null) {
+            $args['max_tip_amount'] = $max_tip_amount;
+        }
+
+        if ($suggested_tip_amounts !== null) {
+            $args['suggested_tip_amounts'] = json_encode($suggested_tip_amounts);
+        }
+
+        if ($provider_data !== null) {
+            $args['provider_data'] = $provider_data;
+        }
+
+        if ($photo_url !== null) {
+            $args['photo_url'] = $photo_url;
+        }
+
+        if ($photo_size !== null) {
+            $args['photo_size'] = $photo_size;
+        }
+
+        if ($photo_width !== null) {
+            $args['photo_width'] = $photo_width;
+        }
+
+        if ($photo_height !== null) {
+            $args['photo_height'] = $photo_height;
+        }
+
+        if ($need_name !== null) {
+            $args['need_name'] = $need_name;
+        }
+
+        if ($need_phone_number !== null) {
+            $args['need_phone_number'] = $need_phone_number;
+        }
+
+        if ($need_email !== null) {
+            $args['need_email'] = $need_email;
+        }
+
+        if ($need_shipping_address !== null) {
+            $args['need_shipping_address'] = $need_shipping_address;
+        }
+
+        if ($send_phone_number_to_provider !== null) {
+            $args['send_phone_number_to_provider'] = $send_phone_number_to_provider;
+        }
+
+        if ($send_email_to_provider !== null) {
+            $args['send_email_to_provider'] = $send_email_to_provider;
+        }
+
+        if ($is_flexible !== null) {
+            $args['is_flexible'] = $is_flexible;
+        }
+
+        return $this->Request('createInvoiceLink', $args);
     }
 
     public function answerShippingQuery(
