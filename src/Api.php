@@ -1963,6 +1963,16 @@ abstract class Api implements ApiInterface
         return $this->Request('getStickerSet', $args);
     }
 
+    public function getCustomEmojiStickers(
+        array $custom_emoji_ids
+    ) {
+        $args = [
+            'custom_emoji_ids' => json_encode($custom_emoji_ids)
+        ];
+
+        return $this->Request('getCustomEmojiStickers', $args);
+    }
+
     public function uploadStickerFile(
         int $user_id,
         \CURLFile $png_sticker
@@ -1982,8 +1992,8 @@ abstract class Api implements ApiInterface
         $png_sticker = null,
         \CURLFile $tgs_sticker = null,
         \CURLFile $webm_sticker = null,
+        string $sticker_type = null,
         string $emojis = null,
-        bool $contains_masks = null,
         array $mask_position = null
     ) {
         $args = [
@@ -2004,12 +2014,12 @@ abstract class Api implements ApiInterface
             $args['webm_sticker'] = $webm_sticker;
         }
 
-        if ($emojis !== null) {
-            $args['emojis'] = $emojis;
+        if ($sticker_type !== null) {
+            $args['sticker_type'] = $sticker_type;
         }
 
-        if ($contains_masks !== null) {
-            $args['contains_masks'] = $contains_masks;
+        if ($emojis !== null) {
+            $args['emojis'] = $emojis;
         }
 
         if ($mask_position !== null) {
