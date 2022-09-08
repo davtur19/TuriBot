@@ -7,6 +7,81 @@ use TuriBot\Client;
 use TuriBot\InputFile;
 
 
+
+function handleUpdate($client, $update)
+{
+    $easy = new \TuriBot\EasyVars($update);
+
+    if (isset($update->message)) {
+        $chat_id = $update->message->chat->id;
+        if (isset($update->message->reply_to_message->from->id)) {
+            $reply_id = $update->message->reply_to_message->from->id;
+        }
+
+        if ($easy->text === "ping") {
+            $client->sendMessage($chat_id, "pong");
+        } else {
+            $client->sendMessage($chat_id, $easy->message_id);
+        }
+
+        if ($easy->text === "test") {
+            $result = $client->sendMessage($chat_id, "test");
+            $client->debug($chat_id, $result);
+        }
+
+        if ($easy->text === "/photo") {
+            $client->sendPhoto($chat_id, new InputFile(__DIR__ . "/a.png"), "File upload");
+        }
+
+        if ($easy->text === "/mute" and isset($reply_id)) {
+            $perm = [
+                "can_send_messages" => false
+            ];
+            $result = $client->restrictChatMember($chat_id, $reply_id, $perm);
+            $client->debug($chat_id, $result);
+        }
+
+        if ($easy->text === '/editmedia') {
+            $result_photo = $client->sendPhoto($chat_id,
+                'https://core.telegram.org/file/811140327/1/zlN4goPTupk/9ff2f2f01c4bd1b013', 'test photo');
+            if ($result_photo->ok === true) {
+                $inputMediaPhoto = [
+                    'type'  => 'photo',
+                    'media' => new InputFile(__DIR__ . '/a.png'),
+                ];
+                $client->editMessageMedia($chat_id, $result_photo->result->message_id, null, $inputMediaPhoto);
+            }
+        }
+
+        if ($easy->text === '/mediagroup') {
+            $inputMediaPhoto1 = [
+                'type'  => 'photo',
+                'media' => 'https://core.telegram.org/file/811140327/1/zlN4goPTupk/9ff2f2f01c4bd1b013',
+            ];
+            $inputMediaPhoto2 = [
+                'type'  => 'photo',
+                'media' => new InputFile(__DIR__ . '/a.png'),
+            ];
+            $client->sendMediaGroup($chat_id, [$inputMediaPhoto1, $inputMediaPhoto2]);
+        }
+
+    } elseif (isset($update->inline_query)) {
+        $out = (string)rand();
+        $results[] = [
+            "type"                  => "article",
+            "id"                    => $out,
+            "title"                 => $out,
+            "input_message_content" => [
+                "message_text"             => $out,
+                "disable_web_page_preview" => true
+            ],
+        ];
+        $client->answerInlineQuery($update->inline_query->id, $results, 1, false);
+        unset($results);
+    }
+}
+
+
 $client = new Client("TOKEN");
 $offset = 0;
 
@@ -15,76 +90,8 @@ while (true) {
     if ($updates->ok == true) {
         foreach ($updates->result as $update) {
             $offset = $update->update_id + 1;
-            $easy = new \TuriBot\EasyVars($update);
-
-            if (isset($update->message)) {
-                $chat_id = $update->message->chat->id;
-                if (isset($update->message->reply_to_message->from->id)) {
-                    $reply_id = $update->message->reply_to_message->from->id;
-                }
-
-                if ($easy->text === "ping") {
-                    $client->sendMessage($chat_id, "pong");
-                } else {
-                    $client->sendMessage($chat_id, $easy->message_id);
-                }
-
-                if ($easy->text === "test") {
-                    $result = $client->sendMessage($chat_id, "test");
-                    $client->debug($chat_id, $result);
-                }
-
-                if ($easy->text === "/photo") {
-                    $client->sendPhoto($chat_id, new InputFile(__DIR__ . "/a.png"), "File upload");
-                }
-
-                if ($easy->text === "/mute" and isset($reply_id)) {
-                    $perm = [
-                        "can_send_messages" => false
-                    ];
-                    $result = $client->restrictChatMember($chat_id, $reply_id, $perm);
-                    $client->debug($chat_id, $result);
-                }
-
-                if ($easy->text === '/editmedia') {
-                    $result_photo = $client->sendPhoto($chat_id,
-                        'https://core.telegram.org/file/811140327/1/zlN4goPTupk/9ff2f2f01c4bd1b013', 'test photo');
-                    if ($result_photo->ok === true) {
-                        $inputMediaPhoto = [
-                            'type'  => 'photo',
-                            'media' => new InputFile(__DIR__ . '/a.png'),
-                        ];
-                        $client->editMessageMedia($chat_id, $result_photo->result->message_id, null, $inputMediaPhoto);
-                    }
-                }
-
-                if ($easy->text === '/mediagroup') {
-                    $inputMediaPhoto1 = [
-                        'type'  => 'photo',
-                        'media' => 'https://core.telegram.org/file/811140327/1/zlN4goPTupk/9ff2f2f01c4bd1b013',
-                    ];
-                    $inputMediaPhoto2 = [
-                        'type'  => 'photo',
-                        'media' => new InputFile(__DIR__ . '/a.png'),
-                    ];
-                    $client->sendMediaGroup($chat_id, [$inputMediaPhoto1, $inputMediaPhoto2]);
-                }
-
-            } elseif (isset($update->inline_query)) {
-                $out = (string)rand();
-                $results[] = [
-                    "type"                  => "article",
-                    "id"                    => $out,
-                    "title"                 => $out,
-                    "input_message_content" => [
-                        "message_text"             => $out,
-                        "disable_web_page_preview" => true
-                    ],
-                ];
-                $client->answerInlineQuery($update->inline_query->id, $results, 1, false);
-                unset($results);
-            }
-
+            //handleUpdate($client, $update);
+            \Amp\async(handleUpdate(...), $client, $update);
         }
     } else {
         echo "Error: " . $updates->description . PHP_EOL;
