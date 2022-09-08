@@ -5,8 +5,8 @@
   "license": "AGPL-3.0-or-later",
   "require": {
     "ext-json": "*",
-    "ext-curl": "*",
-    "php": "^7.1 | ^8"
+    "php": "^8.1",
+    "amphp/http-client": "^v5.0@dev"
   },
   "autoload": {
     "psr-4": {
@@ -18,5 +18,7 @@
       "name": "davtur19",
       "email": "dav.tur19@gmail.com"
     }
-  ]
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }

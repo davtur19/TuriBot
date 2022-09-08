@@ -2,45 +2,35 @@
 
 namespace TuriBot;
 
-use CURLFile;
+use Amp\ByteStream\BufferException;
+use Amp\ByteStream\StreamException;
+use Amp\Http\Client\Body\FormBody;
+use Amp\Http\Client\HttpClientBuilder;
+use Amp\Http\Client\Request;
 
 class Client extends Api
 {
     public $easy;
 
-    private $endpoint, $curl, $json_payload;
-
+    private bool                        $json_payload;
+    private string                      $endpoint;
+    private \Amp\Http\Client\HttpClient $httpClient;
 
     /*
      * @param string $token Bot API token
      * @param bool $json_payload if true enable json payload, otherwise use always curl
-     * @param string $endpoint custom endpoint url for self hosted BotApi
+     * @param string $endpoint custom endpoint url for self-hosted BotApi
      * @param array $curl_options change curl settings, to be able to use a proxy or something else, use it at your own risk
      */
 
     public function __construct(
         string $token,
         bool $json_payload = false,
-        string $endpoint = "https://api.telegram.org/bot",
-        array $curl_options = []
+        string $endpoint = "https://api.telegram.org/bot"
     ) {
         $this->endpoint = $endpoint . $token . "/";
         $this->json_payload = $json_payload;
-        $this->curl = curl_init();
-
-        curl_setopt_array($this->curl, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST           => true,
-            CURLOPT_FORBID_REUSE   => true,
-            CURLOPT_HEADER         => false,
-            CURLOPT_TIMEOUT        => 120,
-            CURLOPT_CONNECTTIMEOUT => 2,
-            CURLOPT_HTTPHEADER     => ["Connection: Keep-Alive", "Keep-Alive: 120"],
-        ]);
-
-        if (!empty($curl_options)) {
-            curl_setopt_array($this->curl, $curl_options);
-        }
+        $this->httpClient = HttpClientBuilder::buildDefault();
     }
 
 
@@ -58,19 +48,6 @@ class Client extends Api
 
 
     /*
-     * @param string $path Path of file
-     * @return \CURLFile of $path
-     */
-
-    public function inputFile(string $path): \CURLFile
-    {
-        $path = realpath($path);
-
-        return new CURLFile($path);
-    }
-
-
-    /*
      * Make a request to Bot API
      *
      * @param string $method The method of Bot API
@@ -79,7 +56,7 @@ class Client extends Api
      * @return \stdClass getUpdate if jsonPayload, otherwise response of Telegram
      */
 
-    public function Request(string $method, array $args = []): \stdClass
+    public function Request(string $method, array $args = [])
     {
         if ($this->json_payload) {
             $args["method"] = $method;
@@ -96,23 +73,34 @@ class Client extends Api
 
             return $this->getUpdate();
         } else {
-            curl_setopt_array($this->curl, [
-                CURLOPT_URL        => $this->endpoint . $method,
-                CURLOPT_POSTFIELDS => empty($args) ? null : $args,
-            ]);
-            $resultCurl = curl_exec($this->curl);
-            if ($resultCurl === false) {
+            try {
+                $request = new Request($this->endpoint . $method, 'POST');
+                $body = new FormBody;
+                //var_dump($args);
+
+                foreach ($args as $name => $value) {
+                    //var_dump($value);
+                    if ($value instanceof InputFile) {
+                        $body->addFile($name, $value->getPath());
+                    } else {
+                        $body->addField($name, $value);
+                    }
+                }
+                $request->setBody($body);
+                $response = $this->httpClient->request($request);
+                $resultHttp = $response->getBody()->buffer();
+            } catch (BufferException|StreamException  $e) {
                 $arr = [
                     "ok"          => false,
-                    "error_code"  => curl_errno($this->curl),
-                    "description" => curl_error($this->curl),
-                    "curl_error"  => true
+                    "error_code"  => $e->getCode(),
+                    "description" => $e->getMessage(),
+                    "http_error"  => true
                 ];
-
-                $resultCurl = json_encode($arr);
+                $resultHttp = json_encode($arr);
             }
+            //var_dump($resultHttp);
 
-            $resultJson = json_decode($resultCurl);
+            $resultJson = json_decode($resultHttp);
             if ($resultJson === null) {
                 $arr = [
                     "ok"          => false,
