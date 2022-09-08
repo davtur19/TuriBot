@@ -4,6 +4,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use TuriBot\Client;
+use TuriBot\InputFile;
 
 
 $client = new Client("TOKEN");
@@ -32,7 +33,10 @@ while (true) {
                     $result = $client->sendMessage($chat_id, "test");
                     $client->debug($chat_id, $result);
                 }
-                //$client->sendPhoto($chat_id, $client->inputFile("photo.png"));
+
+                if ($easy->text === "/photo") {
+                    $client->sendPhoto($chat_id, new InputFile(__DIR__ . "/a.png"), "File upload");
+                }
 
                 if ($easy->text === "/mute" and isset($reply_id)) {
                     $perm = [
@@ -48,7 +52,7 @@ while (true) {
                     if ($result_photo->ok === true) {
                         $inputMediaPhoto = [
                             'type'  => 'photo',
-                            'media' => $client->inputFile('a.png'),
+                            'media' => new InputFile(__DIR__ . '/a.png'),
                         ];
                         $client->editMessageMedia($chat_id, $result_photo->result->message_id, null, $inputMediaPhoto);
                     }
@@ -61,7 +65,7 @@ while (true) {
                     ];
                     $inputMediaPhoto2 = [
                         'type'  => 'photo',
-                        'media' => $client->inputFile('a.png'),
+                        'media' => new InputFile(__DIR__ . '/a.png'),
                     ];
                     $client->sendMediaGroup($chat_id, [$inputMediaPhoto1, $inputMediaPhoto2]);
                 }
@@ -83,6 +87,6 @@ while (true) {
 
         }
     } else {
-        exit($updates->description);
+        echo "Error: " . $updates->description . PHP_EOL;
     }
 }
