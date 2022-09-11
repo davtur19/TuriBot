@@ -4,9 +4,9 @@ namespace TuriBot;
 
 class EasyVars
 {
-    public string $update_type, $chat_type, $text, $first_name;
+    public $chat_id = 0, $from_id = 0, $message_id = 0;
 
-    public int $chat_id, $message_id, $from_id;
+    public $update_type = '', $text = '', $first_name = '', $chat_type = '';
 
     private array $update_types = [
         "message",
@@ -21,7 +21,6 @@ class EasyVars
 
     public function __construct($update)
     {
-
         foreach ($this->update_types as $update_type) {
             if (isset($update->{$update_type})) {
                 $this->update_type = $update_type;
@@ -30,18 +29,12 @@ class EasyVars
         }
 
         if (isset($this->update_type)) {
-            $this->chat_type = $update->{$this->update_type}->chat->type;
-            $this->chat_id = $update->{$this->update_type}->chat->id;
-            $this->message_id = $update->{$this->update_type}->message_id;
-
-            if (isset($update->{$this->update_type}->from)) {
-                $this->from_id = $update->{$this->update_type}->from->id;
-                $this->first_name = $update->{$this->update_type}->from->first_name;
-            }
-
-            if (isset($update->{$this->update_type}->text)) {
-                $this->text = $update->{$this->update_type}->text;
-            }
+            $this->chat_id = $update->{$this->update_type}->chat->id ?? 0;
+            $this->from_id = $update->{$this->update_type}->from->id ?? 0;
+            $this->message_id = $update->{$this->update_type}->message_id ?? 0;
+            $this->text = $update->{$this->update_type}->text ?? '';
+            $this->first_name = $update->{$this->update_type}->from->first_name ?? '';
+            $this->chat_type = $update->{$this->update_type}->chat->type ?? '';
         }
     }
 }
