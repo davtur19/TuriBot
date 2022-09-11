@@ -7,8 +7,7 @@ use TuriBot\Client;
 use TuriBot\InputFile;
 
 
-
-function handleUpdate($client, $update)
+function handleUpdate($client, $update): void
 {
     $easy = new \TuriBot\EasyVars($update);
 
@@ -82,15 +81,16 @@ function handleUpdate($client, $update)
 }
 
 
+// put your token
 $client = new Client("TOKEN");
 $offset = 0;
 
 while (true) {
     $updates = $client->getUpdates($offset, $timeout = 0);
-    if ($updates->ok == true) {
+    if ($updates->ok === true) {
         foreach ($updates->result as $update) {
             $offset = $update->update_id + 1;
-            //handleUpdate($client, $update);
+            // Start processing updates using async
             \Amp\async(handleUpdate(...), $client, $update);
         }
     } else {
