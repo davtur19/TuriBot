@@ -2,14 +2,18 @@
 
 // if you move the example in the root of your project, you must change the path of the require_once below
 require_once __DIR__ . "/../vendor/autoload.php";
+// loading the EasyVarsExt class to extend EasyVars
+require_once __DIR__ . "/EasyVarsExt.php";
 
 use TuriBot\Client;
 use TuriBot\InputFile;
+use TuriBot\EasyVarsExt;
 
 
 function handleUpdate($client, $update): void
 {
-    $easy = new \TuriBot\EasyVars($update);
+    // EasyVars from the examples folder with multiple variables will be used, depending on the ones you need
+    $easy = new EasyVarsExt($update);
 
     if (isset($update->message)) {
         $chat_id = $update->message->chat->id;
