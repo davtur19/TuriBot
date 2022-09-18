@@ -15,7 +15,7 @@ if (!isset($_GET["api"])) {
 $client = new Client($_GET["api"], false);
 $update = $client->getUpdate();
 if (!isset($update)) {
-    exit('invalid update');
+    exit("invalid update");
 }
 
 

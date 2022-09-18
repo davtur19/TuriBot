@@ -13,7 +13,6 @@ class InputFile
     {
         $this->path = $path;
         $this->filename = basename($path);
-
     }
 
     public function getPath(): string
