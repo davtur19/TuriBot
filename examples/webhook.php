@@ -4,6 +4,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use TuriBot\Client;
+use function Amp\async;
 
 
 if (!isset($_GET["api"])) {
@@ -53,7 +54,7 @@ function handleUpdate($client, $update): void
                 ],
             ];
 
-            $a = $client->sendMessage($chat_id, "help", null, null, null, null, null, null, null, $menu);
+            $client->sendMessage($chat_id, "help", null, null, null, null, null, null, null, $menu);
         }
 
         if ($text === "/var") {
@@ -100,5 +101,6 @@ function handleUpdate($client, $update): void
 }
 
 // Start processing updates using async
-\Amp\async(handleUpdate(...), $client, $update);
-
+$future = async(handleUpdate(...), $client, $update);
+// Wait for the async part to finish before ending execution
+$future->await();
