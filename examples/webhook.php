@@ -4,6 +4,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use TuriBot\Client;
+use TuriBot\InputFile;
 use function Amp\async;
 
 
@@ -30,7 +31,7 @@ function handleUpdate($client, $update): void
             $client->sendMessage($chat_id, "pong");
             $client->forwardMessage($chat_id, $chat_id, null, null, $message_id);
             // you need to put your own .png file in the same directory as this file
-            $client->sendPhoto($chat_id, $client->inputFile("TuriPixel.png"), "File upload");
+            $client->sendPhoto($chat_id, new InputFile("TuriPixel.png"), "File upload");
         }
 
         if ($text === "/help") {
