@@ -8,6 +8,7 @@ require_once __DIR__ . "/EasyVarsExt.php";
 use TuriBot\Client;
 use TuriBot\InputFile;
 use TuriBot\EasyVarsExt;
+use function Amp\async;
 
 
 function handleUpdate($client, $update): void
@@ -95,7 +96,7 @@ while (true) {
         foreach ($updates->result as $update) {
             $offset = $update->update_id + 1;
             // Start processing updates using async
-            \Amp\async(handleUpdate(...), $client, $update);
+            async(handleUpdate(...), $client, $update);
         }
     } else {
         echo "Error: " . $updates->description . PHP_EOL;
