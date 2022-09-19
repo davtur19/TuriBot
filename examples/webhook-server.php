@@ -26,7 +26,7 @@ if (!(new Composer\InstalledVersions())->isInstalled("amphp/http-server")) {
 }
 
 
-$client = new Client("5591575872:AAEqzjSAIOcGj_UzWMM8lZHJ1Mw5WgZ9cmk", false);
+$client = new Client("TOKEN", false);
 //$update = $client->getUpdate();
 
 
@@ -48,6 +48,15 @@ function handleUpdate($client, $update): void
         if ($text === "/var") {
             $client->debug($chat_id, $client->easy->message_id, ["key" => "value"], "pong", 3.14);
         }
+    }
+}
+
+function handleUpdateCatch($client, $update): void
+{
+    try {
+        handleUpdate($client, $update);
+    } catch (Throwable $e) {
+        echo "Error in handleUpdate: $e" . PHP_EOL;
     }
 }
 
@@ -73,12 +82,7 @@ try {
             echo "Invalid update" . PHP_EOL;
         }
 
-        try {
-            $future = async(handleUpdate(...), $client, $update);
-            $future->await();
-        } catch (Throwable $e) {
-            echo "Error in handleUpdate: $e" . PHP_EOL;
-        }
+        async(handleUpdateCatch(...), $client, $update);
 
         return new Response(status: Status::OK, body: 'ok');
     }), new DefaultErrorHandler());

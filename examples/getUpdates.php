@@ -85,20 +85,34 @@ function handleUpdate($client, $update): void
     }
 }
 
+function getUpdatesCatch($client, $offset)
+{
+    try {
+        return $client->getUpdates($offset, 100);
+    } catch (Throwable $e) {
+        echo "getUpdates error: $e" . PHP_EOL;
+    }
+
+    return false;
+}
 
 // put your token
 $client = new Client("TOKEN");
 $offset = 0;
 
 while (true) {
-    $updates = $client->getUpdates($offset, $timeout = 0);
-    if ($updates->ok === true) {
+    $updates = getUpdatesCatch($client, $offset);
+    if (isset($updates->ok) and $updates->ok === true) {
         foreach ($updates->result as $update) {
             $offset = $update->update_id + 1;
             // Start processing updates using async
             async(handleUpdate(...), $client, $update);
         }
     } else {
-        echo "Error: " . $updates->description . PHP_EOL;
+        if (isset($updates->description)) {
+            echo "Error: " . $updates->description . PHP_EOL;
+        } else {
+            echo "Error: No description available" . PHP_EOL;
+        }
     }
 }
