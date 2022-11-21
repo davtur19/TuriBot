@@ -6,8 +6,8 @@
   "require": {
     "ext-json": "*",
     "php": "^8.1",
-    "amphp/http-client": "^v5.x@dev",
-    "amphp/file": "^v3.x@dev"
+    "amphp/http-client": "^v5.0@dev",
+    "amphp/file": "^v3.0@dev"
   },
   "autoload": {
     "psr-4": {
