@@ -267,7 +267,8 @@ abstract class Api implements ApiInterface
         int $reply_to_message_id = null,
         bool $allow_sending_without_reply = null,
         array $reply_markup = null,
-        int $message_thread_id = null
+        int $message_thread_id = null,
+        bool $has_spoiler = null
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -308,6 +309,10 @@ abstract class Api implements ApiInterface
 
         if ($message_thread_id !== null) {
             $args['message_thread_id'] = $message_thread_id;
+        }
+
+        if ($has_spoiler !== null) {
+            $args['has_spoiler'] = $has_spoiler;
         }
 
         return $this->Request('sendPhoto', $args);
@@ -473,7 +478,8 @@ abstract class Api implements ApiInterface
         int $reply_to_message_id = null,
         bool $allow_sending_without_reply = null,
         array $reply_markup = null,
-        int $message_thread_id = null
+        int $message_thread_id = null,
+        bool $has_spoiler = null
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -536,6 +542,10 @@ abstract class Api implements ApiInterface
             $args['message_thread_id'] = $message_thread_id;
         }
 
+        if ($has_spoiler !== null) {
+            $args['has_spoiler'] = $has_spoiler;
+        }
+
         return $this->Request('sendVideo', $args);
     }
 
@@ -554,7 +564,8 @@ abstract class Api implements ApiInterface
         int $reply_to_message_id = null,
         bool $allow_sending_without_reply = null,
         array $reply_markup = null,
-        int $message_thread_id = null
+        int $message_thread_id = null,
+        bool $has_spoiler = null
     ) {
         $args = [
             'chat_id'   => $chat_id,
@@ -611,6 +622,10 @@ abstract class Api implements ApiInterface
 
         if ($message_thread_id !== null) {
             $args['message_thread_id'] = $message_thread_id;
+        }
+
+        if ($has_spoiler !== null) {
+            $args['has_spoiler'] = $has_spoiler;
         }
 
         return $this->Request('sendAnimation', $args);
@@ -1185,12 +1200,17 @@ abstract class Api implements ApiInterface
 
     public function sendChatAction(
         $chat_id,
-        string $action
+        string $action,
+        int $message_thread_id = null
     ) {
         $args = [
             'chat_id' => $chat_id,
             'action'  => $action
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         return $this->Request('sendChatAction', $args);
     }
@@ -1707,16 +1727,25 @@ abstract class Api implements ApiInterface
 
     public function editForumTopic(
         $chat_id,
-        string $name,
-        string $icon_custom_emoji_id,
-        int $message_thread_id
+        string $name = null,
+        string $icon_custom_emoji_id = null,
+        int $message_thread_id = null
     ) {
         $args = [
-            'chat_id'              => $chat_id,
-            'name'                 => $name,
-            'icon_custom_emoji_id' => $icon_custom_emoji_id,
-            'message_thread_id'    => $message_thread_id
+            'chat_id' => $chat_id
         ];
+
+        if ($name !== null) {
+            $args['name'] = $name;
+        }
+
+        if ($icon_custom_emoji_id !== null) {
+            $args['icon_custom_emoji_id'] = $icon_custom_emoji_id;
+        }
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         return $this->Request('editForumTopic', $args);
     }
@@ -1767,6 +1796,58 @@ abstract class Api implements ApiInterface
         ];
 
         return $this->Request('unpinAllForumTopicMessages', $args);
+    }
+
+    public function editGeneralForumTopic(
+        $chat_id,
+        string $name
+    ) {
+        $args = [
+            'chat_id' => $chat_id,
+            'name'    => $name
+        ];
+
+        return $this->Request('editGeneralForumTopic', $args);
+    }
+
+    public function closeGeneralForumTopic(
+        $chat_id
+    ) {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        return $this->Request('closeGeneralForumTopic', $args);
+    }
+
+    public function reopenGeneralForumTopic(
+        $chat_id
+    ) {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        return $this->Request('reopenGeneralForumTopic', $args);
+    }
+
+    public function hideGeneralForumTopic(
+        $chat_id
+    ) {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        return $this->Request('hideGeneralForumTopic', $args);
+    }
+
+    public function unhideGeneralForumTopic(
+        $chat_id
+    ) {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        return $this->Request('unhideGeneralForumTopic', $args);
     }
 
     public function answerCallbackQuery(
