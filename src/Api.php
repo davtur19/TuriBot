@@ -327,7 +327,7 @@ abstract class Api implements ApiInterface
         int $duration = null,
         string $performer = null,
         string $title = null,
-        $thumb = null,
+        $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
         int $reply_to_message_id = null,
@@ -364,8 +364,8 @@ abstract class Api implements ApiInterface
             $args['title'] = $title;
         }
 
-        if ($thumb !== null) {
-            $args['thumb'] = $thumb;
+        if ($thumbnail !== null) {
+            $args['thumbnail'] = $thumbnail;
         }
 
         if ($disable_notification !== null) {
@@ -398,7 +398,7 @@ abstract class Api implements ApiInterface
     public function sendDocument(
         $chat_id,
         $document,
-        $thumb = null,
+        $thumbnail = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
@@ -415,8 +415,8 @@ abstract class Api implements ApiInterface
             'document' => $document
         ];
 
-        if ($thumb !== null) {
-            $args['thumb'] = $thumb;
+        if ($thumbnail !== null) {
+            $args['thumbnail'] = $thumbnail;
         }
 
         if ($caption !== null) {
@@ -468,7 +468,7 @@ abstract class Api implements ApiInterface
         int $duration = null,
         int $width = null,
         int $height = null,
-        $thumb = null,
+        $thumbnail = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
@@ -498,8 +498,8 @@ abstract class Api implements ApiInterface
             $args['height'] = $height;
         }
 
-        if ($thumb !== null) {
-            $args['thumb'] = $thumb;
+        if ($thumbnail !== null) {
+            $args['thumbnail'] = $thumbnail;
         }
 
         if ($caption !== null) {
@@ -555,7 +555,7 @@ abstract class Api implements ApiInterface
         int $duration = null,
         int $width = null,
         int $height = null,
-        $thumb = null,
+        $thumbnail = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
@@ -584,8 +584,8 @@ abstract class Api implements ApiInterface
             $args['height'] = $height;
         }
 
-        if ($thumb !== null) {
-            $args['thumb'] = $thumb;
+        if ($thumbnail !== null) {
+            $args['thumbnail'] = $thumbnail;
         }
 
         if ($caption !== null) {
@@ -698,7 +698,7 @@ abstract class Api implements ApiInterface
         $video_note,
         int $duration = null,
         int $length = null,
-        $thumb = null,
+        $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
         int $reply_to_message_id = null,
@@ -719,8 +719,8 @@ abstract class Api implements ApiInterface
             $args['length'] = $length;
         }
 
-        if ($thumb !== null) {
-            $args['thumb'] = $thumb;
+        if ($thumbnail !== null) {
+            $args['thumbnail'] = $thumbnail;
         }
 
         if ($disable_notification !== null) {
@@ -856,85 +856,6 @@ abstract class Api implements ApiInterface
         }
 
         return $this->Request('sendLocation', $args);
-    }
-
-    public function editMessageLiveLocation(
-        $chat_id = null,
-        int $message_id = null,
-        string $inline_message_id = null,
-        float $latitude = null,
-        float $longitude = null,
-        float $horizontal_accuracy = null,
-        int $heading = null,
-        int $proximity_alert_radius = null,
-        array $reply_markup = null
-    ) {
-        $args = [];
-
-        if ($chat_id !== null) {
-            $args['chat_id'] = $chat_id;
-        }
-
-        if ($message_id !== null) {
-            $args['message_id'] = $message_id;
-        }
-
-        if ($inline_message_id !== null) {
-            $args['inline_message_id'] = $inline_message_id;
-        }
-
-        if ($latitude !== null) {
-            $args['latitude'] = $latitude;
-        }
-
-        if ($longitude !== null) {
-            $args['longitude'] = $longitude;
-        }
-
-        if ($horizontal_accuracy !== null) {
-            $args['horizontal_accuracy'] = $horizontal_accuracy;
-        }
-
-        if ($heading !== null) {
-            $args['heading'] = $heading;
-        }
-
-        if ($proximity_alert_radius !== null) {
-            $args['proximity_alert_radius'] = $proximity_alert_radius;
-        }
-
-        if ($reply_markup !== null) {
-            $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        return $this->Request('editMessageLiveLocation', $args);
-    }
-
-    public function stopMessageLiveLocation(
-        $chat_id = null,
-        int $message_id = null,
-        string $inline_message_id = null,
-        array $reply_markup = null
-    ) {
-        $args = [];
-
-        if ($chat_id !== null) {
-            $args['chat_id'] = $chat_id;
-        }
-
-        if ($message_id !== null) {
-            $args['message_id'] = $message_id;
-        }
-
-        if ($inline_message_id !== null) {
-            $args['inline_message_id'] = $inline_message_id;
-        }
-
-        if ($reply_markup !== null) {
-            $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        return $this->Request('stopMessageLiveLocation', $args);
     }
 
     public function sendVenue(
@@ -1944,6 +1865,64 @@ abstract class Api implements ApiInterface
         return $this->Request('getMyCommands', $args);
     }
 
+    public function setMyDescription(
+        string $description = null,
+        string $language_code = null
+    ) {
+        $args = [];
+
+        if ($description !== null) {
+            $args['description'] = $description;
+        }
+
+        if ($language_code !== null) {
+            $args['language_code'] = $language_code;
+        }
+
+        return $this->Request('setMyDescription', $args);
+    }
+
+    public function getMyDescription(
+        string $language_code = null
+    ) {
+        $args = [];
+
+        if ($language_code !== null) {
+            $args['language_code'] = $language_code;
+        }
+
+        return $this->Request('getMyDescription', $args);
+    }
+
+    public function setMyShortDescription(
+        string $short_description = null,
+        string $language_code = null
+    ) {
+        $args = [];
+
+        if ($short_description !== null) {
+            $args['short_description'] = $short_description;
+        }
+
+        if ($language_code !== null) {
+            $args['language_code'] = $language_code;
+        }
+
+        return $this->Request('setMyShortDescription', $args);
+    }
+
+    public function getMyShortDescription(
+        string $language_code = null
+    ) {
+        $args = [];
+
+        if ($language_code !== null) {
+            $args['language_code'] = $language_code;
+        }
+
+        return $this->Request('getMyShortDescription', $args);
+    }
+
     public function setChatMenuButton(
         int $chat_id = null,
         array $menu_button = null
@@ -2127,6 +2106,85 @@ abstract class Api implements ApiInterface
         return $this->Request('editMessageMedia', $args);
     }
 
+    public function editMessageLiveLocation(
+        $chat_id = null,
+        int $message_id = null,
+        string $inline_message_id = null,
+        float $latitude = null,
+        float $longitude = null,
+        float $horizontal_accuracy = null,
+        int $heading = null,
+        int $proximity_alert_radius = null,
+        array $reply_markup = null
+    ) {
+        $args = [];
+
+        if ($chat_id !== null) {
+            $args['chat_id'] = $chat_id;
+        }
+
+        if ($message_id !== null) {
+            $args['message_id'] = $message_id;
+        }
+
+        if ($inline_message_id !== null) {
+            $args['inline_message_id'] = $inline_message_id;
+        }
+
+        if ($latitude !== null) {
+            $args['latitude'] = $latitude;
+        }
+
+        if ($longitude !== null) {
+            $args['longitude'] = $longitude;
+        }
+
+        if ($horizontal_accuracy !== null) {
+            $args['horizontal_accuracy'] = $horizontal_accuracy;
+        }
+
+        if ($heading !== null) {
+            $args['heading'] = $heading;
+        }
+
+        if ($proximity_alert_radius !== null) {
+            $args['proximity_alert_radius'] = $proximity_alert_radius;
+        }
+
+        if ($reply_markup !== null) {
+            $args['reply_markup'] = json_encode($reply_markup);
+        }
+
+        return $this->Request('editMessageLiveLocation', $args);
+    }
+
+    public function stopMessageLiveLocation(
+        $chat_id = null,
+        int $message_id = null,
+        string $inline_message_id = null,
+        array $reply_markup = null
+    ) {
+        $args = [];
+
+        if ($chat_id !== null) {
+            $args['chat_id'] = $chat_id;
+        }
+
+        if ($message_id !== null) {
+            $args['message_id'] = $message_id;
+        }
+
+        if ($inline_message_id !== null) {
+            $args['inline_message_id'] = $inline_message_id;
+        }
+
+        if ($reply_markup !== null) {
+            $args['reply_markup'] = json_encode($reply_markup);
+        }
+
+        return $this->Request('stopMessageLiveLocation', $args);
+    }
+
     public function editMessageReplyMarkup(
         $chat_id = null,
         int $message_id = null,
@@ -2186,6 +2244,7 @@ abstract class Api implements ApiInterface
     public function sendSticker(
         $chat_id,
         $sticker,
+        string $emoji = null,
         bool $disable_notification = null,
         bool $protect_content = null,
         int $reply_to_message_id = null,
@@ -2197,6 +2256,10 @@ abstract class Api implements ApiInterface
             'chat_id' => $chat_id,
             'sticker' => $sticker
         ];
+
+        if ($emoji !== null) {
+            $args['emoji'] = $emoji;
+        }
 
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
@@ -2247,11 +2310,13 @@ abstract class Api implements ApiInterface
 
     public function uploadStickerFile(
         int $user_id,
-        \CURLFile $png_sticker
+        \CURLFile $sticker,
+        string $sticker_format
     ) {
         $args = [
-            'user_id'     => $user_id,
-            'png_sticker' => $png_sticker
+            'user_id'        => $user_id,
+            'sticker'        => $sticker,
+            'sticker_format' => $sticker_format
         ];
 
         return $this->Request('uploadStickerFile', $args);
@@ -2261,41 +2326,25 @@ abstract class Api implements ApiInterface
         int $user_id,
         string $name,
         string $title,
-        $png_sticker = null,
-        \CURLFile $tgs_sticker = null,
-        \CURLFile $webm_sticker = null,
+        array $stickers,
+        string $sticker_format,
         string $sticker_type = null,
-        string $emojis = null,
-        array $mask_position = null
+        bool $needs_repainting = null
     ) {
         $args = [
-            'user_id' => $user_id,
-            'name'    => $name,
-            'title'   => $title
+            'user_id'        => $user_id,
+            'name'           => $name,
+            'title'          => $title,
+            'stickers'       => json_encode($stickers),
+            'sticker_format' => $sticker_format
         ];
-
-        if ($png_sticker !== null) {
-            $args['png_sticker'] = $png_sticker;
-        }
-
-        if ($tgs_sticker !== null) {
-            $args['tgs_sticker'] = $tgs_sticker;
-        }
-
-        if ($webm_sticker !== null) {
-            $args['webm_sticker'] = $webm_sticker;
-        }
 
         if ($sticker_type !== null) {
             $args['sticker_type'] = $sticker_type;
         }
 
-        if ($emojis !== null) {
-            $args['emojis'] = $emojis;
-        }
-
-        if ($mask_position !== null) {
-            $args['mask_position'] = json_encode($mask_position);
+        if ($needs_repainting !== null) {
+            $args['needs_repainting'] = $needs_repainting;
         }
 
         return $this->Request('createNewStickerSet', $args);
@@ -2304,36 +2353,13 @@ abstract class Api implements ApiInterface
     public function addStickerToSet(
         int $user_id,
         string $name,
-        $png_sticker = null,
-        \CURLFile $tgs_sticker = null,
-        \CURLFile $webm_sticker = null,
-        string $emojis = null,
-        array $mask_position = null
+        array $sticker
     ) {
         $args = [
             'user_id' => $user_id,
-            'name'    => $name
+            'name'    => $name,
+            'sticker' => json_encode($sticker)
         ];
-
-        if ($png_sticker !== null) {
-            $args['png_sticker'] = $png_sticker;
-        }
-
-        if ($tgs_sticker !== null) {
-            $args['tgs_sticker'] = $tgs_sticker;
-        }
-
-        if ($webm_sticker !== null) {
-            $args['webm_sticker'] = $webm_sticker;
-        }
-
-        if ($emojis !== null) {
-            $args['emojis'] = $emojis;
-        }
-
-        if ($mask_position !== null) {
-            $args['mask_position'] = json_encode($mask_position);
-        }
 
         return $this->Request('addStickerToSet', $args);
     }
@@ -2360,21 +2386,100 @@ abstract class Api implements ApiInterface
         return $this->Request('deleteStickerFromSet', $args);
     }
 
-    public function setStickerSetThumb(
+    public function setStickerEmojiList(
+        string $sticker,
+        array $emoji_list
+    ) {
+        $args = [
+            'sticker'    => $sticker,
+            'emoji_list' => json_encode($emoji_list)
+        ];
+
+        return $this->Request('setStickerEmojiList', $args);
+    }
+
+    public function setStickerKeywords(
+        string $sticker,
+        array $keywords = null
+    ) {
+        $args = [
+            'sticker' => $sticker
+        ];
+
+        if ($keywords !== null) {
+            $args['keywords'] = json_encode($keywords);
+        }
+
+        return $this->Request('setStickerKeywords', $args);
+    }
+
+    public function setStickerMaskPosition(
+        string $sticker,
+        array $mask_position = null
+    ) {
+        $args = [
+            'sticker' => $sticker
+        ];
+
+        if ($mask_position !== null) {
+            $args['mask_position'] = json_encode($mask_position);
+        }
+
+        return $this->Request('setStickerMaskPosition', $args);
+    }
+
+    public function setStickerSetTitle(
+        string $name,
+        string $title
+    ) {
+        $args = [
+            'name'  => $name,
+            'title' => $title
+        ];
+
+        return $this->Request('setStickerSetTitle', $args);
+    }
+
+    public function setStickerSetThumbnail(
         string $name,
         int $user_id,
-        $thumb = null
+        $thumbnail = null
     ) {
         $args = [
             'name'    => $name,
             'user_id' => $user_id
         ];
 
-        if ($thumb !== null) {
-            $args['thumb'] = $thumb;
+        if ($thumbnail !== null) {
+            $args['thumbnail'] = $thumbnail;
         }
 
-        return $this->Request('setStickerSetThumb', $args);
+        return $this->Request('setStickerSetThumbnail', $args);
+    }
+
+    public function setCustomEmojiStickerSetThumbnail(
+        string $name,
+        string $custom_emoji_id = null
+    ) {
+        $args = [
+            'name' => $name
+        ];
+
+        if ($custom_emoji_id !== null) {
+            $args['custom_emoji_id'] = $custom_emoji_id;
+        }
+
+        return $this->Request('setCustomEmojiStickerSetThumbnail', $args);
+    }
+
+    public function deleteStickerSet(
+        string $name
+    ) {
+        $args = [
+            'name' => $name
+        ];
+
+        return $this->Request('deleteStickerSet', $args);
     }
 
     public function answerInlineQuery(
