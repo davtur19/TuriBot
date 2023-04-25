@@ -1865,6 +1865,35 @@ abstract class Api implements ApiInterface
         return $this->Request('getMyCommands', $args);
     }
 
+    public function setMyName(
+        string $name = null,
+        string $language_code = null
+    ) {
+        $args = [];
+
+        if ($name !== null) {
+            $args['name'] = $name;
+        }
+
+        if ($language_code !== null) {
+            $args['language_code'] = $language_code;
+        }
+
+        return $this->Request('setMyName', $args);
+    }
+
+    public function getMyName(
+        string $language_code = null
+    ) {
+        $args = [];
+
+        if ($language_code !== null) {
+            $args['language_code'] = $language_code;
+        }
+
+        return $this->Request('getMyName', $args);
+    }
+
     public function setMyDescription(
         string $description = null,
         string $language_code = null
@@ -2488,8 +2517,7 @@ abstract class Api implements ApiInterface
         int $cache_time = null,
         bool $is_personal = null,
         string $next_offset = null,
-        string $switch_pm_text = null,
-        string $switch_pm_parameter = null
+        array $button = null
     ) {
         $args = [
             'inline_query_id' => $inline_query_id,
@@ -2508,12 +2536,8 @@ abstract class Api implements ApiInterface
             $args['next_offset'] = $next_offset;
         }
 
-        if ($switch_pm_text !== null) {
-            $args['switch_pm_text'] = $switch_pm_text;
-        }
-
-        if ($switch_pm_parameter !== null) {
-            $args['switch_pm_parameter'] = $switch_pm_parameter;
+        if ($button !== null) {
+            $args['button'] = json_encode($button);
         }
 
         return $this->Request('answerInlineQuery', $args);
