@@ -6,12 +6,25 @@
 [![License](https://poser.pugx.org/davtur19/turibot/license)](https://packagist.org/packages/davtur19/turibot)
 
 ## Requirements
+### Stable
 PHP 7.1 or higher with curl extension
+### Beta (Async)
+PHP 8.1 or higher, you need to install amp from composer
 
 ## Installation
+
+### Stable
 ```sh
-composer require davtur19/turibot
+composer require davtur19/turibot 1.x
 ```
+
+### Beta (Async)
+```sh
+composer init --name=your.name/yourbot --no-interaction
+composer config minimum-stability dev
+composer require davtur19/turibot 2.x
+```
+
 ### Webhook
 Setup recommended: open [setupWebhook.php](https://github.com/davtur19/TuriBot/blob/master/examples/setupWebhook.php) in your browser and follow the setup wizard.
 

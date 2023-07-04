@@ -1,5 +1,6 @@
 <?php
 
+// if you move the example in the root of your project, you must change the path of the require_once below
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use TuriBot\Client;
@@ -62,12 +63,12 @@ if (isset($_POST["yes"])) {
 
     $client = new Client($api);
 
-    $responseWebhook = $client->setWebhook($link, null, $connections);
+    $responseWebhook = $client->setWebhook($link, null, null, $connections);
     $response = $client->getMe();
 
     if (($responseWebhook->description == "Webhook was set" or $responseWebhook->description == "Webhook is already set") and $response->ok == true) {
         $username = $response->result->username;
-        echo "Setup successful: <a href=\"http://t.me/" . $username . "\"> @" . $username . "</a>";
+        echo "Setup successful: <a href=\"https://t.me/" . $username . "\"> @" . $username . "</a>";
     } else {
         echo "Setup failed: API TOKEN wrong or impossible to connect to Telegram";
         echo "<p>" . htmlspecialchars($response->result->description) . "</p>";

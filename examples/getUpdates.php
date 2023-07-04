@@ -1,5 +1,6 @@
 <?php
 
+// if you move the example in the root of your project, you must change the path of the require_once below
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use TuriBot\Client;
@@ -40,6 +41,31 @@ while (true) {
                     $result = $client->restrictChatMember($chat_id, $reply_id, $perm);
                     $client->debug($chat_id, $result);
                 }
+
+                if ($easy->text === '/editmedia') {
+                    $result_photo = $client->sendPhoto($chat_id,
+                        'https://core.telegram.org/file/811140327/1/zlN4goPTupk/9ff2f2f01c4bd1b013', 'test photo');
+                    if ($result_photo->ok === true) {
+                        $inputMediaPhoto = [
+                            'type'  => 'photo',
+                            'media' => $client->inputFile('a.png'),
+                        ];
+                        $client->editMessageMedia($chat_id, $result_photo->result->message_id, null, $inputMediaPhoto);
+                    }
+                }
+
+                if ($easy->text === '/mediagroup') {
+                    $inputMediaPhoto1 = [
+                        'type'  => 'photo',
+                        'media' => 'https://core.telegram.org/file/811140327/1/zlN4goPTupk/9ff2f2f01c4bd1b013',
+                    ];
+                    $inputMediaPhoto2 = [
+                        'type'  => 'photo',
+                        'media' => $client->inputFile('a.png'),
+                    ];
+                    $client->sendMediaGroup($chat_id, [$inputMediaPhoto1, $inputMediaPhoto2]);
+                }
+
             } elseif (isset($update->inline_query)) {
                 $out = (string)rand();
                 $results[] = [
