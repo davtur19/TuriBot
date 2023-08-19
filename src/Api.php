@@ -1781,6 +1781,16 @@ abstract class Api implements ApiInterface
         return $this->Request('unhideGeneralForumTopic', $args);
     }
 
+    public function unpinAllGeneralForumTopicMessages(
+        $chat_id
+    ) {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        return $this->Request('unpinAllGeneralForumTopicMessages', $args);
+    }
+
     public function answerCallbackQuery(
         string $callback_query_id,
         string $text = null,
