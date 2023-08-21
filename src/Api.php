@@ -6,8 +6,7 @@
 
 namespace TuriBot;
 
-abstract class Api implements ApiInterface
-{
+abstract class Api implements ApiInterface {
 
     public function getUpdates(
         int $offset = null,
@@ -88,23 +87,19 @@ abstract class Api implements ApiInterface
         return $this->Request('deleteWebhook', $args);
     }
 
-    public function getWebhookInfo()
-    {
+    public function getWebhookInfo() {
         return $this->Request('getWebhookInfo', []);
     }
 
-    public function getMe()
-    {
+    public function getMe() {
         return $this->Request('getMe', []);
     }
 
-    public function logOut()
-    {
+    public function logOut() {
         return $this->Request('logOut', []);
     }
 
-    public function close()
-    {
+    public function close() {
         return $this->Request('close', []);
     }
 
@@ -765,8 +760,8 @@ abstract class Api implements ApiInterface
 
         foreach ($media as $key => $value) {
             if (is_object($value['media'])) {
-                $args['upload'.$key] = $value['media'];
-                $media[$key]['media'] = 'attach://upload'.$key;
+                $args['upload' . $key] = $value['media'];
+                $media[$key]['media'] = 'attach://upload' . $key;
             }
         }
         $args['media'] = json_encode($media);
@@ -1629,8 +1624,7 @@ abstract class Api implements ApiInterface
         return $this->Request('deleteChatStickerSet', $args);
     }
 
-    public function getForumTopicIconStickers()
-    {
+    public function getForumTopicIconStickers() {
         return $this->Request('getForumTopicIconStickers', []);
     }
 
@@ -1779,6 +1773,16 @@ abstract class Api implements ApiInterface
         ];
 
         return $this->Request('unhideGeneralForumTopic', $args);
+    }
+
+    public function unpinAllGeneralForumTopicMessages(
+        $chat_id
+    ) {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        return $this->Request('unpinAllGeneralForumTopicMessages', $args);
     }
 
     public function answerCallbackQuery(
