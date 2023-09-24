@@ -34,7 +34,6 @@ class Client extends Api
             CURLOPT_FORBID_REUSE   => true,
             CURLOPT_HEADER         => false,
             CURLOPT_TIMEOUT        => 120,
-            CURLOPT_CONNECTTIMEOUT => 2,
             CURLOPT_HTTPHEADER     => ["Connection: Keep-Alive", "Keep-Alive: 120"],
         ]);
 
