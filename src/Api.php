@@ -106,20 +106,23 @@ abstract class Api implements ApiInterface {
     public function sendMessage(
         $chat_id,
         string $text,
+        int $message_thread_id = null,
         string $parse_mode = null,
         array $entities = null,
-        bool $disable_web_page_preview = null,
+        array $link_preview_options = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id' => $chat_id,
             'text'    => $text
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($parse_mode !== null) {
             $args['parse_mode'] = $parse_mode;
@@ -129,8 +132,8 @@ abstract class Api implements ApiInterface {
             $args['entities'] = json_encode($entities);
         }
 
-        if ($disable_web_page_preview !== null) {
-            $args['disable_web_page_preview'] = $disable_web_page_preview;
+        if ($link_preview_options !== null) {
+            $args['link_preview_options'] = json_encode($link_preview_options);
         }
 
         if ($disable_notification !== null) {
@@ -141,20 +144,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendMessage', $args);
@@ -163,48 +158,10 @@ abstract class Api implements ApiInterface {
     public function forwardMessage(
         $chat_id,
         $from_chat_id,
-        bool $disable_notification = null,
-        bool $protect_content = null,
-        int $message_id = null,
-        int $message_thread_id = null
-    ) {
-        $args = [
-            'chat_id'      => $chat_id,
-            'from_chat_id' => $from_chat_id
-        ];
-
-        if ($disable_notification !== null) {
-            $args['disable_notification'] = $disable_notification;
-        }
-
-        if ($protect_content !== null) {
-            $args['protect_content'] = $protect_content;
-        }
-
-        if ($message_id !== null) {
-            $args['message_id'] = $message_id;
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
-        }
-
-        return $this->Request('forwardMessage', $args);
-    }
-
-    public function copyMessage(
-        $chat_id,
-        $from_chat_id,
         int $message_id,
-        string $caption = null,
-        string $parse_mode = null,
-        array $caption_entities = null,
+        int $message_thread_id = null,
         bool $disable_notification = null,
-        bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        bool $protect_content = null
     ) {
         $args = [
             'chat_id'      => $chat_id,
@@ -212,6 +169,73 @@ abstract class Api implements ApiInterface {
             'message_id'   => $message_id
         ];
 
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
+
+        if ($disable_notification !== null) {
+            $args['disable_notification'] = $disable_notification;
+        }
+
+        if ($protect_content !== null) {
+            $args['protect_content'] = $protect_content;
+        }
+
+        return $this->Request('forwardMessage', $args);
+    }
+
+    public function forwardMessages(
+        $chat_id,
+        $from_chat_id,
+        array $message_ids,
+        int $message_thread_id = null,
+        bool $disable_notification = null,
+        bool $protect_content = null
+    ) {
+        $args = [
+            'chat_id'      => $chat_id,
+            'from_chat_id' => $from_chat_id,
+            'message_ids'  => json_encode($message_ids)
+        ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
+
+        if ($disable_notification !== null) {
+            $args['disable_notification'] = $disable_notification;
+        }
+
+        if ($protect_content !== null) {
+            $args['protect_content'] = $protect_content;
+        }
+
+        return $this->Request('forwardMessages', $args);
+    }
+
+    public function copyMessage(
+        $chat_id,
+        $from_chat_id,
+        int $message_id,
+        int $message_thread_id = null,
+        string $caption = null,
+        string $parse_mode = null,
+        array $caption_entities = null,
+        bool $disable_notification = null,
+        bool $protect_content = null,
+        array $reply_parameters = null,
+        array $reply_markup = null
+    ) {
+        $args = [
+            'chat_id'      => $chat_id,
+            'from_chat_id' => $from_chat_id,
+            'message_id'   => $message_id
+        ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
+
         if ($caption !== null) {
             $args['caption'] = $caption;
         }
@@ -232,44 +256,73 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
         }
 
+        return $this->Request('copyMessage', $args);
+    }
+
+    public function copyMessages(
+        $chat_id,
+        $from_chat_id,
+        array $message_ids,
+        int $message_thread_id = null,
+        bool $disable_notification = null,
+        bool $protect_content = null,
+        bool $remove_caption = null
+    ) {
+        $args = [
+            'chat_id'      => $chat_id,
+            'from_chat_id' => $from_chat_id,
+            'message_ids'  => json_encode($message_ids)
+        ];
+
         if ($message_thread_id !== null) {
             $args['message_thread_id'] = $message_thread_id;
         }
 
-        return $this->Request('copyMessage', $args);
+        if ($disable_notification !== null) {
+            $args['disable_notification'] = $disable_notification;
+        }
+
+        if ($protect_content !== null) {
+            $args['protect_content'] = $protect_content;
+        }
+
+        if ($remove_caption !== null) {
+            $args['remove_caption'] = $remove_caption;
+        }
+
+        return $this->Request('copyMessages', $args);
     }
 
     public function sendPhoto(
         $chat_id,
         $photo,
+        int $message_thread_id = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
+        bool $has_spoiler = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null,
-        bool $has_spoiler = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id' => $chat_id,
             'photo'   => $photo
         ];
 
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
+
         if ($caption !== null) {
             $args['caption'] = $caption;
         }
@@ -282,6 +335,10 @@ abstract class Api implements ApiInterface {
             $args['caption_entities'] = json_encode($caption_entities);
         }
 
+        if ($has_spoiler !== null) {
+            $args['has_spoiler'] = $has_spoiler;
+        }
+
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
         }
@@ -290,24 +347,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
-        }
-
-        if ($has_spoiler !== null) {
-            $args['has_spoiler'] = $has_spoiler;
         }
 
         return $this->Request('sendPhoto', $args);
@@ -316,6 +361,7 @@ abstract class Api implements ApiInterface {
     public function sendAudio(
         $chat_id,
         $audio,
+        int $message_thread_id = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
@@ -325,15 +371,17 @@ abstract class Api implements ApiInterface {
         $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id' => $chat_id,
             'audio'   => $audio
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($caption !== null) {
             $args['caption'] = $caption;
@@ -371,20 +419,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendAudio', $args);
@@ -393,6 +433,7 @@ abstract class Api implements ApiInterface {
     public function sendDocument(
         $chat_id,
         $document,
+        int $message_thread_id = null,
         $thumbnail = null,
         string $caption = null,
         string $parse_mode = null,
@@ -400,15 +441,17 @@ abstract class Api implements ApiInterface {
         bool $disable_content_type_detection = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id'  => $chat_id,
             'document' => $document
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($thumbnail !== null) {
             $args['thumbnail'] = $thumbnail;
@@ -438,20 +481,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendDocument', $args);
@@ -460,6 +495,7 @@ abstract class Api implements ApiInterface {
     public function sendVideo(
         $chat_id,
         $video,
+        int $message_thread_id = null,
         int $duration = null,
         int $width = null,
         int $height = null,
@@ -467,19 +503,21 @@ abstract class Api implements ApiInterface {
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
+        bool $has_spoiler = null,
         bool $supports_streaming = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null,
-        bool $has_spoiler = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id' => $chat_id,
             'video'   => $video
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($duration !== null) {
             $args['duration'] = $duration;
@@ -507,6 +545,10 @@ abstract class Api implements ApiInterface {
 
         if ($caption_entities !== null) {
             $args['caption_entities'] = json_encode($caption_entities);
+        }
+
+        if ($has_spoiler !== null) {
+            $args['has_spoiler'] = $has_spoiler;
         }
 
         if ($supports_streaming !== null) {
@@ -521,24 +563,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
-        }
-
-        if ($has_spoiler !== null) {
-            $args['has_spoiler'] = $has_spoiler;
         }
 
         return $this->Request('sendVideo', $args);
@@ -547,6 +577,7 @@ abstract class Api implements ApiInterface {
     public function sendAnimation(
         $chat_id,
         $animation,
+        int $message_thread_id = null,
         int $duration = null,
         int $width = null,
         int $height = null,
@@ -554,18 +585,20 @@ abstract class Api implements ApiInterface {
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
+        bool $has_spoiler = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null,
-        bool $has_spoiler = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id'   => $chat_id,
             'animation' => $animation
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($duration !== null) {
             $args['duration'] = $duration;
@@ -595,6 +628,10 @@ abstract class Api implements ApiInterface {
             $args['caption_entities'] = json_encode($caption_entities);
         }
 
+        if ($has_spoiler !== null) {
+            $args['has_spoiler'] = $has_spoiler;
+        }
+
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
         }
@@ -603,24 +640,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
-        }
-
-        if ($has_spoiler !== null) {
-            $args['has_spoiler'] = $has_spoiler;
         }
 
         return $this->Request('sendAnimation', $args);
@@ -629,21 +654,24 @@ abstract class Api implements ApiInterface {
     public function sendVoice(
         $chat_id,
         $voice,
+        int $message_thread_id = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
         int $duration = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id' => $chat_id,
             'voice'   => $voice
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($caption !== null) {
             $args['caption'] = $caption;
@@ -669,20 +697,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendVoice', $args);
@@ -691,20 +711,23 @@ abstract class Api implements ApiInterface {
     public function sendVideoNote(
         $chat_id,
         $video_note,
+        int $message_thread_id = null,
         int $duration = null,
         int $length = null,
         $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id'    => $chat_id,
             'video_note' => $video_note
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($duration !== null) {
             $args['duration'] = $duration;
@@ -726,20 +749,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendVideoNote', $args);
@@ -748,11 +763,10 @@ abstract class Api implements ApiInterface {
     public function sendMediaGroup(
         $chat_id,
         array $media,
+        int $message_thread_id = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        int $message_thread_id = null
+        array $reply_parameters = null
     ) {
         $args = [
             'chat_id' => $chat_id,
@@ -766,6 +780,10 @@ abstract class Api implements ApiInterface {
         }
         $args['media'] = json_encode($media);
 
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
+
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
         }
@@ -774,16 +792,8 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         return $this->Request('sendMediaGroup', $args);
@@ -793,22 +803,25 @@ abstract class Api implements ApiInterface {
         $chat_id,
         float $latitude,
         float $longitude,
+        int $message_thread_id = null,
         float $horizontal_accuracy = null,
         int $live_period = null,
         int $heading = null,
         int $proximity_alert_radius = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id'   => $chat_id,
             'latitude'  => $latitude,
             'longitude' => $longitude
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($horizontal_accuracy !== null) {
             $args['horizontal_accuracy'] = $horizontal_accuracy;
@@ -834,20 +847,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendLocation', $args);
@@ -859,16 +864,15 @@ abstract class Api implements ApiInterface {
         float $longitude,
         string $title,
         string $address,
+        int $message_thread_id = null,
         string $foursquare_id = null,
         string $foursquare_type = null,
         string $google_place_id = null,
         string $google_place_type = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id'   => $chat_id,
@@ -877,6 +881,10 @@ abstract class Api implements ApiInterface {
             'title'     => $title,
             'address'   => $address
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($foursquare_id !== null) {
             $args['foursquare_id'] = $foursquare_id;
@@ -902,20 +910,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendVenue', $args);
@@ -925,20 +925,23 @@ abstract class Api implements ApiInterface {
         $chat_id,
         string $phone_number,
         string $first_name,
+        int $message_thread_id = null,
         string $last_name = null,
         string $vcard = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id'      => $chat_id,
             'phone_number' => $phone_number,
             'first_name'   => $first_name
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($last_name !== null) {
             $args['last_name'] = $last_name;
@@ -956,20 +959,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendContact', $args);
@@ -979,6 +974,7 @@ abstract class Api implements ApiInterface {
         $chat_id,
         string $question,
         array $options,
+        int $message_thread_id = null,
         bool $is_anonymous = null,
         string $type = null,
         bool $allows_multiple_answers = null,
@@ -991,16 +987,18 @@ abstract class Api implements ApiInterface {
         bool $is_closed = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id'  => $chat_id,
             'question' => $question,
             'options'  => json_encode($options)
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($is_anonymous !== null) {
             $args['is_anonymous'] = $is_anonymous;
@@ -1050,20 +1048,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendPoll', $args);
@@ -1071,17 +1061,20 @@ abstract class Api implements ApiInterface {
 
     public function sendDice(
         $chat_id,
+        int $message_thread_id = null,
         string $emoji = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id' => $chat_id
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($emoji !== null) {
             $args['emoji'] = $emoji;
@@ -1095,20 +1088,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendDice', $args);
@@ -1129,6 +1114,28 @@ abstract class Api implements ApiInterface {
         }
 
         return $this->Request('sendChatAction', $args);
+    }
+
+    public function setMessageReaction(
+        $chat_id,
+        int $message_id,
+        array $reaction = null,
+        bool $is_big = null
+    ) {
+        $args = [
+            'chat_id'    => $chat_id,
+            'message_id' => $message_id
+        ];
+
+        if ($reaction !== null) {
+            $args['reaction'] = json_encode($reaction);
+        }
+
+        if ($is_big !== null) {
+            $args['is_big'] = $is_big;
+        }
+
+        return $this->Request('setMessageReaction', $args);
     }
 
     public function getUserProfilePhotos(
@@ -1229,15 +1236,18 @@ abstract class Api implements ApiInterface {
         int $user_id,
         bool $is_anonymous = null,
         bool $can_manage_chat = null,
-        bool $can_post_messages = null,
-        bool $can_edit_messages = null,
         bool $can_delete_messages = null,
         bool $can_manage_video_chats = null,
         bool $can_restrict_members = null,
         bool $can_promote_members = null,
         bool $can_change_info = null,
         bool $can_invite_users = null,
+        bool $can_post_messages = null,
+        bool $can_edit_messages = null,
         bool $can_pin_messages = null,
+        bool $can_post_stories = null,
+        bool $can_edit_stories = null,
+        bool $can_delete_stories = null,
         bool $can_manage_topics = null
     ) {
         $args = [
@@ -1251,14 +1261,6 @@ abstract class Api implements ApiInterface {
 
         if ($can_manage_chat !== null) {
             $args['can_manage_chat'] = $can_manage_chat;
-        }
-
-        if ($can_post_messages !== null) {
-            $args['can_post_messages'] = $can_post_messages;
-        }
-
-        if ($can_edit_messages !== null) {
-            $args['can_edit_messages'] = $can_edit_messages;
         }
 
         if ($can_delete_messages !== null) {
@@ -1285,8 +1287,28 @@ abstract class Api implements ApiInterface {
             $args['can_invite_users'] = $can_invite_users;
         }
 
+        if ($can_post_messages !== null) {
+            $args['can_post_messages'] = $can_post_messages;
+        }
+
+        if ($can_edit_messages !== null) {
+            $args['can_edit_messages'] = $can_edit_messages;
+        }
+
         if ($can_pin_messages !== null) {
             $args['can_pin_messages'] = $can_pin_messages;
+        }
+
+        if ($can_post_stories !== null) {
+            $args['can_post_stories'] = $can_post_stories;
+        }
+
+        if ($can_edit_stories !== null) {
+            $args['can_edit_stories'] = $can_edit_stories;
+        }
+
+        if ($can_delete_stories !== null) {
+            $args['can_delete_stories'] = $can_delete_stories;
         }
 
         if ($can_manage_topics !== null) {
@@ -1652,12 +1674,13 @@ abstract class Api implements ApiInterface {
 
     public function editForumTopic(
         $chat_id,
+        int $message_thread_id,
         string $name = null,
-        string $icon_custom_emoji_id = null,
-        int $message_thread_id = null
+        string $icon_custom_emoji_id = null
     ) {
         $args = [
-            'chat_id' => $chat_id
+            'chat_id'           => $chat_id,
+            'message_thread_id' => $message_thread_id
         ];
 
         if ($name !== null) {
@@ -1666,10 +1689,6 @@ abstract class Api implements ApiInterface {
 
         if ($icon_custom_emoji_id !== null) {
             $args['icon_custom_emoji_id'] = $icon_custom_emoji_id;
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('editForumTopic', $args);
@@ -1813,6 +1832,18 @@ abstract class Api implements ApiInterface {
         }
 
         return $this->Request('answerCallbackQuery', $args);
+    }
+
+    public function getUserChatBoosts(
+        $chat_id,
+        int $user_id
+    ) {
+        $args = [
+            'chat_id' => $chat_id,
+            'user_id' => $user_id
+        ];
+
+        return $this->Request('getUserChatBoosts', $args);
     }
 
     public function setMyCommands(
@@ -2015,16 +2046,18 @@ abstract class Api implements ApiInterface {
     }
 
     public function editMessageText(
+        string $text,
         $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        string $text = null,
         string $parse_mode = null,
         array $entities = null,
-        bool $disable_web_page_preview = null,
+        array $link_preview_options = null,
         array $reply_markup = null
     ) {
-        $args = [];
+        $args = [
+            'text' => $text
+        ];
 
         if ($chat_id !== null) {
             $args['chat_id'] = $chat_id;
@@ -2038,10 +2071,6 @@ abstract class Api implements ApiInterface {
             $args['inline_message_id'] = $inline_message_id;
         }
 
-        if ($text !== null) {
-            $args['text'] = $text;
-        }
-
         if ($parse_mode !== null) {
             $args['parse_mode'] = $parse_mode;
         }
@@ -2050,8 +2079,8 @@ abstract class Api implements ApiInterface {
             $args['entities'] = json_encode($entities);
         }
 
-        if ($disable_web_page_preview !== null) {
-            $args['disable_web_page_preview'] = $disable_web_page_preview;
+        if ($link_preview_options !== null) {
+            $args['link_preview_options'] = json_encode($link_preview_options);
         }
 
         if ($reply_markup !== null) {
@@ -2104,13 +2133,21 @@ abstract class Api implements ApiInterface {
     }
 
     public function editMessageMedia(
+        array $media,
         $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        array $media = null,
         array $reply_markup = null
     ) {
         $args = [];
+
+        foreach ($media as $key => $value) {
+            if (is_object($value['media'])) {
+                $args['upload' . $key] = $value['media'];
+                $media[$key]['media'] = 'attach://upload' . $key;
+            }
+        }
+        $args['media'] = json_encode($media);
 
         if ($chat_id !== null) {
             $args['chat_id'] = $chat_id;
@@ -2122,14 +2159,6 @@ abstract class Api implements ApiInterface {
 
         if ($inline_message_id !== null) {
             $args['inline_message_id'] = $inline_message_id;
-        }
-
-        if ($media !== null) {
-            if (is_object($media['media'])) {
-                $args['upload'] = $media['media'];
-                $media['media'] = 'attach://upload';
-            }
-            $args['media'] = json_encode($media);
         }
 
         if ($reply_markup !== null) {
@@ -2140,17 +2169,20 @@ abstract class Api implements ApiInterface {
     }
 
     public function editMessageLiveLocation(
+        float $latitude,
+        float $longitude,
         $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        float $latitude = null,
-        float $longitude = null,
         float $horizontal_accuracy = null,
         int $heading = null,
         int $proximity_alert_radius = null,
         array $reply_markup = null
     ) {
-        $args = [];
+        $args = [
+            'latitude'  => $latitude,
+            'longitude' => $longitude
+        ];
 
         if ($chat_id !== null) {
             $args['chat_id'] = $chat_id;
@@ -2162,14 +2194,6 @@ abstract class Api implements ApiInterface {
 
         if ($inline_message_id !== null) {
             $args['inline_message_id'] = $inline_message_id;
-        }
-
-        if ($latitude !== null) {
-            $args['latitude'] = $latitude;
-        }
-
-        if ($longitude !== null) {
-            $args['longitude'] = $longitude;
         }
 
         if ($horizontal_accuracy !== null) {
@@ -2274,21 +2298,36 @@ abstract class Api implements ApiInterface {
         return $this->Request('deleteMessage', $args);
     }
 
+    public function deleteMessages(
+        $chat_id,
+        array $message_ids
+    ) {
+        $args = [
+            'chat_id'     => $chat_id,
+            'message_ids' => json_encode($message_ids)
+        ];
+
+        return $this->Request('deleteMessages', $args);
+    }
+
     public function sendSticker(
         $chat_id,
         $sticker,
+        int $message_thread_id = null,
         string $emoji = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id' => $chat_id,
             'sticker' => $sticker
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($emoji !== null) {
             $args['emoji'] = $emoji;
@@ -2302,20 +2341,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendSticker', $args);
@@ -2567,6 +2598,7 @@ abstract class Api implements ApiInterface {
         string $provider_token,
         string $currency,
         array $prices,
+        int $message_thread_id = null,
         int $max_tip_amount = null,
         array $suggested_tip_amounts = null,
         string $start_parameter = null,
@@ -2584,10 +2616,8 @@ abstract class Api implements ApiInterface {
         bool $is_flexible = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id'        => $chat_id,
@@ -2598,6 +2628,10 @@ abstract class Api implements ApiInterface {
             'currency'       => $currency,
             'prices'         => json_encode($prices)
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($max_tip_amount !== null) {
             $args['max_tip_amount'] = $max_tip_amount;
@@ -2667,20 +2701,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendInvoice', $args);
@@ -2830,17 +2856,20 @@ abstract class Api implements ApiInterface {
     public function sendGame(
         int $chat_id,
         string $game_short_name,
+        int $message_thread_id = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        int $reply_to_message_id = null,
-        bool $allow_sending_without_reply = null,
-        array $reply_markup = null,
-        int $message_thread_id = null
+        array $reply_parameters = null,
+        array $reply_markup = null
     ) {
         $args = [
             'chat_id'         => $chat_id,
             'game_short_name' => $game_short_name
         ];
+
+        if ($message_thread_id !== null) {
+            $args['message_thread_id'] = $message_thread_id;
+        }
 
         if ($disable_notification !== null) {
             $args['disable_notification'] = $disable_notification;
@@ -2850,20 +2879,12 @@ abstract class Api implements ApiInterface {
             $args['protect_content'] = $protect_content;
         }
 
-        if ($reply_to_message_id !== null) {
-            $args['reply_to_message_id'] = $reply_to_message_id;
-        }
-
-        if ($allow_sending_without_reply !== null) {
-            $args['allow_sending_without_reply'] = $allow_sending_without_reply;
+        if ($reply_parameters !== null) {
+            $args['reply_parameters'] = json_encode($reply_parameters);
         }
 
         if ($reply_markup !== null) {
             $args['reply_markup'] = json_encode($reply_markup);
-        }
-
-        if ($message_thread_id !== null) {
-            $args['message_thread_id'] = $message_thread_id;
         }
 
         return $this->Request('sendGame', $args);
