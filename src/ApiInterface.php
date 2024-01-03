@@ -4,5 +4,5 @@ namespace TuriBot;
 
 interface ApiInterface
 {
-    function Request(string $method, array $data);
+    function Request(string $method, array $args);
 }
