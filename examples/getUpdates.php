@@ -50,7 +50,7 @@ while (true) {
                             'type'  => 'photo',
                             'media' => $client->inputFile('a.png'),
                         ];
-                        $client->editMessageMedia($chat_id, $result_photo->result->message_id, null, $inputMediaPhoto);
+                        $client->editMessageMedia($inputMediaPhoto, $chat_id, $result_photo->result->message_id);
                     }
                 }
 
