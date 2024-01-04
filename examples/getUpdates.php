@@ -11,7 +11,7 @@ $offset = 0;
 
 while (true) {
     $updates = $client->getUpdates($offset, $timeout = 0);
-    if ($updates->ok == true) {
+    if ($updates->ok === true) {
         foreach ($updates->result as $update) {
             $offset = $update->update_id + 1;
             $easy = new \TuriBot\EasyVars($update);

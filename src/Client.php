@@ -6,15 +6,18 @@ use CURLFile;
 
 class Client extends Api
 {
-    public $easy;
 
-    private $endpoint, $curl, $json_payload;
+    public EasyVars $easy;
+
+    private string            $endpoint;
+    private false|\CurlHandle $curl;
+    private bool              $json_payload;
 
 
     /*
      * @param string $token Bot API token
      * @param bool $json_payload if true enable json payload, otherwise use always curl
-     * @param string $endpoint custom endpoint url for self hosted BotApi
+     * @param string $endpoint custom endpoint url for self-hosted BotApi
      * @param array $curl_options change curl settings, to be able to use a proxy or something else, use it at your own risk
      */
 

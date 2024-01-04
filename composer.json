@@ -6,7 +6,7 @@
   "require": {
     "ext-json": "*",
     "ext-curl": "*",
-    "php": "^7.1 | ^8"
+    "php": "^8"
   },
   "autoload": {
     "psr-4": {
@@ -16,7 +16,7 @@
   "authors": [
     {
       "name": "davtur19",
-      "email": "dav.tur19@gmail.com"
+      "email": "davtur19@protonmail.com"
     }
   ]
 }
