@@ -4,8 +4,7 @@ namespace TuriBot;
 
 use CURLFile;
 
-class Client extends Api
-{
+class Client extends Api {
 
     public EasyVars $easy;
 
@@ -50,8 +49,7 @@ class Client extends Api
      * @return \stdClass of update received from webhook
      */
 
-    public function getUpdate(): ?\stdClass
-    {
+    public function getUpdate(): ?\stdClass {
         $update = json_decode(file_get_contents("php://input"));
         $this->easy = new EasyVars($update);
 
@@ -64,8 +62,7 @@ class Client extends Api
      * @return \CURLFile of $path
      */
 
-    public function inputFile(string $path): \CURLFile
-    {
+    public function inputFile(string $path): \CURLFile {
         $path = realpath($path);
 
         return new CURLFile($path);
@@ -81,8 +78,7 @@ class Client extends Api
      * @return \stdClass getUpdate if jsonPayload, otherwise response of Telegram
      */
 
-    public function Request(string $method, array $args = []): \stdClass
-    {
+    public function Request(string $method, array $args = []): \stdClass {
         if ($this->json_payload) {
             $args["method"] = $method;
             $request = json_encode($args);
@@ -139,8 +135,7 @@ class Client extends Api
      * @return bool true if can send message, otherwise false
      */
 
-    public function debug($chat_id, ...$vars): bool
-    {
+    public function debug($chat_id, ...$vars): bool {
         foreach ($vars as $debug) {
             $str = var_export($debug, true);
             $array_str = str_split($str, 4050);
