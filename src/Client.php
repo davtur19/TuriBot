@@ -8,8 +8,7 @@ use Amp\Http\Client\Body\FormBody;
 use Amp\Http\Client\HttpClientBuilder;
 use Amp\Http\Client\Request;
 
-class Client extends Api
-{
+class Client extends Api {
     public EasyVars $easy;
 
     private bool                        $json_payload;
@@ -38,8 +37,7 @@ class Client extends Api
      * @return \stdClass of update received from webhook
      */
 
-    public function getUpdate(string $body = null): ?\stdClass
-    {
+    public function getUpdate(string $body = null): ?\stdClass {
         if (isset($body)) {
             $update = json_decode($body);
         } else {
@@ -60,8 +58,7 @@ class Client extends Api
      * @return \stdClass getUpdate if jsonPayload, otherwise response of Telegram
      */
 
-    public function Request(string $method, array $args = [])
-    {
+    public function Request(string $method, array $args = []) {
         if ($this->json_payload) {
             $args["method"] = $method;
             $request = json_encode($args);
@@ -130,8 +127,7 @@ class Client extends Api
      * @return bool true if can send message, otherwise false
      */
 
-    public function debug($chat_id, ...$vars): bool
-    {
+    public function debug($chat_id, ...$vars): bool {
         foreach ($vars as $debug) {
             $str = var_export($debug, true);
             $array_str = str_split($str, 4050);
