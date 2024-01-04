@@ -10,7 +10,7 @@ use Amp\Http\Client\Request;
 
 class Client extends Api
 {
-    public $easy;
+    public EasyVars $easy;
 
     private bool                        $json_payload;
     private string                      $endpoint;
