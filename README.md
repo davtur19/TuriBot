@@ -7,7 +7,7 @@
 
 ## Requirements
 ### Stable
-PHP 7.1 or higher with curl extension
+PHP 8.0 or higher with curl extension
 ### Beta (Async)
 PHP 8.1 or higher, you need to install amp from composer
 
