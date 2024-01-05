@@ -4,7 +4,7 @@ namespace TuriBot;
 
 use Amp\ByteStream\BufferException;
 use Amp\ByteStream\StreamException;
-use Amp\Http\Client\Body\FormBody;
+use Amp\Http\Client\Form;
 use Amp\Http\Client\HttpClientBuilder;
 use Amp\Http\Client\Request;
 
@@ -76,7 +76,7 @@ class Client extends Api {
         } else {
             try {
                 $request = new Request($this->endpoint . $method, 'POST');
-                $body = new FormBody;
+                $body = new Form;
                 //var_dump($args);
 
                 foreach ($args as $name => $value) {
