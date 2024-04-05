@@ -88,7 +88,7 @@ class Client extends Api {
                     }
                 }
                 $request->setBody($body);
-                $request->setProtocolVersions(["1.1"]);
+                //$request->setProtocolVersions(["1.1"]);
                 $response = $this->httpClient->request($request);
                 $resultHttp = $response->getBody()->buffer();
             } catch (BufferException|StreamException  $e) {
