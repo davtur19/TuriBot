@@ -188,7 +188,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendmessage
@@ -203,7 +205,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -218,6 +221,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendMessage', $args);
     }
@@ -270,8 +274,8 @@ abstract class Api implements ApiInterface {
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param int|string $from_chat_id Unique identifier for the chat where the original messages were sent (or channel username in the
      *                                       format @channelusername)
-     * @param array $message_ids Identifiers of 1-100 messages in the chat from_chat_id to forward. The identifiers must be specified
-     *                                       in a strictly increasing order.
+     * @param array $message_ids A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to forward. The
+     *                                       identifiers must be specified in a strictly increasing order.
      * @param bool|null $disable_notification Sends the messages silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the forwarded messages from forwarding and saving
      * @return \stdClass
@@ -370,8 +374,8 @@ abstract class Api implements ApiInterface {
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param int|string $from_chat_id Unique identifier for the chat where the original messages were sent (or channel username in the
      *                                       format @channelusername)
-     * @param array $message_ids Identifiers of 1-100 messages in the chat from_chat_id to copy. The identifiers must be specified in
-     *                                       a strictly increasing order.
+     * @param array $message_ids A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The
+     *                                       identifiers must be specified in a strictly increasing order.
      * @param bool|null $disable_notification Sends the messages silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent messages from forwarding and saving
      * @param bool|null $remove_caption Pass True to copy the messages without their captions
@@ -423,7 +427,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendphoto
@@ -439,7 +445,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -455,6 +462,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendPhoto', $args);
     }
@@ -489,7 +497,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendaudio
@@ -508,7 +518,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -527,6 +538,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendAudio', $args);
     }
@@ -557,7 +569,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#senddocument
@@ -574,7 +588,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id'  => $chat_id,
@@ -591,6 +606,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendDocument', $args);
     }
@@ -626,7 +642,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendvideo
@@ -647,7 +665,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -668,6 +687,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendVideo', $args);
     }
@@ -702,7 +722,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendanimation
@@ -722,7 +744,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id'   => $chat_id,
@@ -742,6 +765,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendAnimation', $args);
     }
@@ -767,7 +791,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendvoice
@@ -783,7 +809,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -799,6 +826,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendVoice', $args);
     }
@@ -825,7 +853,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendvideonote
@@ -840,7 +870,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id'    => $chat_id,
@@ -855,6 +886,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendVideoNote', $args);
     }
@@ -871,6 +903,7 @@ abstract class Api implements ApiInterface {
      * @param bool|null $disable_notification Sends messages silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent messages from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendmediagroup
@@ -881,7 +914,8 @@ abstract class Api implements ApiInterface {
         int $message_thread_id = null,
         bool $disable_notification = null,
         bool $protect_content = null,
-        array $reply_parameters = null
+        array $reply_parameters = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -899,6 +933,7 @@ abstract class Api implements ApiInterface {
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendMediaGroup', $args);
     }
@@ -922,7 +957,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendlocation
@@ -939,7 +976,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id'   => $chat_id,
@@ -956,6 +994,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendLocation', $args);
     }
@@ -979,7 +1018,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendvenue
@@ -998,7 +1039,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id'   => $chat_id,
@@ -1017,6 +1059,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendVenue', $args);
     }
@@ -1035,7 +1078,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendcontact
@@ -1050,7 +1095,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id'      => $chat_id,
@@ -1065,6 +1111,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendContact', $args);
     }
@@ -1095,7 +1142,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendpoll
@@ -1118,7 +1167,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id'  => $chat_id,
@@ -1141,6 +1191,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendPoll', $args);
     }
@@ -1160,7 +1211,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported
+     *                                       for messages sent on behalf of a business account
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#senddice
@@ -1172,7 +1225,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id
@@ -1184,6 +1238,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendDice', $args);
     }
@@ -1197,11 +1252,12 @@ abstract class Api implements ApiInterface {
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      * @channelusername)
-     * @param int|null $message_thread_id Unique identifier for the target message thread; supergroups only
+     * @param int|null $message_thread_id Unique identifier for the target message thread; for supergroups only
      * @param string $action Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for
      *                                       text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or
      *                                       upload_voice for voice notes, upload_document for general files, choose_sticker for stickers,
      *                                       find_location for location data, record_video_note or upload_video_note for video notes.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the action will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendchataction
@@ -1209,7 +1265,8 @@ abstract class Api implements ApiInterface {
     public function sendChatAction(
         int|string $chat_id,
         string $action,
-        int $message_thread_id = null
+        int $message_thread_id = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -1217,6 +1274,7 @@ abstract class Api implements ApiInterface {
         ];
 
         if (null !== $message_thread_id) $args['message_thread_id'] = $message_thread_id;
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendChatAction', $args);
     }
@@ -1230,9 +1288,9 @@ abstract class Api implements ApiInterface {
      * @channelusername)
      * @param int $message_id Identifier of the target message. If the message belongs to a media group, the reaction is set to
      *                                       the first non-deleted message in the group instead.
-     * @param array|null $reaction New list of reaction types to set on the message. Currently, as non-premium users, bots can set up
-     *                                       to one reaction per message. A custom emoji reaction can be used if it is either already present on
-     *                                       the message or explicitly allowed by chat administrators.
+     * @param array|null $reaction A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users,
+     *                                       bots can set up to one reaction per message. A custom emoji reaction can be used if it is either
+     *                                       already present on the message or explicitly allowed by chat administrators.
      * @param bool|null $is_big Pass True to set the reaction with a big animation
      * @return \stdClass
      *
@@ -1417,9 +1475,9 @@ abstract class Api implements ApiInterface {
      * @channelusername)
      * @param int $user_id Unique identifier of the target user
      * @param bool|null $is_anonymous Pass True if the administrator's presence in the chat is hidden
-     * @param bool|null $can_manage_chat Pass True if the administrator can access the chat event log, boost list in channels, see channel
-     *                                       members, report spam messages, see anonymous administrators in supergroups and ignore slow mode.
-     *                                       Implied by any other administrator privilege
+     * @param bool|null $can_manage_chat Pass True if the administrator can access the chat event log, get boost list, see hidden supergroup
+     *                                       and channel members, report spam messages and ignore slow mode. Implied by any other administrator
+     *                                       privilege.
      * @param bool|null $can_delete_messages Pass True if the administrator can delete messages of other users
      * @param bool|null $can_manage_video_chats Pass True if the administrator can manage video chats
      * @param bool|null $can_restrict_members Pass True if the administrator can restrict, ban or unban chat members, or access supergroup
@@ -1429,14 +1487,16 @@ abstract class Api implements ApiInterface {
      *                                       that were appointed by him)
      * @param bool|null $can_change_info Pass True if the administrator can change chat title, photo and other settings
      * @param bool|null $can_invite_users Pass True if the administrator can invite new users to the chat
-     * @param bool|null $can_post_messages Pass True if the administrator can post messages in the channel, or access channel statistics;
+     * @param bool|null $can_post_stories Pass True if the administrator can post stories to the chat
+     * @param bool|null $can_edit_stories Pass True if the administrator can edit stories posted by other users
+     * @param bool|null $can_delete_stories Pass True if the administrator can delete stories posted by other users
+     * @param bool|null $can_post_messages Pass True if the administrator can post messages in the channel, or access channel statistics; for
      *                                       channels only
-     * @param bool|null $can_edit_messages Pass True if the administrator can edit messages of other users and can pin messages; channels only
-     * @param bool|null $can_pin_messages Pass True if the administrator can pin messages, supergroups only
-     * @param bool|null $can_post_stories Pass True if the administrator can post stories in the channel; channels only
-     * @param bool|null $can_edit_stories Pass True if the administrator can edit stories posted by other users; channels only
-     * @param bool|null $can_delete_stories Pass True if the administrator can delete stories posted by other users; channels only
-     * @param bool|null $can_manage_topics Pass True if the user is allowed to create, rename, close, and reopen forum topics, supergroups only
+     * @param bool|null $can_edit_messages Pass True if the administrator can edit messages of other users and can pin messages; for channels
+     *                                       only
+     * @param bool|null $can_pin_messages Pass True if the administrator can pin messages; for supergroups only
+     * @param bool|null $can_manage_topics Pass True if the user is allowed to create, rename, close, and reopen forum topics; for supergroups
+     *                                       only
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#promotechatmember
@@ -1452,12 +1512,12 @@ abstract class Api implements ApiInterface {
         bool $can_promote_members = null,
         bool $can_change_info = null,
         bool $can_invite_users = null,
-        bool $can_post_messages = null,
-        bool $can_edit_messages = null,
-        bool $can_pin_messages = null,
         bool $can_post_stories = null,
         bool $can_edit_stories = null,
         bool $can_delete_stories = null,
+        bool $can_post_messages = null,
+        bool $can_edit_messages = null,
+        bool $can_pin_messages = null,
         bool $can_manage_topics = null
     ): \stdClass {
         $args = [
@@ -1473,12 +1533,12 @@ abstract class Api implements ApiInterface {
         if (null !== $can_promote_members) $args['can_promote_members'] = $can_promote_members;
         if (null !== $can_change_info) $args['can_change_info'] = $can_change_info;
         if (null !== $can_invite_users) $args['can_invite_users'] = $can_invite_users;
-        if (null !== $can_post_messages) $args['can_post_messages'] = $can_post_messages;
-        if (null !== $can_edit_messages) $args['can_edit_messages'] = $can_edit_messages;
-        if (null !== $can_pin_messages) $args['can_pin_messages'] = $can_pin_messages;
         if (null !== $can_post_stories) $args['can_post_stories'] = $can_post_stories;
         if (null !== $can_edit_stories) $args['can_edit_stories'] = $can_edit_stories;
         if (null !== $can_delete_stories) $args['can_delete_stories'] = $can_delete_stories;
+        if (null !== $can_post_messages) $args['can_post_messages'] = $can_post_messages;
+        if (null !== $can_edit_messages) $args['can_edit_messages'] = $can_edit_messages;
+        if (null !== $can_pin_messages) $args['can_pin_messages'] = $can_pin_messages;
         if (null !== $can_manage_topics) $args['can_manage_topics'] = $can_manage_topics;
 
         return $this->Request('promoteChatMember', $args);
@@ -2471,6 +2531,26 @@ abstract class Api implements ApiInterface {
     }
 
     /**
+     * Use this method to get information about the connection of the bot with a business account. Returns
+     * a BusinessConnection object on success.
+     *
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#getbusinessconnection
+     */
+    public function getBusinessConnection(
+        string $business_connection_id
+    ): \stdClass {
+        $args = [
+            'business_connection_id' => $business_connection_id
+        ];
+
+
+        return $this->Request('getBusinessConnection', $args);
+    }
+
+    /**
      * Use this method to change the list of the bot's commands. See this manual for more details about bot
      * commands. Returns True on success.
      *
@@ -3053,8 +3133,8 @@ abstract class Api implements ApiInterface {
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      * @channelusername)
-     * @param array $message_ids Identifiers of 1-100 messages to delete. See deleteMessage for limitations on which messages can be
-     *                                       deleted
+     * @param array $message_ids A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations
+     *                                       on which messages can be deleted
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#deletemessages
@@ -3081,14 +3161,16 @@ abstract class Api implements ApiInterface {
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param \CURLFile|string $sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers
      *                                       (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet,
-     *                                       or upload a new .WEBP or .TGS sticker using multipart/form-data. More information on Sending Files
-     *                                       ». Video stickers can only be sent by a file_id. Animated stickers can't be sent via an HTTP URL.
+     *                                       or upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data. More information on Sending
+     *                                       Files ». Video and animated stickers can't be sent via an HTTP URL.
      * @param string|null $emoji Emoji associated with the sticker; only for just uploaded stickers
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
-     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user.
+     *                                       keyboard, instructions to remove reply keyboard or to force a reply from the user. Not supported for
+     *                                       messages sent on behalf of a business account.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendsticker
@@ -3101,7 +3183,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -3114,6 +3197,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendSticker', $args);
     }
@@ -3141,7 +3225,8 @@ abstract class Api implements ApiInterface {
      * Use this method to get information about custom emoji stickers by their identifiers. Returns an
      * Array of Sticker objects.
      *
-     * @param array $custom_emoji_ids List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
+     * @param array $custom_emoji_ids A JSON-serialized list of custom emoji identifiers. At most 200 custom emoji identifiers can be
+     *                                       specified.
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#getcustomemojistickers
@@ -3158,8 +3243,9 @@ abstract class Api implements ApiInterface {
     }
 
     /**
-     * Use this method to upload a file with a sticker for later use in the createNewStickerSet and
-     * addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
+     * Use this method to upload a file with a sticker for later use in the createNewStickerSet,
+     * addStickerToSet, or replaceStickerInSet methods (the file can be used multiple times). Returns the
+     * uploaded File on success.
      *
      * @param int $user_id User identifier of sticker file owner
      * @param \CURLFile $sticker A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See
@@ -3195,7 +3281,6 @@ abstract class Api implements ApiInterface {
      *                                       characters.
      * @param string $title Sticker set title, 1-64 characters
      * @param array $stickers A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
-     * @param string $sticker_format Format of stickers in the set, must be one of “static”, “animated”, “video”
      * @param string|null $sticker_type Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a
      *                                       regular sticker set is created.
      * @param bool|null $needs_repainting Pass True if stickers in the sticker set must be repainted to the color of text when used in
@@ -3210,16 +3295,14 @@ abstract class Api implements ApiInterface {
         string $name,
         string $title,
         array $stickers,
-        string $sticker_format,
         string $sticker_type = null,
         bool $needs_repainting = null
     ): \stdClass {
         $args = [
-            'user_id'        => $user_id,
-            'name'           => $name,
-            'title'          => $title,
-            'stickers'       => json_encode($stickers),
-            'sticker_format' => $sticker_format
+            'user_id'  => $user_id,
+            'name'     => $name,
+            'title'    => $title,
+            'stickers' => json_encode($stickers)
         ];
 
         if (null !== $sticker_type) $args['sticker_type'] = $sticker_type;
@@ -3229,10 +3312,8 @@ abstract class Api implements ApiInterface {
     }
 
     /**
-     * Use this method to add a new sticker to a set created by the bot. The format of the added sticker
-     * must match the format of the other stickers in the set. Emoji sticker sets can have up to 200
-     * stickers. Animated and video sticker sets can have up to 50 stickers. Static sticker sets can have
-     * up to 120 stickers. Returns True on success.
+     * Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to
+     * 200 stickers. Other sticker sets can have up to 120 stickers. Returns True on success.
      *
      * @param int $user_id User identifier of sticker set owner
      * @param string $name Sticker set name
@@ -3297,6 +3378,37 @@ abstract class Api implements ApiInterface {
 
 
         return $this->Request('deleteStickerFromSet', $args);
+    }
+
+    /**
+     * Use this method to replace an existing sticker in a sticker set with a new one. The method is
+     * equivalent to calling deleteStickerFromSet, then addStickerToSet, then setStickerPositionInSet.
+     * Returns True on success.
+     *
+     * @param int $user_id User identifier of the sticker set owner
+     * @param string $name Sticker set name
+     * @param string $old_sticker File identifier of the replaced sticker
+     * @param array $sticker A JSON-serialized object with information about the added sticker. If exactly the same sticker had
+     *                                       already been added to the set, then the set remains unchanged.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#replacestickerinset
+     */
+    public function replaceStickerInSet(
+        int $user_id,
+        string $name,
+        string $old_sticker,
+        array $sticker
+    ): \stdClass {
+        $args = [
+            'user_id'     => $user_id,
+            'name'        => $name,
+            'old_sticker' => $old_sticker,
+            'sticker'     => json_encode($sticker)
+        ];
+
+
+        return $this->Request('replaceStickerInSet', $args);
     }
 
     /**
@@ -3408,6 +3520,8 @@ abstract class Api implements ApiInterface {
      *                                       multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails
      *                                       can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is
      *                                       used as the thumbnail.
+     * @param string $format Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a
+     *                                       .TGS animation, or “video” for a WEBM video
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#setstickersetthumbnail
@@ -3415,11 +3529,13 @@ abstract class Api implements ApiInterface {
     public function setStickerSetThumbnail(
         string $name,
         int $user_id,
+        string $format,
         \CURLFile|string $thumbnail = null
     ): \stdClass {
         $args = [
             'name'    => $name,
-            'user_id' => $user_id
+            'user_id' => $user_id,
+            'format'  => $format
         ];
 
         if (null !== $thumbnail) $args['thumbnail'] = $thumbnail;
@@ -3834,7 +3950,9 @@ abstract class Api implements ApiInterface {
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be
-     *                                       shown. If not empty, the first button must launch the game.
+     *                                       shown. If not empty, the first button must launch the game. Not supported for messages sent on
+     *                                       behalf of a business account.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#sendgame
@@ -3846,7 +3964,8 @@ abstract class Api implements ApiInterface {
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id'         => $chat_id,
@@ -3858,6 +3977,7 @@ abstract class Api implements ApiInterface {
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendGame', $args);
     }
