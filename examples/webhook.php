@@ -50,7 +50,7 @@ if (isset($update->message) or isset($update->edited_message)) {
             ],
         ];
 
-        $a = $client->sendMessage($chat_id, "help", reply_markup: $menu);
+        $client->sendMessage($chat_id, "help", reply_markup: $menu);
     }
 
     if ($text === "/var") {
