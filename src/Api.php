@@ -186,6 +186,7 @@ abstract class Api implements ApiInterface {
      * @param array|null $link_preview_options Link preview generation options for the message
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -203,6 +204,7 @@ abstract class Api implements ApiInterface {
         array $link_preview_options = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -218,6 +220,7 @@ abstract class Api implements ApiInterface {
         if (null !== $link_preview_options) $args['link_preview_options'] = json_encode($link_preview_options);
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -320,6 +323,8 @@ abstract class Api implements ApiInterface {
      * @param string|null $parse_mode Mode for parsing entities in the new caption. See formatting options for more details.
      * @param array|null $caption_entities A JSON-serialized list of special entities that appear in the new caption, which can be specified
      *                                       instead of parse_mode
+     * @param bool|null $show_caption_above_media Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't
+     *                                       specified.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
      * @param array|null $reply_parameters Description of the message to reply to
@@ -337,6 +342,7 @@ abstract class Api implements ApiInterface {
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
+        bool $show_caption_above_media = null,
         bool $disable_notification = null,
         bool $protect_content = null,
         array $reply_parameters = null,
@@ -352,6 +358,7 @@ abstract class Api implements ApiInterface {
         if (null !== $caption) $args['caption'] = $caption;
         if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
         if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
+        if (null !== $show_caption_above_media) $args['show_caption_above_media'] = $show_caption_above_media;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
@@ -421,9 +428,11 @@ abstract class Api implements ApiInterface {
      * @param string|null $parse_mode Mode for parsing entities in the photo caption. See formatting options for more details.
      * @param array|null $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
      *                                       instead of parse_mode
+     * @param bool|null $show_caption_above_media Pass True, if the caption must be shown above the message media
      * @param bool|null $has_spoiler Pass True if the photo needs to be covered with a spoiler animation
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -439,9 +448,11 @@ abstract class Api implements ApiInterface {
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
+        bool $show_caption_above_media = null,
         bool $has_spoiler = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -455,9 +466,11 @@ abstract class Api implements ApiInterface {
         if (null !== $caption) $args['caption'] = $caption;
         if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
         if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
+        if (null !== $show_caption_above_media) $args['show_caption_above_media'] = $show_caption_above_media;
         if (null !== $has_spoiler) $args['has_spoiler'] = $has_spoiler;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -492,6 +505,7 @@ abstract class Api implements ApiInterface {
      *                                       <file_attach_name>. More information on Sending Files »
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -513,6 +527,7 @@ abstract class Api implements ApiInterface {
         \CURLFile|string $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -532,6 +547,7 @@ abstract class Api implements ApiInterface {
         if (null !== $thumbnail) $args['thumbnail'] = $thumbnail;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -563,6 +579,7 @@ abstract class Api implements ApiInterface {
      * @param bool|null $disable_content_type_detection Disables automatic server-side content type detection for files uploaded using multipart/form-data
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -582,6 +599,7 @@ abstract class Api implements ApiInterface {
         bool $disable_content_type_detection = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -599,6 +617,7 @@ abstract class Api implements ApiInterface {
         if (null !== $disable_content_type_detection) $args['disable_content_type_detection'] = $disable_content_type_detection;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -631,10 +650,12 @@ abstract class Api implements ApiInterface {
      * @param string|null $parse_mode Mode for parsing entities in the video caption. See formatting options for more details.
      * @param array|null $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
      *                                       instead of parse_mode
+     * @param bool|null $show_caption_above_media Pass True, if the caption must be shown above the message media
      * @param bool|null $has_spoiler Pass True if the video needs to be covered with a spoiler animation
      * @param bool|null $supports_streaming Pass True if the uploaded video is suitable for streaming
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -654,10 +675,12 @@ abstract class Api implements ApiInterface {
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
+        bool $show_caption_above_media = null,
         bool $has_spoiler = null,
         bool $supports_streaming = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -675,10 +698,12 @@ abstract class Api implements ApiInterface {
         if (null !== $caption) $args['caption'] = $caption;
         if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
         if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
+        if (null !== $show_caption_above_media) $args['show_caption_above_media'] = $show_caption_above_media;
         if (null !== $has_spoiler) $args['has_spoiler'] = $has_spoiler;
         if (null !== $supports_streaming) $args['supports_streaming'] = $supports_streaming;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -711,9 +736,11 @@ abstract class Api implements ApiInterface {
      * @param string|null $parse_mode Mode for parsing entities in the animation caption. See formatting options for more details.
      * @param array|null $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
      *                                       instead of parse_mode
+     * @param bool|null $show_caption_above_media Pass True, if the caption must be shown above the message media
      * @param bool|null $has_spoiler Pass True if the animation needs to be covered with a spoiler animation
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -733,9 +760,11 @@ abstract class Api implements ApiInterface {
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
+        bool $show_caption_above_media = null,
         bool $has_spoiler = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -753,9 +782,11 @@ abstract class Api implements ApiInterface {
         if (null !== $caption) $args['caption'] = $caption;
         if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
         if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
+        if (null !== $show_caption_above_media) $args['show_caption_above_media'] = $show_caption_above_media;
         if (null !== $has_spoiler) $args['has_spoiler'] = $has_spoiler;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -783,6 +814,7 @@ abstract class Api implements ApiInterface {
      * @param int|null $duration Duration of the voice message in seconds
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -801,6 +833,7 @@ abstract class Api implements ApiInterface {
         int $duration = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -817,6 +850,7 @@ abstract class Api implements ApiInterface {
         if (null !== $duration) $args['duration'] = $duration;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -844,6 +878,7 @@ abstract class Api implements ApiInterface {
      *                                       <file_attach_name>. More information on Sending Files »
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -861,6 +896,7 @@ abstract class Api implements ApiInterface {
         \CURLFile|string $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -876,6 +912,7 @@ abstract class Api implements ApiInterface {
         if (null !== $thumbnail) $args['thumbnail'] = $thumbnail;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -894,6 +931,7 @@ abstract class Api implements ApiInterface {
      * @param array $media A JSON-serialized array describing messages to be sent, must include 2-10 items
      * @param bool|null $disable_notification Sends messages silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent messages from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
      * @return \stdClass
@@ -906,6 +944,7 @@ abstract class Api implements ApiInterface {
         int $message_thread_id = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         string $business_connection_id = null
     ): \stdClass {
@@ -924,6 +963,7 @@ abstract class Api implements ApiInterface {
         if (null !== $message_thread_id) $args['message_thread_id'] = $message_thread_id;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
@@ -947,6 +987,7 @@ abstract class Api implements ApiInterface {
      *                                       in meters. Must be between 1 and 100000 if specified.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -966,6 +1007,7 @@ abstract class Api implements ApiInterface {
         int $proximity_alert_radius = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -983,6 +1025,7 @@ abstract class Api implements ApiInterface {
         if (null !== $proximity_alert_radius) $args['proximity_alert_radius'] = $proximity_alert_radius;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -1007,6 +1050,7 @@ abstract class Api implements ApiInterface {
      * @param string|null $google_place_type Google Places type of the venue. (See supported types.)
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -1028,6 +1072,7 @@ abstract class Api implements ApiInterface {
         string $google_place_type = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -1047,6 +1092,7 @@ abstract class Api implements ApiInterface {
         if (null !== $google_place_type) $args['google_place_type'] = $google_place_type;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -1066,6 +1112,7 @@ abstract class Api implements ApiInterface {
      * @param string|null $vcard Additional data about the contact in the form of a vCard, 0-2048 bytes
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -1083,6 +1130,7 @@ abstract class Api implements ApiInterface {
         string $vcard = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -1098,6 +1146,7 @@ abstract class Api implements ApiInterface {
         if (null !== $vcard) $args['vcard'] = $vcard;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -1133,6 +1182,7 @@ abstract class Api implements ApiInterface {
      * @param bool|null $is_closed Pass True if the poll needs to be immediately closed. This can be useful for poll preview.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -1160,6 +1210,7 @@ abstract class Api implements ApiInterface {
         bool $is_closed = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -1185,6 +1236,7 @@ abstract class Api implements ApiInterface {
         if (null !== $is_closed) $args['is_closed'] = $is_closed;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -1205,6 +1257,7 @@ abstract class Api implements ApiInterface {
      *                                       Defaults to “🎲”
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -1219,6 +1272,7 @@ abstract class Api implements ApiInterface {
         string $emoji = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -1231,6 +1285,7 @@ abstract class Api implements ApiInterface {
         if (null !== $emoji) $args['emoji'] = $emoji;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -2892,6 +2947,8 @@ abstract class Api implements ApiInterface {
      * @param string|null $parse_mode Mode for parsing entities in the message caption. See formatting options for more details.
      * @param array|null $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
      *                                       instead of parse_mode
+     * @param bool|null $show_caption_above_media Pass True, if the caption must be shown above the message media. Supported only for animation, photo
+     *                                       and video messages.
      * @param array|null $reply_markup A JSON-serialized object for an inline keyboard.
      * @return \stdClass
      *
@@ -2904,6 +2961,7 @@ abstract class Api implements ApiInterface {
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
+        bool $show_caption_above_media = null,
         array $reply_markup = null
     ): \stdClass {
         $args = [];
@@ -2914,6 +2972,7 @@ abstract class Api implements ApiInterface {
         if (null !== $caption) $args['caption'] = $caption;
         if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
         if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
+        if (null !== $show_caption_above_media) $args['show_caption_above_media'] = $show_caption_above_media;
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
 
         return $this->Request('editMessageCaption', $args);
@@ -3169,6 +3228,7 @@ abstract class Api implements ApiInterface {
      * @param string|null $emoji Emoji associated with the sticker; only for just uploaded stickers
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -3184,6 +3244,7 @@ abstract class Api implements ApiInterface {
         string $emoji = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -3197,6 +3258,7 @@ abstract class Api implements ApiInterface {
         if (null !== $emoji) $args['emoji'] = $emoji;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -3660,14 +3722,16 @@ abstract class Api implements ApiInterface {
      * @param string $description Product description, 1-255 characters
      * @param string $payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your
      *                                       internal processes.
-     * @param string $provider_token Payment provider token, obtained via @BotFather
-     * @param string $currency Three-letter ISO 4217 currency code, see more on currencies
+     * @param string|null $provider_token Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram
+     *                                       Stars.
+     * @param string $currency Three-letter ISO 4217 currency code, see more on currencies. Pass “XTR” for payments in Telegram
+     *                                       Stars.
      * @param array $prices Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery
-     *                                       cost, delivery tax, bonus, etc.)
+     *                                       cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
      * @param int|null $max_tip_amount The maximum accepted amount for tips in the smallest units of the currency (integer, not
      *                                       float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp
      *                                       parameter in currencies.json, it shows the number of digits past the decimal point for each currency
-     *                                       (2 for the majority of currencies). Defaults to 0
+     *                                       (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
      * @param array|null $suggested_tip_amounts A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer,
      *                                       not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must
      *                                       be positive, passed in a strictly increased order and must not exceed max_tip_amount.
@@ -3682,15 +3746,22 @@ abstract class Api implements ApiInterface {
      * @param int|null $photo_size Photo size in bytes
      * @param int|null $photo_width Photo width
      * @param int|null $photo_height Photo height
-     * @param bool|null $need_name Pass True if you require the user's full name to complete the order
-     * @param bool|null $need_phone_number Pass True if you require the user's phone number to complete the order
-     * @param bool|null $need_email Pass True if you require the user's email address to complete the order
-     * @param bool|null $need_shipping_address Pass True if you require the user's shipping address to complete the order
-     * @param bool|null $send_phone_number_to_provider Pass True if the user's phone number should be sent to provider
-     * @param bool|null $send_email_to_provider Pass True if the user's email address should be sent to provider
-     * @param bool|null $is_flexible Pass True if the final price depends on the shipping method
+     * @param bool|null $need_name Pass True if you require the user's full name to complete the order. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $need_phone_number Pass True if you require the user's phone number to complete the order. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $need_email Pass True if you require the user's email address to complete the order. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $need_shipping_address Pass True if you require the user's shipping address to complete the order. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $send_phone_number_to_provider Pass True if the user's phone number should be sent to the provider. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $send_email_to_provider Pass True if the user's email address should be sent to the provider. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $is_flexible Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be
      *                                       shown. If not empty, the first button must be a Pay button.
@@ -3703,10 +3774,10 @@ abstract class Api implements ApiInterface {
         string $title,
         string $description,
         string $payload,
-        string $provider_token,
         string $currency,
         array $prices,
         int $message_thread_id = null,
+        string $provider_token = null,
         int $max_tip_amount = null,
         array $suggested_tip_amounts = null,
         string $start_parameter = null,
@@ -3724,6 +3795,7 @@ abstract class Api implements ApiInterface {
         bool $is_flexible = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null
     ): \stdClass {
@@ -3732,12 +3804,12 @@ abstract class Api implements ApiInterface {
             'title' => $title,
             'description' => $description,
             'payload' => $payload,
-            'provider_token' => $provider_token,
             'currency' => $currency,
             'prices' => json_encode($prices)
         ];
 
         if (null !== $message_thread_id) $args['message_thread_id'] = $message_thread_id;
+        if (null !== $provider_token) $args['provider_token'] = $provider_token;
         if (null !== $max_tip_amount) $args['max_tip_amount'] = $max_tip_amount;
         if (null !== $suggested_tip_amounts) $args['suggested_tip_amounts'] = json_encode($suggested_tip_amounts);
         if (null !== $start_parameter) $args['start_parameter'] = $start_parameter;
@@ -3755,6 +3827,7 @@ abstract class Api implements ApiInterface {
         if (null !== $is_flexible) $args['is_flexible'] = $is_flexible;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
 
@@ -3769,14 +3842,16 @@ abstract class Api implements ApiInterface {
      * @param string $description Product description, 1-255 characters
      * @param string $payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your
      *                                       internal processes.
-     * @param string $provider_token Payment provider token, obtained via BotFather
-     * @param string $currency Three-letter ISO 4217 currency code, see more on currencies
+     * @param string|null $provider_token Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram
+     *                                       Stars.
+     * @param string $currency Three-letter ISO 4217 currency code, see more on currencies. Pass “XTR” for payments in Telegram
+     *                                       Stars.
      * @param array $prices Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery
-     *                                       cost, delivery tax, bonus, etc.)
+     *                                       cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
      * @param int|null $max_tip_amount The maximum accepted amount for tips in the smallest units of the currency (integer, not
      *                                       float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp
      *                                       parameter in currencies.json, it shows the number of digits past the decimal point for each currency
-     *                                       (2 for the majority of currencies). Defaults to 0
+     *                                       (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
      * @param array|null $suggested_tip_amounts A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer,
      *                                       not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must
      *                                       be positive, passed in a strictly increased order and must not exceed max_tip_amount.
@@ -3787,13 +3862,19 @@ abstract class Api implements ApiInterface {
      * @param int|null $photo_size Photo size in bytes
      * @param int|null $photo_width Photo width
      * @param int|null $photo_height Photo height
-     * @param bool|null $need_name Pass True if you require the user's full name to complete the order
-     * @param bool|null $need_phone_number Pass True if you require the user's phone number to complete the order
-     * @param bool|null $need_email Pass True if you require the user's email address to complete the order
-     * @param bool|null $need_shipping_address Pass True if you require the user's shipping address to complete the order
-     * @param bool|null $send_phone_number_to_provider Pass True if the user's phone number should be sent to the provider
-     * @param bool|null $send_email_to_provider Pass True if the user's email address should be sent to the provider
-     * @param bool|null $is_flexible Pass True if the final price depends on the shipping method
+     * @param bool|null $need_name Pass True if you require the user's full name to complete the order. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $need_phone_number Pass True if you require the user's phone number to complete the order. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $need_email Pass True if you require the user's email address to complete the order. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $need_shipping_address Pass True if you require the user's shipping address to complete the order. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $send_phone_number_to_provider Pass True if the user's phone number should be sent to the provider. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $send_email_to_provider Pass True if the user's email address should be sent to the provider. Ignored for payments in
+     *                                       Telegram Stars.
+     * @param bool|null $is_flexible Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#createinvoicelink
@@ -3802,9 +3883,9 @@ abstract class Api implements ApiInterface {
         string $title,
         string $description,
         string $payload,
-        string $provider_token,
         string $currency,
         array $prices,
+        string $provider_token = null,
         int $max_tip_amount = null,
         array $suggested_tip_amounts = null,
         string $provider_data = null,
@@ -3824,11 +3905,11 @@ abstract class Api implements ApiInterface {
             'title' => $title,
             'description' => $description,
             'payload' => $payload,
-            'provider_token' => $provider_token,
             'currency' => $currency,
             'prices' => json_encode($prices)
         ];
 
+        if (null !== $provider_token) $args['provider_token'] = $provider_token;
         if (null !== $max_tip_amount) $args['max_tip_amount'] = $max_tip_amount;
         if (null !== $suggested_tip_amounts) $args['suggested_tip_amounts'] = json_encode($suggested_tip_amounts);
         if (null !== $provider_data) $args['provider_data'] = $provider_data;
@@ -3913,6 +3994,28 @@ abstract class Api implements ApiInterface {
     }
 
     /**
+     * Refunds a successful payment in Telegram Stars. Returns True on success.
+     *
+     * @param int $user_id Identifier of the user whose payment will be refunded
+     * @param string $telegram_payment_charge_id Telegram payment identifier
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#refundstarpayment
+     */
+    public function refundStarPayment(
+        int $user_id,
+        string $telegram_payment_charge_id
+    ): \stdClass {
+        $args = [
+            'user_id' => $user_id,
+            'telegram_payment_charge_id' => $telegram_payment_charge_id
+        ];
+
+
+        return $this->Request('refundStarPayment', $args);
+    }
+
+    /**
      * Informs a user that some of the Telegram Passport elements they provided contains errors. The user
      * will not be able to re-submit their Passport to you until the errors are fixed (the contents of the
      * field for which you returned the error must change). Returns True on success.
@@ -3949,6 +4052,7 @@ abstract class Api implements ApiInterface {
      *                                       @BotFather.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be
      *                                       shown. If not empty, the first button must launch the game.
@@ -3963,6 +4067,7 @@ abstract class Api implements ApiInterface {
         int $message_thread_id = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -3975,6 +4080,7 @@ abstract class Api implements ApiInterface {
         if (null !== $message_thread_id) $args['message_thread_id'] = $message_thread_id;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
