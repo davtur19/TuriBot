@@ -33,8 +33,10 @@ while (true) {
                     $result = $client->sendMessage($chat_id, "test");
                     $client->debug($chat_id, $result);
                 }
-                
-                // $client->sendPhoto($chat_id, new InputFile("photo.png"));
+
+                if ($easy->text === "photo") {
+                    $client->sendPhoto($chat_id, new InputFile("photo.jpg"));
+                }
 
                 if ($easy->text === "/mute" and isset($reply_id)) {
                     $perm = [
