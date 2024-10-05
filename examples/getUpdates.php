@@ -4,6 +4,7 @@
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use TuriBot\Client;
+use TuriBot\InputFile;
 
 
 $client = new Client("TOKEN");
@@ -32,7 +33,8 @@ while (true) {
                     $result = $client->sendMessage($chat_id, "test");
                     $client->debug($chat_id, $result);
                 }
-                //$client->sendPhoto($chat_id, $client->inputFile("photo.png"));
+                
+                // $client->sendPhoto($chat_id, new InputFile("photo.png"));
 
                 if ($easy->text === "/mute" and isset($reply_id)) {
                     $perm = [
