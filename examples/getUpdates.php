@@ -34,7 +34,8 @@ while (true) {
                     $client->debug($chat_id, $result);
                 }
 
-                if ($easy->text === "photo") {
+                if ($easy->text === "/photo") {
+                    // you must put a photo file for test it
                     $client->sendPhoto($chat_id, new InputFile("photo.jpg"));
                 }
 
