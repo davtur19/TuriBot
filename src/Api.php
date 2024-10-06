@@ -306,11 +306,11 @@ abstract class Api implements ApiInterface {
     }
 
     /**
-     * Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners
-     * messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the
-     * field correct_option_id is known to the bot. The method is analogous to the method forwardMessage,
-     * but the copied message doesn't have a link to the original message. Returns the MessageId of the
-     * sent message on success.
+     * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway
+     * messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied
+     * only if the value of the field correct_option_id is known to the bot. The method is analogous to the
+     * method forwardMessage, but the copied message doesn't have a link to the original message. Returns
+     * the MessageId of the sent message on success.
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
@@ -369,10 +369,10 @@ abstract class Api implements ApiInterface {
 
     /**
      * Use this method to copy messages of any kind. If some of the specified messages can't be found or
-     * copied, they are skipped. Service messages, giveaway messages, giveaway winners messages, and
-     * invoice messages can't be copied. A quiz poll can be copied only if the value of the field
-     * correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but
-     * the copied messages don't have a link to the original message. Album grouping is kept for copied
+     * copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners
+     * messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the
+     * field correct_option_id is known to the bot. The method is analogous to the method forwardMessages,
+     * but the copied messages don't have a link to the original message. Album grouping is kept for copied
      * messages. On success, an array of MessageId of the sent messages is returned.
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
@@ -418,7 +418,7 @@ abstract class Api implements ApiInterface {
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param \CURLFile|string $photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers
+     * @param \CURLFile|string|InputFile $photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers
      *                                       (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload
      *                                       a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width
      *                                       and height must not exceed 10000 in total. Width and height ratio must be at most 20. More
@@ -443,7 +443,7 @@ abstract class Api implements ApiInterface {
      */
     public function sendPhoto(
         int|string $chat_id,
-        \CURLFile|string $photo,
+        \CURLFile|string|InputFile $photo,
         int $message_thread_id = null,
         string $caption = null,
         string $parse_mode = null,
@@ -487,7 +487,7 @@ abstract class Api implements ApiInterface {
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param \CURLFile|string $audio Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram
+     * @param \CURLFile|string|InputFile $audio Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram
      *                                       servers (recommended), pass an HTTP URL as a String for Telegram to get an audio file from the
      *                                       Internet, or upload a new one using multipart/form-data. More information on Sending Files »
      * @param string|null $caption Audio caption, 0-1024 characters after entities parsing
@@ -497,7 +497,7 @@ abstract class Api implements ApiInterface {
      * @param int|null $duration Duration of the audio in seconds
      * @param string|null $performer Performer
      * @param string|null $title Track name
-     * @param \CURLFile|string|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
+     * @param \CURLFile|string|InputFile|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                                       server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                                       width and height should not exceed 320. Ignored if the file is not uploaded using
      *                                       multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
@@ -516,7 +516,7 @@ abstract class Api implements ApiInterface {
      */
     public function sendAudio(
         int|string $chat_id,
-        \CURLFile|string $audio,
+        \CURLFile|string|InputFile $audio,
         int $message_thread_id = null,
         string $caption = null,
         string $parse_mode = null,
@@ -524,7 +524,7 @@ abstract class Api implements ApiInterface {
         int $duration = null,
         string $performer = null,
         string $title = null,
-        \CURLFile|string $thumbnail = null,
+        \CURLFile|string|InputFile $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
         string $message_effect_id = null,
@@ -562,10 +562,10 @@ abstract class Api implements ApiInterface {
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param \CURLFile|string $document File to send. Pass a file_id as String to send a file that exists on the Telegram servers
+     * @param \CURLFile|string|InputFile $document File to send. Pass a file_id as String to send a file that exists on the Telegram servers
      *                                       (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload
      *                                       a new one using multipart/form-data. More information on Sending Files »
-     * @param \CURLFile|string|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
+     * @param \CURLFile|string|InputFile|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                                       server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                                       width and height should not exceed 320. Ignored if the file is not uploaded using
      *                                       multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
@@ -590,9 +590,9 @@ abstract class Api implements ApiInterface {
      */
     public function sendDocument(
         int|string $chat_id,
-        \CURLFile|string $document,
+        \CURLFile|string|InputFile $document,
         int $message_thread_id = null,
-        \CURLFile|string $thumbnail = null,
+        \CURLFile|string|InputFile $thumbnail = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
@@ -633,13 +633,13 @@ abstract class Api implements ApiInterface {
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param \CURLFile|string $video Video to send. Pass a file_id as String to send a video that exists on the Telegram servers
+     * @param \CURLFile|string|InputFile $video Video to send. Pass a file_id as String to send a video that exists on the Telegram servers
      *                                       (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload
      *                                       a new video using multipart/form-data. More information on Sending Files »
      * @param int|null $duration Duration of sent video in seconds
      * @param int|null $width Video width
      * @param int|null $height Video height
-     * @param \CURLFile|string|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
+     * @param \CURLFile|string|InputFile|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                                       server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                                       width and height should not exceed 320. Ignored if the file is not uploaded using
      *                                       multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
@@ -666,12 +666,12 @@ abstract class Api implements ApiInterface {
      */
     public function sendVideo(
         int|string $chat_id,
-        \CURLFile|string $video,
+        \CURLFile|string|InputFile $video,
         int $message_thread_id = null,
         int $duration = null,
         int $width = null,
         int $height = null,
-        \CURLFile|string $thumbnail = null,
+        \CURLFile|string|InputFile $thumbnail = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
@@ -719,13 +719,13 @@ abstract class Api implements ApiInterface {
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param \CURLFile|string $animation Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers
+     * @param \CURLFile|string|InputFile $animation Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers
      *                                       (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or
      *                                       upload a new animation using multipart/form-data. More information on Sending Files »
      * @param int|null $duration Duration of sent animation in seconds
      * @param int|null $width Animation width
      * @param int|null $height Animation height
-     * @param \CURLFile|string|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
+     * @param \CURLFile|string|InputFile|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                                       server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                                       width and height should not exceed 320. Ignored if the file is not uploaded using
      *                                       multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
@@ -751,12 +751,12 @@ abstract class Api implements ApiInterface {
      */
     public function sendAnimation(
         int|string $chat_id,
-        \CURLFile|string $animation,
+        \CURLFile|string|InputFile $animation,
         int $message_thread_id = null,
         int $duration = null,
         int $width = null,
         int $height = null,
-        \CURLFile|string $thumbnail = null,
+        \CURLFile|string|InputFile $thumbnail = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
@@ -804,7 +804,7 @@ abstract class Api implements ApiInterface {
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param \CURLFile|string $voice Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers
+     * @param \CURLFile|string|InputFile $voice Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers
      *                                       (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload
      *                                       a new one using multipart/form-data. More information on Sending Files »
      * @param string|null $caption Voice message caption, 0-1024 characters after entities parsing
@@ -825,7 +825,7 @@ abstract class Api implements ApiInterface {
      */
     public function sendVoice(
         int|string $chat_id,
-        \CURLFile|string $voice,
+        \CURLFile|string|InputFile $voice,
         int $message_thread_id = null,
         string $caption = null,
         string $parse_mode = null,
@@ -865,12 +865,12 @@ abstract class Api implements ApiInterface {
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param \CURLFile|string $video_note Video note to send. Pass a file_id as String to send a video note that exists on the Telegram
+     * @param \CURLFile|string|InputFile $video_note Video note to send. Pass a file_id as String to send a video note that exists on the Telegram
      *                                       servers (recommended) or upload a new video using multipart/form-data. More information on Sending
      *                                       Files ». Sending video notes by a URL is currently unsupported
      * @param int|null $duration Duration of sent video in seconds
      * @param int|null $length Video width and height, i.e. diameter of the video message
-     * @param \CURLFile|string|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
+     * @param \CURLFile|string|InputFile|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      *                                       server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's
      *                                       width and height should not exceed 320. Ignored if the file is not uploaded using
      *                                       multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
@@ -889,11 +889,11 @@ abstract class Api implements ApiInterface {
      */
     public function sendVideoNote(
         int|string $chat_id,
-        \CURLFile|string $video_note,
+        \CURLFile|string|InputFile $video_note,
         int $message_thread_id = null,
         int $duration = null,
         int $length = null,
-        \CURLFile|string $thumbnail = null,
+        \CURLFile|string|InputFile $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
         string $message_effect_id = null,
@@ -918,6 +918,66 @@ abstract class Api implements ApiInterface {
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('sendVideoNote', $args);
+    }
+
+    /**
+     * Use this method to send paid media. On success, the sent Message is returned.
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
+     *                                       @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be
+     *                                       credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
+     * @param int $star_count The number of Telegram Stars that must be paid to buy access to the media; 1-2500
+     * @param array $media A JSON-serialized array describing the media to be sent; up to 10 items
+     * @param string|null $payload Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your
+     *                                       internal processes.
+     * @param string|null $caption Media caption, 0-1024 characters after entities parsing
+     * @param string|null $parse_mode Mode for parsing entities in the media caption. See formatting options for more details.
+     * @param array|null $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
+     *                                       instead of parse_mode
+     * @param bool|null $show_caption_above_media Pass True, if the caption must be shown above the message media
+     * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
+     * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param array|null $reply_parameters Description of the message to reply to
+     * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
+     *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#sendpaidmedia
+     */
+    public function sendPaidMedia(
+        int|string $chat_id,
+        int $star_count,
+        array $media,
+        string $payload = null,
+        string $caption = null,
+        string $parse_mode = null,
+        array $caption_entities = null,
+        bool $show_caption_above_media = null,
+        bool $disable_notification = null,
+        bool $protect_content = null,
+        array $reply_parameters = null,
+        array $reply_markup = null,
+        string $business_connection_id = null
+    ): \stdClass {
+        $args = [
+            'chat_id' => $chat_id,
+            'star_count' => $star_count,
+            'media' => json_encode($media)
+        ];
+
+        if (null !== $payload) $args['payload'] = $payload;
+        if (null !== $caption) $args['caption'] = $caption;
+        if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
+        if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
+        if (null !== $show_caption_above_media) $args['show_caption_above_media'] = $show_caption_above_media;
+        if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
+        if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
+        if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
+
+        return $this->Request('sendPaidMedia', $args);
     }
 
     /**
@@ -1332,7 +1392,7 @@ abstract class Api implements ApiInterface {
     /**
      * Use this method to change the chosen reactions on a message. Service messages can't be reacted to.
      * Automatically forwarded messages from a channel to its discussion group have the same available
-     * reactions as messages in the channel. Returns True on success.
+     * reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
@@ -1340,7 +1400,8 @@ abstract class Api implements ApiInterface {
      *                                       the first non-deleted message in the group instead.
      * @param array|null $reaction A JSON-serialized list of reaction types to set on the message. Currently, as non-premium users,
      *                                       bots can set up to one reaction per message. A custom emoji reaction can be used if it is either
-     *                                       already present on the message or explicitly allowed by chat administrators.
+     *                                       already present on the message or explicitly allowed by chat administrators. Paid reactions can't be
+     *                                       used by bots.
      * @param bool|null $is_big Pass True to set the reaction with a big animation
      * @return \stdClass
      *
@@ -1802,6 +1863,67 @@ abstract class Api implements ApiInterface {
     }
 
     /**
+     * Use this method to create a subscription invite link for a channel chat. The bot must have the
+     * can_invite_users administrator rights. The link can be edited using the method
+     * editChatSubscriptionInviteLink or revoked using the method revokeChatInviteLink. Returns the new
+     * invite link as a ChatInviteLink object.
+     *
+     * @param int|string $chat_id Unique identifier for the target channel chat or username of the target channel (in the format
+     *                                       @channelusername)
+     * @param string|null $name Invite link name; 0-32 characters
+     * @param int $subscription_period The number of seconds the subscription will be active for before the next payment. Currently, it
+     *                                       must always be 2592000 (30 days).
+     * @param int $subscription_price The amount of Telegram Stars a user must pay initially and after each subsequent subscription period
+     *                                       to be a member of the chat; 1-2500
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#createchatsubscriptioninvitelink
+     */
+    public function createChatSubscriptionInviteLink(
+        int|string $chat_id,
+        int $subscription_period,
+        int $subscription_price,
+        string $name = null
+    ): \stdClass {
+        $args = [
+            'chat_id' => $chat_id,
+            'subscription_period' => $subscription_period,
+            'subscription_price' => $subscription_price
+        ];
+
+        if (null !== $name) $args['name'] = $name;
+
+        return $this->Request('createChatSubscriptionInviteLink', $args);
+    }
+
+    /**
+     * Use this method to edit a subscription invite link created by the bot. The bot must have the
+     * can_invite_users administrator rights. Returns the edited invite link as a ChatInviteLink object.
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
+     *                                       @channelusername)
+     * @param string $invite_link The invite link to edit
+     * @param string|null $name Invite link name; 0-32 characters
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#editchatsubscriptioninvitelink
+     */
+    public function editChatSubscriptionInviteLink(
+        int|string $chat_id,
+        string $invite_link,
+        string $name = null
+    ): \stdClass {
+        $args = [
+            'chat_id' => $chat_id,
+            'invite_link' => $invite_link
+        ];
+
+        if (null !== $name) $args['name'] = $name;
+
+        return $this->Request('editChatSubscriptionInviteLink', $args);
+    }
+
+    /**
      * Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new
      * link is automatically generated. The bot must be an administrator in the chat for this to work and
      * must have the appropriate administrator rights. Returns the revoked invite link as ChatInviteLink
@@ -1983,6 +2105,7 @@ abstract class Api implements ApiInterface {
      * @param int $message_id Identifier of a message to pin
      * @param bool|null $disable_notification Pass True if it is not necessary to send a notification to all chat members about the new pinned
      *                                       message. Notifications are always disabled in channels and private chats.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be pinned
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#pinchatmessage
@@ -1990,7 +2113,8 @@ abstract class Api implements ApiInterface {
     public function pinChatMessage(
         int|string $chat_id,
         int $message_id,
-        bool $disable_notification = null
+        bool $disable_notification = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -1998,6 +2122,7 @@ abstract class Api implements ApiInterface {
         ];
 
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('pinChatMessage', $args);
     }
@@ -2010,21 +2135,24 @@ abstract class Api implements ApiInterface {
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
-     * @param int|null $message_id Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date)
-     *                                       will be unpinned.
+     * @param int|null $message_id Identifier of the message to unpin. Required if business_connection_id is specified. If not
+     *                                       specified, the most recent pinned message (by sending date) will be unpinned.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be unpinned
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#unpinchatmessage
      */
     public function unpinChatMessage(
         int|string $chat_id,
-        int $message_id = null
+        int $message_id = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id
         ];
 
         if (null !== $message_id) $args['message_id'] = $message_id;
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('unpinChatMessage', $args);
     }
@@ -2254,7 +2382,7 @@ abstract class Api implements ApiInterface {
 
     /**
      * Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an
-     * administrator in the chat for this to work and must have can_manage_topics administrator rights,
+     * administrator in the chat for this to work and must have the can_manage_topics administrator rights,
      * unless it is the creator of the topic. Returns True on success.
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
@@ -2388,8 +2516,8 @@ abstract class Api implements ApiInterface {
 
     /**
      * Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be
-     * an administrator in the chat for this to work and must have can_manage_topics administrator rights.
-     * Returns True on success.
+     * an administrator in the chat for this to work and must have the can_manage_topics administrator
+     * rights. Returns True on success.
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target supergroup (in the format
      *                                       @supergroupusername)
@@ -2894,7 +3022,9 @@ abstract class Api implements ApiInterface {
 
     /**
      * Use this method to edit text and game messages. On success, if the edited message is not an inline
-     * message, the edited Message is returned, otherwise True is returned.
+     * message, the edited Message is returned, otherwise True is returned. Note that business messages
+     * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
+     * hours from the time they were sent.
      *
      * @param int|string|null $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                                       the target channel (in the format @channelusername)
@@ -2906,6 +3036,7 @@ abstract class Api implements ApiInterface {
      *                                       instead of parse_mode
      * @param array|null $link_preview_options Link preview generation options for the message
      * @param array|null $reply_markup A JSON-serialized object for an inline keyboard.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#editmessagetext
@@ -2918,7 +3049,8 @@ abstract class Api implements ApiInterface {
         string $parse_mode = null,
         array $entities = null,
         array $link_preview_options = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'text' => $text
@@ -2931,13 +3063,16 @@ abstract class Api implements ApiInterface {
         if (null !== $entities) $args['entities'] = json_encode($entities);
         if (null !== $link_preview_options) $args['link_preview_options'] = json_encode($link_preview_options);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('editMessageText', $args);
     }
 
     /**
      * Use this method to edit captions of messages. On success, if the edited message is not an inline
-     * message, the edited Message is returned, otherwise True is returned.
+     * message, the edited Message is returned, otherwise True is returned. Note that business messages
+     * that were not sent by the bot and do not contain an inline keyboard can only be edited within 48
+     * hours from the time they were sent.
      *
      * @param int|string|null $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                                       the target channel (in the format @channelusername)
@@ -2950,6 +3085,7 @@ abstract class Api implements ApiInterface {
      * @param bool|null $show_caption_above_media Pass True, if the caption must be shown above the message media. Supported only for animation, photo
      *                                       and video messages.
      * @param array|null $reply_markup A JSON-serialized object for an inline keyboard.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#editmessagecaption
@@ -2962,7 +3098,8 @@ abstract class Api implements ApiInterface {
         string $parse_mode = null,
         array $caption_entities = null,
         bool $show_caption_above_media = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [];
 
@@ -2974,6 +3111,7 @@ abstract class Api implements ApiInterface {
         if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
         if (null !== $show_caption_above_media) $args['show_caption_above_media'] = $show_caption_above_media;
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('editMessageCaption', $args);
     }
@@ -2984,7 +3122,8 @@ abstract class Api implements ApiInterface {
      * document albums and to a photo or a video otherwise. When an inline message is edited, a new file
      * can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if
      * the edited message is not an inline message, the edited Message is returned, otherwise True is
-     * returned.
+     * returned. Note that business messages that were not sent by the bot and do not contain an inline
+     * keyboard can only be edited within 48 hours from the time they were sent.
      *
      * @param int|string|null $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                                       the target channel (in the format @channelusername)
@@ -2992,6 +3131,7 @@ abstract class Api implements ApiInterface {
      * @param string|null $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
      * @param array $media A JSON-serialized object for a new media content of the message
      * @param array|null $reply_markup A JSON-serialized object for a new inline keyboard.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#editmessagemedia
@@ -3001,7 +3141,8 @@ abstract class Api implements ApiInterface {
         int|string $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
         ];
@@ -3018,6 +3159,7 @@ abstract class Api implements ApiInterface {
         if (null !== $message_id) $args['message_id'] = $message_id;
         if (null !== $inline_message_id) $args['inline_message_id'] = $inline_message_id;
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('editMessageMedia', $args);
     }
@@ -3042,6 +3184,7 @@ abstract class Api implements ApiInterface {
      * @param int|null $proximity_alert_radius The maximum distance for proximity alerts about approaching another chat member, in meters. Must be
      *                                       between 1 and 100000 if specified.
      * @param array|null $reply_markup A JSON-serialized object for a new inline keyboard.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#editmessagelivelocation
@@ -3056,7 +3199,8 @@ abstract class Api implements ApiInterface {
         float $horizontal_accuracy = null,
         int $heading = null,
         int $proximity_alert_radius = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'latitude' => $latitude,
@@ -3071,6 +3215,7 @@ abstract class Api implements ApiInterface {
         if (null !== $heading) $args['heading'] = $heading;
         if (null !== $proximity_alert_radius) $args['proximity_alert_radius'] = $proximity_alert_radius;
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('editMessageLiveLocation', $args);
     }
@@ -3084,6 +3229,7 @@ abstract class Api implements ApiInterface {
      * @param int|null $message_id Required if inline_message_id is not specified. Identifier of the message with live location to stop
      * @param string|null $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
      * @param array|null $reply_markup A JSON-serialized object for a new inline keyboard.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#stopmessagelivelocation
@@ -3092,7 +3238,8 @@ abstract class Api implements ApiInterface {
         int|string $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [];
 
@@ -3100,19 +3247,23 @@ abstract class Api implements ApiInterface {
         if (null !== $message_id) $args['message_id'] = $message_id;
         if (null !== $inline_message_id) $args['inline_message_id'] = $inline_message_id;
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('stopMessageLiveLocation', $args);
     }
 
     /**
      * Use this method to edit only the reply markup of messages. On success, if the edited message is not
-     * an inline message, the edited Message is returned, otherwise True is returned.
+     * an inline message, the edited Message is returned, otherwise True is returned. Note that business
+     * messages that were not sent by the bot and do not contain an inline keyboard can only be edited
+     * within 48 hours from the time they were sent.
      *
      * @param int|string|null $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                                       the target channel (in the format @channelusername)
      * @param int|null $message_id Required if inline_message_id is not specified. Identifier of the message to edit
      * @param string|null $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
      * @param array|null $reply_markup A JSON-serialized object for an inline keyboard.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#editmessagereplymarkup
@@ -3121,7 +3272,8 @@ abstract class Api implements ApiInterface {
         int|string $chat_id = null,
         int $message_id = null,
         string $inline_message_id = null,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [];
 
@@ -3129,6 +3281,7 @@ abstract class Api implements ApiInterface {
         if (null !== $message_id) $args['message_id'] = $message_id;
         if (null !== $inline_message_id) $args['inline_message_id'] = $inline_message_id;
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('editMessageReplyMarkup', $args);
     }
@@ -3140,6 +3293,7 @@ abstract class Api implements ApiInterface {
      *                                       @channelusername)
      * @param int $message_id Identifier of the original message with the poll
      * @param array|null $reply_markup A JSON-serialized object for a new message inline keyboard.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message to be edited was sent
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#stoppoll
@@ -3147,7 +3301,8 @@ abstract class Api implements ApiInterface {
     public function stopPoll(
         int|string $chat_id,
         int $message_id,
-        array $reply_markup = null
+        array $reply_markup = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'chat_id' => $chat_id,
@@ -3155,6 +3310,7 @@ abstract class Api implements ApiInterface {
         ];
 
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('stopPoll', $args);
     }
@@ -3221,7 +3377,7 @@ abstract class Api implements ApiInterface {
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-     * @param \CURLFile|string $sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers
+     * @param \CURLFile|string|InputFile $sticker Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers
      *                                       (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet,
      *                                       or upload a new .WEBP, .TGS, or .WEBM sticker using multipart/form-data. More information on Sending
      *                                       Files ». Video and animated stickers can't be sent via an HTTP URL.
@@ -3239,7 +3395,7 @@ abstract class Api implements ApiInterface {
      */
     public function sendSticker(
         int|string $chat_id,
-        \CURLFile|string $sticker,
+        \CURLFile|string|InputFile $sticker,
         int $message_thread_id = null,
         string $emoji = null,
         bool $disable_notification = null,
@@ -3574,13 +3730,13 @@ abstract class Api implements ApiInterface {
      *
      * @param string $name Sticker set name
      * @param int $user_id User identifier of the sticker set owner
-     * @param \CURLFile|string|null $thumbnail A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and
+     * @param \CURLFile|string|InputFile|null $thumbnail A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and
      *                                       height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see
-     *                                       https://core.telegram.org/stickers#animated-sticker-requirements for animated sticker technical
+     *                                       https://core.telegram.org/stickers#animation-requirements for animated sticker technical
      *                                       requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see
-     *                                       https://core.telegram.org/stickers#video-sticker-requirements for video sticker technical
-     *                                       requirements. Pass a file_id as a String to send a file that already exists on the Telegram servers,
-     *                                       pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using
+     *                                       https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass
+     *                                       a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL
+     *                                       as a String for Telegram to get a file from the Internet, or upload a new one using
      *                                       multipart/form-data. More information on Sending Files ». Animated and video sticker set thumbnails
      *                                       can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is
      *                                       used as the thumbnail.
@@ -3594,7 +3750,7 @@ abstract class Api implements ApiInterface {
         string $name,
         int $user_id,
         string $format,
-        \CURLFile|string $thumbnail = null
+        \CURLFile|string|InputFile $thumbnail = null
     ): \stdClass {
         $args = [
             'name' => $name,
@@ -3720,7 +3876,7 @@ abstract class Api implements ApiInterface {
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param string $title Product name, 1-32 characters
      * @param string $description Product description, 1-255 characters
-     * @param string $payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your
+     * @param string $payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your
      *                                       internal processes.
      * @param string|null $provider_token Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram
      *                                       Stars.
@@ -3840,7 +3996,7 @@ abstract class Api implements ApiInterface {
      *
      * @param string $title Product name, 1-32 characters
      * @param string $description Product description, 1-255 characters
-     * @param string $payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your
+     * @param string $payload Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your
      *                                       internal processes.
      * @param string|null $provider_token Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram
      *                                       Stars.
@@ -3991,6 +4147,29 @@ abstract class Api implements ApiInterface {
         if (null !== $error_message) $args['error_message'] = $error_message;
 
         return $this->Request('answerPreCheckoutQuery', $args);
+    }
+
+    /**
+     * Returns the bot's Telegram Star transactions in chronological order. On success, returns a
+     * StarTransactions object.
+     *
+     * @param int|null $offset Number of transactions to skip in the response
+     * @param int|null $limit The maximum number of transactions to be retrieved. Values between 1-100 are accepted. Defaults to
+     *                                       100.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#getstartransactions
+     */
+    public function getStarTransactions(
+        int $offset = null,
+        int $limit = null
+    ): \stdClass {
+        $args = [];
+
+        if (null !== $offset) $args['offset'] = $offset;
+        if (null !== $limit) $args['limit'] = $limit;
+
+        return $this->Request('getStarTransactions', $args);
     }
 
     /**
