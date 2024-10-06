@@ -443,7 +443,7 @@ abstract class Api implements ApiInterface {
      */
     public function sendPhoto(
         int|string $chat_id,
-        \CURLFile|string $photo,
+        \CURLFile|string|InputFile $photo,
         int $message_thread_id = null,
         string $caption = null,
         string $parse_mode = null,
@@ -516,7 +516,7 @@ abstract class Api implements ApiInterface {
      */
     public function sendAudio(
         int|string $chat_id,
-        \CURLFile|string $audio,
+        \CURLFile|string|InputFile $audio,
         int $message_thread_id = null,
         string $caption = null,
         string $parse_mode = null,
@@ -524,7 +524,7 @@ abstract class Api implements ApiInterface {
         int $duration = null,
         string $performer = null,
         string $title = null,
-        \CURLFile|string $thumbnail = null,
+        \CURLFile|string|InputFile $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
         string $message_effect_id = null,
@@ -590,9 +590,9 @@ abstract class Api implements ApiInterface {
      */
     public function sendDocument(
         int|string $chat_id,
-        \CURLFile|string $document,
+        \CURLFile|string|InputFile $document,
         int $message_thread_id = null,
-        \CURLFile|string $thumbnail = null,
+        \CURLFile|string|InputFile $thumbnail = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
@@ -666,12 +666,12 @@ abstract class Api implements ApiInterface {
      */
     public function sendVideo(
         int|string $chat_id,
-        \CURLFile|string $video,
+        \CURLFile|string|InputFile $video,
         int $message_thread_id = null,
         int $duration = null,
         int $width = null,
         int $height = null,
-        \CURLFile|string $thumbnail = null,
+        \CURLFile|string|InputFile $thumbnail = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
