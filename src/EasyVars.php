@@ -4,7 +4,7 @@ namespace TuriBot;
 
 class EasyVars
 {
-    public $chat_id = 0, $from_id = 0, $message_id = 0;
+    public $chat_id = 0, $from_id = 0, $message_id = 0, $message_thread_id = 0;
 
     public $update_type = '', $text = '', $first_name = '', $chat_type = '';
 
