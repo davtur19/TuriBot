@@ -26,7 +26,7 @@ abstract class Api implements ApiInterface {
      *                                       Update for a complete list of available update types. Specify an empty list to receive all update
      *                                       types except chat_member, message_reaction, and message_reaction_count (default). If not specified,
      *                                       the previous setting will be used.Please note that this parameter doesn't affect updates created
-     *                                       before the call to the getUpdates, so unwanted updates may be received for a short period of time.
+     *                                       before the call to getUpdates, so unwanted updates may be received for a short period of time.
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#getupdates
@@ -50,8 +50,9 @@ abstract class Api implements ApiInterface {
     /**
      * Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever
      * there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing
-     * a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable
-     * amount of attempts. Returns True on success.
+     * a JSON-serialized Update. In case of an unsuccessful request (a request with response HTTP status
+     * code different from 2XY), we will repeat the request and give up after a reasonable amount of
+     * attempts. Returns True on success.
      * If you'd like to make sure that the webhook was set by you, you can specify secret data in the
      * parameter secret_token. If specified, the request will contain a header
      * “X-Telegram-Bot-Api-Secret-Token” with the secret token as content.
@@ -186,6 +187,8 @@ abstract class Api implements ApiInterface {
      * @param array|null $link_preview_options Link preview generation options for the message
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -204,6 +207,7 @@ abstract class Api implements ApiInterface {
         array $link_preview_options = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -220,6 +224,7 @@ abstract class Api implements ApiInterface {
         if (null !== $link_preview_options) $args['link_preview_options'] = json_encode($link_preview_options);
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -237,6 +242,7 @@ abstract class Api implements ApiInterface {
      * @param int|null $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param int|string $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the
      *                                       format @channelusername)
+     * @param int|null $video_start_timestamp New start timestamp for the forwarded video in the message
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the forwarded message from forwarding and saving
      * @param int $message_id Message identifier in the chat specified in from_chat_id
@@ -249,6 +255,7 @@ abstract class Api implements ApiInterface {
         int|string $from_chat_id,
         int $message_id,
         int $message_thread_id = null,
+        int $video_start_timestamp = null,
         bool $disable_notification = null,
         bool $protect_content = null
     ): \stdClass {
@@ -259,6 +266,7 @@ abstract class Api implements ApiInterface {
         ];
 
         if (null !== $message_thread_id) $args['message_thread_id'] = $message_thread_id;
+        if (null !== $video_start_timestamp) $args['video_start_timestamp'] = $video_start_timestamp;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
 
@@ -318,6 +326,7 @@ abstract class Api implements ApiInterface {
      * @param int|string $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the
      *                                       format @channelusername)
      * @param int $message_id Message identifier in the chat specified in from_chat_id
+     * @param int|null $video_start_timestamp New start timestamp for the copied video in the message
      * @param string|null $caption New caption for media, 0-1024 characters after entities parsing. If not specified, the original
      *                                       caption is kept
      * @param string|null $parse_mode Mode for parsing entities in the new caption. See formatting options for more details.
@@ -327,6 +336,8 @@ abstract class Api implements ApiInterface {
      *                                       specified.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -339,12 +350,14 @@ abstract class Api implements ApiInterface {
         int|string $from_chat_id,
         int $message_id,
         int $message_thread_id = null,
+        int $video_start_timestamp = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
         bool $show_caption_above_media = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         array $reply_parameters = null,
         array $reply_markup = null
     ): \stdClass {
@@ -355,12 +368,14 @@ abstract class Api implements ApiInterface {
         ];
 
         if (null !== $message_thread_id) $args['message_thread_id'] = $message_thread_id;
+        if (null !== $video_start_timestamp) $args['video_start_timestamp'] = $video_start_timestamp;
         if (null !== $caption) $args['caption'] = $caption;
         if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
         if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
         if (null !== $show_caption_above_media) $args['show_caption_above_media'] = $show_caption_above_media;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
 
@@ -432,6 +447,8 @@ abstract class Api implements ApiInterface {
      * @param bool|null $has_spoiler Pass True if the photo needs to be covered with a spoiler animation
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -452,6 +469,7 @@ abstract class Api implements ApiInterface {
         bool $has_spoiler = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -470,6 +488,7 @@ abstract class Api implements ApiInterface {
         if (null !== $has_spoiler) $args['has_spoiler'] = $has_spoiler;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -505,6 +524,8 @@ abstract class Api implements ApiInterface {
      *                                       <file_attach_name>. More information on Sending Files »
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -527,6 +548,7 @@ abstract class Api implements ApiInterface {
         \CURLFile|string|InputFile $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -547,6 +569,7 @@ abstract class Api implements ApiInterface {
         if (null !== $thumbnail) $args['thumbnail'] = $thumbnail;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -579,6 +602,8 @@ abstract class Api implements ApiInterface {
      * @param bool|null $disable_content_type_detection Disables automatic server-side content type detection for files uploaded using multipart/form-data
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -599,6 +624,7 @@ abstract class Api implements ApiInterface {
         bool $disable_content_type_detection = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -617,6 +643,7 @@ abstract class Api implements ApiInterface {
         if (null !== $disable_content_type_detection) $args['disable_content_type_detection'] = $disable_content_type_detection;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -645,6 +672,11 @@ abstract class Api implements ApiInterface {
      *                                       multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can
      *                                       pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under
      *                                       <file_attach_name>. More information on Sending Files »
+     * @param \CURLFile|string|InputFile|null $cover Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram
+     *                                       servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass
+     *                                       “attach://<file_attach_name>” to upload a new one using multipart/form-data under
+     *                                       <file_attach_name> name. More information on Sending Files »
+     * @param int|null $start_timestamp Start timestamp for the video in the message
      * @param string|null $caption Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities
      *                                       parsing
      * @param string|null $parse_mode Mode for parsing entities in the video caption. See formatting options for more details.
@@ -655,6 +687,8 @@ abstract class Api implements ApiInterface {
      * @param bool|null $supports_streaming Pass True if the uploaded video is suitable for streaming
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -672,6 +706,8 @@ abstract class Api implements ApiInterface {
         int $width = null,
         int $height = null,
         \CURLFile|string|InputFile $thumbnail = null,
+        \CURLFile|string|InputFile $cover = null,
+        int $start_timestamp = null,
         string $caption = null,
         string $parse_mode = null,
         array $caption_entities = null,
@@ -680,6 +716,7 @@ abstract class Api implements ApiInterface {
         bool $supports_streaming = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -695,6 +732,8 @@ abstract class Api implements ApiInterface {
         if (null !== $width) $args['width'] = $width;
         if (null !== $height) $args['height'] = $height;
         if (null !== $thumbnail) $args['thumbnail'] = $thumbnail;
+        if (null !== $cover) $args['cover'] = $cover;
+        if (null !== $start_timestamp) $args['start_timestamp'] = $start_timestamp;
         if (null !== $caption) $args['caption'] = $caption;
         if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
         if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
@@ -703,6 +742,7 @@ abstract class Api implements ApiInterface {
         if (null !== $supports_streaming) $args['supports_streaming'] = $supports_streaming;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -740,6 +780,8 @@ abstract class Api implements ApiInterface {
      * @param bool|null $has_spoiler Pass True if the animation needs to be covered with a spoiler animation
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -764,6 +806,7 @@ abstract class Api implements ApiInterface {
         bool $has_spoiler = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -786,6 +829,7 @@ abstract class Api implements ApiInterface {
         if (null !== $has_spoiler) $args['has_spoiler'] = $has_spoiler;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -814,6 +858,8 @@ abstract class Api implements ApiInterface {
      * @param int|null $duration Duration of the voice message in seconds
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -833,6 +879,7 @@ abstract class Api implements ApiInterface {
         int $duration = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -850,6 +897,7 @@ abstract class Api implements ApiInterface {
         if (null !== $duration) $args['duration'] = $duration;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -878,6 +926,8 @@ abstract class Api implements ApiInterface {
      *                                       <file_attach_name>. More information on Sending Files »
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -896,6 +946,7 @@ abstract class Api implements ApiInterface {
         \CURLFile|string|InputFile $thumbnail = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -912,6 +963,7 @@ abstract class Api implements ApiInterface {
         if (null !== $thumbnail) $args['thumbnail'] = $thumbnail;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -937,6 +989,8 @@ abstract class Api implements ApiInterface {
      * @param bool|null $show_caption_above_media Pass True, if the caption must be shown above the message media
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
      *                                       keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -956,6 +1010,7 @@ abstract class Api implements ApiInterface {
         bool $show_caption_above_media = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         array $reply_parameters = null,
         array $reply_markup = null,
         string $business_connection_id = null
@@ -973,6 +1028,7 @@ abstract class Api implements ApiInterface {
         if (null !== $show_caption_above_media) $args['show_caption_above_media'] = $show_caption_above_media;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -991,6 +1047,8 @@ abstract class Api implements ApiInterface {
      * @param array $media A JSON-serialized array describing messages to be sent, must include 2-10 items
      * @param bool|null $disable_notification Sends messages silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent messages from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
@@ -1004,6 +1062,7 @@ abstract class Api implements ApiInterface {
         int $message_thread_id = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         string $business_connection_id = null
@@ -1023,6 +1082,7 @@ abstract class Api implements ApiInterface {
         if (null !== $message_thread_id) $args['message_thread_id'] = $message_thread_id;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
@@ -1047,6 +1107,8 @@ abstract class Api implements ApiInterface {
      *                                       in meters. Must be between 1 and 100000 if specified.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -1067,6 +1129,7 @@ abstract class Api implements ApiInterface {
         int $proximity_alert_radius = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -1085,6 +1148,7 @@ abstract class Api implements ApiInterface {
         if (null !== $proximity_alert_radius) $args['proximity_alert_radius'] = $proximity_alert_radius;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -1110,6 +1174,8 @@ abstract class Api implements ApiInterface {
      * @param string|null $google_place_type Google Places type of the venue. (See supported types.)
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -1132,6 +1198,7 @@ abstract class Api implements ApiInterface {
         string $google_place_type = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -1152,6 +1219,7 @@ abstract class Api implements ApiInterface {
         if (null !== $google_place_type) $args['google_place_type'] = $google_place_type;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -1172,6 +1240,8 @@ abstract class Api implements ApiInterface {
      * @param string|null $vcard Additional data about the contact in the form of a vCard, 0-2048 bytes
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -1190,6 +1260,7 @@ abstract class Api implements ApiInterface {
         string $vcard = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -1206,6 +1277,7 @@ abstract class Api implements ApiInterface {
         if (null !== $vcard) $args['vcard'] = $vcard;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -1242,6 +1314,8 @@ abstract class Api implements ApiInterface {
      * @param bool|null $is_closed Pass True if the poll needs to be immediately closed. This can be useful for poll preview.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -1270,6 +1344,7 @@ abstract class Api implements ApiInterface {
         bool $is_closed = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -1296,6 +1371,7 @@ abstract class Api implements ApiInterface {
         if (null !== $is_closed) $args['is_closed'] = $is_closed;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -1317,6 +1393,8 @@ abstract class Api implements ApiInterface {
      *                                       Defaults to “🎲”
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -1332,6 +1410,7 @@ abstract class Api implements ApiInterface {
         string $emoji = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -1345,6 +1424,7 @@ abstract class Api implements ApiInterface {
         if (null !== $emoji) $args['emoji'] = $emoji;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -1390,9 +1470,10 @@ abstract class Api implements ApiInterface {
     }
 
     /**
-     * Use this method to change the chosen reactions on a message. Service messages can't be reacted to.
-     * Automatically forwarded messages from a channel to its discussion group have the same available
-     * reactions as messages in the channel. Bots can't use paid reactions. Returns True on success.
+     * Use this method to change the chosen reactions on a message. Service messages of some types can't be
+     * reacted to. Automatically forwarded messages from a channel to its discussion group have the same
+     * available reactions as messages in the channel. Bots can't use paid reactions. Returns True on
+     * success.
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername)
@@ -1447,6 +1528,32 @@ abstract class Api implements ApiInterface {
         if (null !== $limit) $args['limit'] = $limit;
 
         return $this->Request('getUserProfilePhotos', $args);
+    }
+
+    /**
+     * Changes the emoji status for a given user that previously allowed the bot to manage their emoji
+     * status via the Mini App method requestEmojiStatusAccess. Returns True on success.
+     *
+     * @param int $user_id Unique identifier of the target user
+     * @param string|null $emoji_status_custom_emoji_id Custom emoji identifier of the emoji status to set. Pass an empty string to remove the status.
+     * @param int|null $emoji_status_expiration_date Expiration date of the emoji status, if any
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#setuseremojistatus
+     */
+    public function setUserEmojiStatus(
+        int $user_id,
+        string $emoji_status_custom_emoji_id = null,
+        int $emoji_status_expiration_date = null
+    ): \stdClass {
+        $args = [
+            'user_id' => $user_id
+        ];
+
+        if (null !== $emoji_status_custom_emoji_id) $args['emoji_status_custom_emoji_id'] = $emoji_status_custom_emoji_id;
+        if (null !== $emoji_status_expiration_date) $args['emoji_status_expiration_date'] = $emoji_status_expiration_date;
+
+        return $this->Request('setUserEmojiStatus', $args);
     }
 
     /**
@@ -3117,13 +3224,14 @@ abstract class Api implements ApiInterface {
     }
 
     /**
-     * Use this method to edit animation, audio, document, photo, or video messages. If a message is part
-     * of a message album, then it can be edited only to an audio for audio albums, only to a document for
-     * document albums and to a photo or a video otherwise. When an inline message is edited, a new file
-     * can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if
-     * the edited message is not an inline message, the edited Message is returned, otherwise True is
-     * returned. Note that business messages that were not sent by the bot and do not contain an inline
-     * keyboard can only be edited within 48 hours from the time they were sent.
+     * Use this method to edit animation, audio, document, photo, or video messages, or to add media to
+     * text messages. If a message is part of a message album, then it can be edited only to an audio for
+     * audio albums, only to a document for document albums and to a photo or a video otherwise. When an
+     * inline message is edited, a new file can't be uploaded; use a previously uploaded file via its
+     * file_id or specify a URL. On success, if the edited message is not an inline message, the edited
+     * Message is returned, otherwise True is returned. Note that business messages that were not sent by
+     * the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they
+     * were sent.
      *
      * @param int|string|null $chat_id Required if inline_message_id is not specified. Unique identifier for the target chat or username of
      *                                       the target channel (in the format @channelusername)
@@ -3384,6 +3492,8 @@ abstract class Api implements ApiInterface {
      * @param string|null $emoji Emoji associated with the sticker; only for just uploaded stickers
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply
@@ -3400,6 +3510,7 @@ abstract class Api implements ApiInterface {
         string $emoji = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -3414,6 +3525,7 @@ abstract class Api implements ApiInterface {
         if (null !== $emoji) $args['emoji'] = $emoji;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -3733,7 +3845,7 @@ abstract class Api implements ApiInterface {
      * @param \CURLFile|string|InputFile|null $thumbnail A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and
      *                                       height of exactly 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see
      *                                       https://core.telegram.org/stickers#animation-requirements for animated sticker technical
-     *                                       requirements), or a WEBM video with the thumbnail up to 32 kilobytes in size; see
+     *                                       requirements), or a .WEBM video with the thumbnail up to 32 kilobytes in size; see
      *                                       https://core.telegram.org/stickers#video-requirements for video sticker technical requirements. Pass
      *                                       a file_id as a String to send a file that already exists on the Telegram servers, pass an HTTP URL
      *                                       as a String for Telegram to get a file from the Internet, or upload a new one using
@@ -3741,7 +3853,7 @@ abstract class Api implements ApiInterface {
      *                                       can't be uploaded via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is
      *                                       used as the thumbnail.
      * @param string $format Format of the thumbnail, must be one of “static” for a .WEBP or .PNG image, “animated” for a
-     *                                       .TGS animation, or “video” for a WEBM video
+     *                                       .TGS animation, or “video” for a .WEBM video
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#setstickersetthumbnail
@@ -3803,6 +3915,153 @@ abstract class Api implements ApiInterface {
 
 
         return $this->Request('deleteStickerSet', $args);
+    }
+
+    /**
+     * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no
+     * parameters. Returns a Gifts object.
+     *
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#getavailablegifts
+     */
+    public function getAvailableGifts(): \stdClass {
+        return $this->Request('getAvailableGifts', []);
+    }
+
+    /**
+     * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the
+     * receiver. Returns True on success.
+     *
+     * @param int|null $user_id Required if chat_id is not specified. Unique identifier of the target user who will receive the
+     *                                       gift.
+     * @param int|string|null $chat_id Required if user_id is not specified. Unique identifier for the chat or username of the channel (in
+     *                                       the format @channelusername) that will receive the gift.
+     * @param string $gift_id Identifier of the gift
+     * @param bool|null $pay_for_upgrade Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for
+     *                                       the receiver
+     * @param string|null $text Text that will be shown along with the gift; 0-128 characters
+     * @param string|null $text_parse_mode Mode for parsing entities in the text. See formatting options for more details. Entities other than
+     *                                       “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and
+     *                                       “custom_emoji” are ignored.
+     * @param array|null $text_entities A JSON-serialized list of special entities that appear in the gift text. It can be specified instead
+     *                                       of text_parse_mode. Entities other than “bold”, “italic”, “underline”,
+     *                                       “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#sendgift
+     */
+    public function sendGift(
+        string $gift_id,
+        int $user_id = null,
+        int|string $chat_id = null,
+        bool $pay_for_upgrade = null,
+        string $text = null,
+        string $text_parse_mode = null,
+        array $text_entities = null
+    ): \stdClass {
+        $args = [
+            'gift_id' => $gift_id
+        ];
+
+        if (null !== $user_id) $args['user_id'] = $user_id;
+        if (null !== $chat_id) $args['chat_id'] = $chat_id;
+        if (null !== $pay_for_upgrade) $args['pay_for_upgrade'] = $pay_for_upgrade;
+        if (null !== $text) $args['text'] = $text;
+        if (null !== $text_parse_mode) $args['text_parse_mode'] = $text_parse_mode;
+        if (null !== $text_entities) $args['text_entities'] = json_encode($text_entities);
+
+        return $this->Request('sendGift', $args);
+    }
+
+    /**
+     * Verifies a user on behalf of the organization which is represented by the bot. Returns True on
+     * success.
+     *
+     * @param int $user_id Unique identifier of the target user
+     * @param string|null $custom_description Custom description for the verification; 0-70 characters. Must be empty if the organization isn't
+     *                                       allowed to provide a custom verification description.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#verifyuser
+     */
+    public function verifyUser(
+        int $user_id,
+        string $custom_description = null
+    ): \stdClass {
+        $args = [
+            'user_id' => $user_id
+        ];
+
+        if (null !== $custom_description) $args['custom_description'] = $custom_description;
+
+        return $this->Request('verifyUser', $args);
+    }
+
+    /**
+     * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on
+     * success.
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
+     *                                       @channelusername)
+     * @param string|null $custom_description Custom description for the verification; 0-70 characters. Must be empty if the organization isn't
+     *                                       allowed to provide a custom verification description.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#verifychat
+     */
+    public function verifyChat(
+        int|string $chat_id,
+        string $custom_description = null
+    ): \stdClass {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        if (null !== $custom_description) $args['custom_description'] = $custom_description;
+
+        return $this->Request('verifyChat', $args);
+    }
+
+    /**
+     * Removes verification from a user who is currently verified on behalf of the organization represented
+     * by the bot. Returns True on success.
+     *
+     * @param int $user_id Unique identifier of the target user
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#removeuserverification
+     */
+    public function removeUserVerification(
+        int $user_id
+    ): \stdClass {
+        $args = [
+            'user_id' => $user_id
+        ];
+
+
+        return $this->Request('removeUserVerification', $args);
+    }
+
+    /**
+     * Removes verification from a chat that is currently verified on behalf of the organization
+     * represented by the bot. Returns True on success.
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
+     *                                       @channelusername)
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#removechatverification
+     */
+    public function removeChatVerification(
+        int|string $chat_id
+    ): \stdClass {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+
+        return $this->Request('removeChatVerification', $args);
     }
 
     /**
@@ -3869,6 +4128,40 @@ abstract class Api implements ApiInterface {
     }
 
     /**
+     * Stores a message that can be sent by a user of a Mini App. Returns a PreparedInlineMessage object.
+     *
+     * @param int $user_id Unique identifier of the target user that can use the prepared message
+     * @param array $result A JSON-serialized object describing the message to be sent
+     * @param bool|null $allow_user_chats Pass True if the message can be sent to private chats with users
+     * @param bool|null $allow_bot_chats Pass True if the message can be sent to private chats with bots
+     * @param bool|null $allow_group_chats Pass True if the message can be sent to group and supergroup chats
+     * @param bool|null $allow_channel_chats Pass True if the message can be sent to channel chats
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#savepreparedinlinemessage
+     */
+    public function savePreparedInlineMessage(
+        int $user_id,
+        array $result,
+        bool $allow_user_chats = null,
+        bool $allow_bot_chats = null,
+        bool $allow_group_chats = null,
+        bool $allow_channel_chats = null
+    ): \stdClass {
+        $args = [
+            'user_id' => $user_id,
+            'result' => json_encode($result)
+        ];
+
+        if (null !== $allow_user_chats) $args['allow_user_chats'] = $allow_user_chats;
+        if (null !== $allow_bot_chats) $args['allow_bot_chats'] = $allow_bot_chats;
+        if (null !== $allow_group_chats) $args['allow_group_chats'] = $allow_group_chats;
+        if (null !== $allow_channel_chats) $args['allow_channel_chats'] = $allow_channel_chats;
+
+        return $this->Request('savePreparedInlineMessage', $args);
+    }
+
+    /**
      * Use this method to send invoices. On success, the sent Message is returned.
      *
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
@@ -3917,6 +4210,8 @@ abstract class Api implements ApiInterface {
      * @param bool|null $is_flexible Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be
@@ -3951,6 +4246,7 @@ abstract class Api implements ApiInterface {
         bool $is_flexible = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null
@@ -3983,6 +4279,7 @@ abstract class Api implements ApiInterface {
         if (null !== $is_flexible) $args['is_flexible'] = $is_flexible;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
@@ -4004,6 +4301,11 @@ abstract class Api implements ApiInterface {
      *                                       Stars.
      * @param array $prices Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery
      *                                       cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
+     * @param int|null $subscription_period The number of seconds the subscription will be active for before the next payment. The currency must
+     *                                       be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000
+     *                                       (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time,
+     *                                       including multiple concurrent subscriptions from the same user. Subscription price must no exceed
+     *                                       2500 Telegram Stars.
      * @param int|null $max_tip_amount The maximum accepted amount for tips in the smallest units of the currency (integer, not
      *                                       float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp
      *                                       parameter in currencies.json, it shows the number of digits past the decimal point for each currency
@@ -4031,6 +4333,8 @@ abstract class Api implements ApiInterface {
      * @param bool|null $send_email_to_provider Pass True if the user's email address should be sent to the provider. Ignored for payments in
      *                                       Telegram Stars.
      * @param bool|null $is_flexible Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
+     * @param string|null $business_connection_id Unique identifier of the business connection on behalf of which the link will be created. For
+     *                                       payments in Telegram Stars only.
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#createinvoicelink
@@ -4042,6 +4346,7 @@ abstract class Api implements ApiInterface {
         string $currency,
         array $prices,
         string $provider_token = null,
+        int $subscription_period = null,
         int $max_tip_amount = null,
         array $suggested_tip_amounts = null,
         string $provider_data = null,
@@ -4055,7 +4360,8 @@ abstract class Api implements ApiInterface {
         bool $need_shipping_address = null,
         bool $send_phone_number_to_provider = null,
         bool $send_email_to_provider = null,
-        bool $is_flexible = null
+        bool $is_flexible = null,
+        string $business_connection_id = null
     ): \stdClass {
         $args = [
             'title' => $title,
@@ -4066,6 +4372,7 @@ abstract class Api implements ApiInterface {
         ];
 
         if (null !== $provider_token) $args['provider_token'] = $provider_token;
+        if (null !== $subscription_period) $args['subscription_period'] = $subscription_period;
         if (null !== $max_tip_amount) $args['max_tip_amount'] = $max_tip_amount;
         if (null !== $suggested_tip_amounts) $args['suggested_tip_amounts'] = json_encode($suggested_tip_amounts);
         if (null !== $provider_data) $args['provider_data'] = $provider_data;
@@ -4080,6 +4387,7 @@ abstract class Api implements ApiInterface {
         if (null !== $send_phone_number_to_provider) $args['send_phone_number_to_provider'] = $send_phone_number_to_provider;
         if (null !== $send_email_to_provider) $args['send_email_to_provider'] = $send_email_to_provider;
         if (null !== $is_flexible) $args['is_flexible'] = $is_flexible;
+        if (null !== $business_connection_id) $args['business_connection_id'] = $business_connection_id;
 
         return $this->Request('createInvoiceLink', $args);
     }
@@ -4094,8 +4402,8 @@ abstract class Api implements ApiInterface {
      *                                       example, if delivery to the specified address is not possible)
      * @param array|null $shipping_options Required if ok is True. A JSON-serialized array of available shipping options.
      * @param string|null $error_message Required if ok is False. Error message in human readable form that explains why it is impossible to
-     *                                       complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will
-     *                                       display this message to the user.
+     *                                       complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram
+     *                                       will display this message to the user.
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#answershippingquery
@@ -4195,6 +4503,34 @@ abstract class Api implements ApiInterface {
     }
 
     /**
+     * Allows the bot to cancel or re-enable extension of a subscription paid in Telegram Stars. Returns
+     * True on success.
+     *
+     * @param int $user_id Identifier of the user whose subscription will be edited
+     * @param string $telegram_payment_charge_id Telegram payment identifier for the subscription
+     * @param bool $is_canceled Pass True to cancel extension of the user subscription; the subscription must be active up to the
+     *                                       end of the current subscription period. Pass False to allow the user to re-enable a subscription
+     *                                       that was previously canceled by the bot.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#edituserstarsubscription
+     */
+    public function editUserStarSubscription(
+        int $user_id,
+        string $telegram_payment_charge_id,
+        bool $is_canceled
+    ): \stdClass {
+        $args = [
+            'user_id' => $user_id,
+            'telegram_payment_charge_id' => $telegram_payment_charge_id,
+            'is_canceled' => $is_canceled
+        ];
+
+
+        return $this->Request('editUserStarSubscription', $args);
+    }
+
+    /**
      * Informs a user that some of the Telegram Passport elements they provided contains errors. The user
      * will not be able to re-submit their Passport to you until the errors are fixed (the contents of the
      * field for which you returned the error must change). Returns True on success.
@@ -4231,6 +4567,8 @@ abstract class Api implements ApiInterface {
      *                                       @BotFather.
      * @param bool|null $disable_notification Sends the message silently. Users will receive a notification with no sound.
      * @param bool|null $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param bool|null $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1
+     *                                       Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param string|null $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param array|null $reply_parameters Description of the message to reply to
      * @param array|null $reply_markup A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be
@@ -4246,6 +4584,7 @@ abstract class Api implements ApiInterface {
         int $message_thread_id = null,
         bool $disable_notification = null,
         bool $protect_content = null,
+        bool $allow_paid_broadcast = null,
         string $message_effect_id = null,
         array $reply_parameters = null,
         array $reply_markup = null,
@@ -4259,6 +4598,7 @@ abstract class Api implements ApiInterface {
         if (null !== $message_thread_id) $args['message_thread_id'] = $message_thread_id;
         if (null !== $disable_notification) $args['disable_notification'] = $disable_notification;
         if (null !== $protect_content) $args['protect_content'] = $protect_content;
+        if (null !== $allow_paid_broadcast) $args['allow_paid_broadcast'] = $allow_paid_broadcast;
         if (null !== $message_effect_id) $args['message_effect_id'] = $message_effect_id;
         if (null !== $reply_parameters) $args['reply_parameters'] = json_encode($reply_parameters);
         if (null !== $reply_markup) $args['reply_markup'] = json_encode($reply_markup);
