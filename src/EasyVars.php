@@ -28,6 +28,7 @@ class EasyVars
             $this->chat_type = $update->{$this->type}->chat->type ?? null;
             $this->chat_id = $update->{$this->type}->chat->id ?? null;
             $this->message_id = $update->{$this->type}->message_id ?? null;
+            $this->message_thread_id = $update->{$this->type}->message_thread_id ?? null;
 
             if (isset($update->{$this->type}->from)) {
                 $this->from_id = $update->{$this->type}->from->id ?? null;
