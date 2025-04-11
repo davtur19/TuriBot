@@ -978,7 +978,7 @@ abstract class Api implements ApiInterface {
      * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
      *                                       @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be
      *                                       credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
-     * @param int $star_count The number of Telegram Stars that must be paid to buy access to the media; 1-2500
+     * @param int $star_count The number of Telegram Stars that must be paid to buy access to the media; 1-10000
      * @param array $media A JSON-serialized array describing the media to be sent; up to 10 items
      * @param string|null $payload Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your
      *                                       internal processes.
@@ -1981,7 +1981,7 @@ abstract class Api implements ApiInterface {
      * @param int $subscription_period The number of seconds the subscription will be active for before the next payment. Currently, it
      *                                       must always be 2592000 (30 days).
      * @param int $subscription_price The amount of Telegram Stars a user must pay initially and after each subsequent subscription period
-     *                                       to be a member of the chat; 1-2500
+     *                                       to be a member of the chat; 1-10000
      * @return \stdClass
      *
      * @see https://core.telegram.org/bots/api#createchatsubscriptioninvitelink
@@ -3479,6 +3479,678 @@ abstract class Api implements ApiInterface {
     }
 
     /**
+     * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no
+     * parameters. Returns a Gifts object.
+     *
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#getavailablegifts
+     */
+    public function getAvailableGifts(): \stdClass {
+        return $this->Request('getAvailableGifts', []);
+    }
+
+    /**
+     * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the
+     * receiver. Returns True on success.
+     *
+     * @param int|null $user_id Required if chat_id is not specified. Unique identifier of the target user who will receive the
+     *                                       gift.
+     * @param int|string|null $chat_id Required if user_id is not specified. Unique identifier for the chat or username of the channel (in
+     *                                       the format @channelusername) that will receive the gift.
+     * @param string $gift_id Identifier of the gift
+     * @param bool|null $pay_for_upgrade Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for
+     *                                       the receiver
+     * @param string|null $text Text that will be shown along with the gift; 0-128 characters
+     * @param string|null $text_parse_mode Mode for parsing entities in the text. See formatting options for more details. Entities other than
+     *                                       “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and
+     *                                       “custom_emoji” are ignored.
+     * @param array|null $text_entities A JSON-serialized list of special entities that appear in the gift text. It can be specified instead
+     *                                       of text_parse_mode. Entities other than “bold”, “italic”, “underline”,
+     *                                       “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#sendgift
+     */
+    public function sendGift(
+        string $gift_id,
+        int $user_id = null,
+        int|string $chat_id = null,
+        bool $pay_for_upgrade = null,
+        string $text = null,
+        string $text_parse_mode = null,
+        array $text_entities = null
+    ): \stdClass {
+        $args = [
+            'gift_id' => $gift_id
+        ];
+
+        if (null !== $user_id) $args['user_id'] = $user_id;
+        if (null !== $chat_id) $args['chat_id'] = $chat_id;
+        if (null !== $pay_for_upgrade) $args['pay_for_upgrade'] = $pay_for_upgrade;
+        if (null !== $text) $args['text'] = $text;
+        if (null !== $text_parse_mode) $args['text_parse_mode'] = $text_parse_mode;
+        if (null !== $text_entities) $args['text_entities'] = json_encode($text_entities);
+
+        return $this->Request('sendGift', $args);
+    }
+
+    /**
+     * Gifts a Telegram Premium subscription to the given user. Returns True on success.
+     *
+     * @param int $user_id Unique identifier of the target user who will receive a Telegram Premium subscription
+     * @param int $month_count Number of months the Telegram Premium subscription will be active for the user; must be one of 3, 6,
+     *                                       or 12
+     * @param int $star_count Number of Telegram Stars to pay for the Telegram Premium subscription; must be 1000 for 3 months,
+     *                                       1500 for 6 months, and 2500 for 12 months
+     * @param string|null $text Text that will be shown along with the service message about the subscription; 0-128 characters
+     * @param string|null $text_parse_mode Mode for parsing entities in the text. See formatting options for more details. Entities other than
+     *                                       “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and
+     *                                       “custom_emoji” are ignored.
+     * @param array|null $text_entities A JSON-serialized list of special entities that appear in the gift text. It can be specified instead
+     *                                       of text_parse_mode. Entities other than “bold”, “italic”, “underline”,
+     *                                       “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#giftpremiumsubscription
+     */
+    public function giftPremiumSubscription(
+        int $user_id,
+        int $month_count,
+        int $star_count,
+        string $text = null,
+        string $text_parse_mode = null,
+        array $text_entities = null
+    ): \stdClass {
+        $args = [
+            'user_id' => $user_id,
+            'month_count' => $month_count,
+            'star_count' => $star_count
+        ];
+
+        if (null !== $text) $args['text'] = $text;
+        if (null !== $text_parse_mode) $args['text_parse_mode'] = $text_parse_mode;
+        if (null !== $text_entities) $args['text_entities'] = json_encode($text_entities);
+
+        return $this->Request('giftPremiumSubscription', $args);
+    }
+
+    /**
+     * Verifies a user on behalf of the organization which is represented by the bot. Returns True on
+     * success.
+     *
+     * @param int $user_id Unique identifier of the target user
+     * @param string|null $custom_description Custom description for the verification; 0-70 characters. Must be empty if the organization isn't
+     *                                       allowed to provide a custom verification description.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#verifyuser
+     */
+    public function verifyUser(
+        int $user_id,
+        string $custom_description = null
+    ): \stdClass {
+        $args = [
+            'user_id' => $user_id
+        ];
+
+        if (null !== $custom_description) $args['custom_description'] = $custom_description;
+
+        return $this->Request('verifyUser', $args);
+    }
+
+    /**
+     * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on
+     * success.
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
+     *                                       @channelusername)
+     * @param string|null $custom_description Custom description for the verification; 0-70 characters. Must be empty if the organization isn't
+     *                                       allowed to provide a custom verification description.
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#verifychat
+     */
+    public function verifyChat(
+        int|string $chat_id,
+        string $custom_description = null
+    ): \stdClass {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+        if (null !== $custom_description) $args['custom_description'] = $custom_description;
+
+        return $this->Request('verifyChat', $args);
+    }
+
+    /**
+     * Removes verification from a user who is currently verified on behalf of the organization represented
+     * by the bot. Returns True on success.
+     *
+     * @param int $user_id Unique identifier of the target user
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#removeuserverification
+     */
+    public function removeUserVerification(
+        int $user_id
+    ): \stdClass {
+        $args = [
+            'user_id' => $user_id
+        ];
+
+
+        return $this->Request('removeUserVerification', $args);
+    }
+
+    /**
+     * Removes verification from a chat that is currently verified on behalf of the organization
+     * represented by the bot. Returns True on success.
+     *
+     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
+     *                                       @channelusername)
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#removechatverification
+     */
+    public function removeChatVerification(
+        int|string $chat_id
+    ): \stdClass {
+        $args = [
+            'chat_id' => $chat_id
+        ];
+
+
+        return $this->Request('removeChatVerification', $args);
+    }
+
+    /**
+     * Marks incoming message as read on behalf of a business account. Requires the can_read_messages
+     * business bot right. Returns True on success.
+     *
+     * @param int $chat_id Unique identifier of the chat in which the message was received. The chat must have been active in
+     *                                       the last 24 hours.
+     * @param int $message_id Unique identifier of the message to mark as read
+     * @param string $business_connection_id Unique identifier of the business connection on behalf of which to read the message
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#readbusinessmessage
+     */
+    public function readBusinessMessage(
+        int $chat_id,
+        int $message_id,
+        string $business_connection_id
+    ): \stdClass {
+        $args = [
+            'chat_id' => $chat_id,
+            'message_id' => $message_id,
+            'business_connection_id' => $business_connection_id
+        ];
+
+
+        return $this->Request('readBusinessMessage', $args);
+    }
+
+    /**
+     * Delete messages on behalf of a business account. Requires the can_delete_outgoing_messages business
+     * bot right to delete messages sent by the bot itself, or the can_delete_all_messages business bot
+     * right to delete any message. Returns True on success.
+     *
+     * @param array $message_ids A JSON-serialized list of 1-100 identifiers of messages to delete. All messages must be from the
+     *                                       same chat. See deleteMessage for limitations on which messages can be deleted
+     * @param string $business_connection_id Unique identifier of the business connection on behalf of which to delete the messages
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#deletebusinessmessages
+     */
+    public function deleteBusinessMessages(
+        array $message_ids,
+        string $business_connection_id
+    ): \stdClass {
+        $args = [
+            'message_ids' => json_encode($message_ids),
+            'business_connection_id' => $business_connection_id
+        ];
+
+
+        return $this->Request('deleteBusinessMessages', $args);
+    }
+
+    /**
+     * Changes the first and last name of a managed business account. Requires the can_change_name business
+     * bot right. Returns True on success.
+     *
+     * @param string $first_name The new value of the first name for the business account; 1-64 characters
+     * @param string|null $last_name The new value of the last name for the business account; 0-64 characters
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#setbusinessaccountname
+     */
+    public function setBusinessAccountName(
+        string $first_name,
+        string $business_connection_id,
+        string $last_name = null
+    ): \stdClass {
+        $args = [
+            'first_name' => $first_name,
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $last_name) $args['last_name'] = $last_name;
+
+        return $this->Request('setBusinessAccountName', $args);
+    }
+
+    /**
+     * Changes the username of a managed business account. Requires the can_change_username business bot
+     * right. Returns True on success.
+     *
+     * @param string|null $username The new value of the username for the business account; 0-32 characters
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#setbusinessaccountusername
+     */
+    public function setBusinessAccountUsername(
+        string $business_connection_id,
+        string $username = null
+    ): \stdClass {
+        $args = [
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $username) $args['username'] = $username;
+
+        return $this->Request('setBusinessAccountUsername', $args);
+    }
+
+    /**
+     * Changes the bio of a managed business account. Requires the can_change_bio business bot right.
+     * Returns True on success.
+     *
+     * @param string|null $bio The new value of the bio for the business account; 0-140 characters
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#setbusinessaccountbio
+     */
+    public function setBusinessAccountBio(
+        string $business_connection_id,
+        string $bio = null
+    ): \stdClass {
+        $args = [
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $bio) $args['bio'] = $bio;
+
+        return $this->Request('setBusinessAccountBio', $args);
+    }
+
+    /**
+     * Changes the profile photo of a managed business account. Requires the can_edit_profile_photo
+     * business bot right. Returns True on success.
+     *
+     * @param array $photo The new profile photo to set
+     * @param bool|null $is_public Pass True to set the public photo, which will be visible even if the main photo is hidden by the
+     *                                       business account's privacy settings. An account can have only one public photo.
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#setbusinessaccountprofilephoto
+     */
+    public function setBusinessAccountProfilePhoto(
+        array $photo,
+        string $business_connection_id,
+        bool $is_public = null
+    ): \stdClass {
+        $args = [
+            'photo' => json_encode($photo),
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $is_public) $args['is_public'] = $is_public;
+
+        return $this->Request('setBusinessAccountProfilePhoto', $args);
+    }
+
+    /**
+     * Removes the current profile photo of a managed business account. Requires the can_edit_profile_photo
+     * business bot right. Returns True on success.
+     *
+     * @param bool|null $is_public Pass True to remove the public photo, which is visible even if the main photo is hidden by the
+     *                                       business account's privacy settings. After the main photo is removed, the previous profile photo (if
+     *                                       present) becomes the main photo.
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#removebusinessaccountprofilephoto
+     */
+    public function removeBusinessAccountProfilePhoto(
+        string $business_connection_id,
+        bool $is_public = null
+    ): \stdClass {
+        $args = [
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $is_public) $args['is_public'] = $is_public;
+
+        return $this->Request('removeBusinessAccountProfilePhoto', $args);
+    }
+
+    /**
+     * Changes the privacy settings pertaining to incoming gifts in a managed business account. Requires
+     * the can_change_gift_settings business bot right. Returns True on success.
+     *
+     * @param bool $show_gift_button Pass True, if a button for sending a gift to the user or by the business account must always be
+     *                                       shown in the input field
+     * @param array $accepted_gift_types Types of gifts accepted by the business account
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#setbusinessaccountgiftsettings
+     */
+    public function setBusinessAccountGiftSettings(
+        bool $show_gift_button,
+        array $accepted_gift_types,
+        string $business_connection_id
+    ): \stdClass {
+        $args = [
+            'show_gift_button' => $show_gift_button,
+            'accepted_gift_types' => json_encode($accepted_gift_types),
+            'business_connection_id' => $business_connection_id
+        ];
+
+
+        return $this->Request('setBusinessAccountGiftSettings', $args);
+    }
+
+    /**
+     * Returns the amount of Telegram Stars owned by a managed business account. Requires the
+     * can_view_gifts_and_stars business bot right. Returns StarAmount on success.
+     *
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#getbusinessaccountstarbalance
+     */
+    public function getBusinessAccountStarBalance(
+        string $business_connection_id
+    ): \stdClass {
+        $args = [
+            'business_connection_id' => $business_connection_id
+        ];
+
+
+        return $this->Request('getBusinessAccountStarBalance', $args);
+    }
+
+    /**
+     * Transfers Telegram Stars from the business account balance to the bot's balance. Requires the
+     * can_transfer_stars business bot right. Returns True on success.
+     *
+     * @param int $star_count Number of Telegram Stars to transfer; 1-10000
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#transferbusinessaccountstars
+     */
+    public function transferBusinessAccountStars(
+        int $star_count,
+        string $business_connection_id
+    ): \stdClass {
+        $args = [
+            'star_count' => $star_count,
+            'business_connection_id' => $business_connection_id
+        ];
+
+
+        return $this->Request('transferBusinessAccountStars', $args);
+    }
+
+    /**
+     * Returns the gifts received and owned by a managed business account. Requires the
+     * can_view_gifts_and_stars business bot right. Returns OwnedGifts on success.
+     *
+     * @param bool|null $exclude_unsaved Pass True to exclude gifts that aren't saved to the account's profile page
+     * @param bool|null $exclude_saved Pass True to exclude gifts that are saved to the account's profile page
+     * @param bool|null $exclude_unlimited Pass True to exclude gifts that can be purchased an unlimited number of times
+     * @param bool|null $exclude_limited Pass True to exclude gifts that can be purchased a limited number of times
+     * @param bool|null $exclude_unique Pass True to exclude unique gifts
+     * @param bool|null $sort_by_price Pass True to sort results by gift price instead of send date. Sorting is applied before pagination.
+     * @param string|null $offset Offset of the first entry to return as received from the previous request; use empty string to get
+     *                                       the first chunk of results
+     * @param int|null $limit The maximum number of gifts to be returned; 1-100. Defaults to 100
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#getbusinessaccountgifts
+     */
+    public function getBusinessAccountGifts(
+        string $business_connection_id,
+        bool $exclude_unsaved = null,
+        bool $exclude_saved = null,
+        bool $exclude_unlimited = null,
+        bool $exclude_limited = null,
+        bool $exclude_unique = null,
+        bool $sort_by_price = null,
+        string $offset = null,
+        int $limit = null
+    ): \stdClass {
+        $args = [
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $exclude_unsaved) $args['exclude_unsaved'] = $exclude_unsaved;
+        if (null !== $exclude_saved) $args['exclude_saved'] = $exclude_saved;
+        if (null !== $exclude_unlimited) $args['exclude_unlimited'] = $exclude_unlimited;
+        if (null !== $exclude_limited) $args['exclude_limited'] = $exclude_limited;
+        if (null !== $exclude_unique) $args['exclude_unique'] = $exclude_unique;
+        if (null !== $sort_by_price) $args['sort_by_price'] = $sort_by_price;
+        if (null !== $offset) $args['offset'] = $offset;
+        if (null !== $limit) $args['limit'] = $limit;
+
+        return $this->Request('getBusinessAccountGifts', $args);
+    }
+
+    /**
+     * Converts a given regular gift to Telegram Stars. Requires the can_convert_gifts_to_stars business
+     * bot right. Returns True on success.
+     *
+     * @param string $owned_gift_id Unique identifier of the regular gift that should be converted to Telegram Stars
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#convertgifttostars
+     */
+    public function convertGiftToStars(
+        string $owned_gift_id,
+        string $business_connection_id
+    ): \stdClass {
+        $args = [
+            'owned_gift_id' => $owned_gift_id,
+            'business_connection_id' => $business_connection_id
+        ];
+
+
+        return $this->Request('convertGiftToStars', $args);
+    }
+
+    /**
+     * Upgrades a given regular gift to a unique gift. Requires the can_transfer_and_upgrade_gifts business
+     * bot right. Additionally requires the can_transfer_stars business bot right if the upgrade is paid.
+     * Returns True on success.
+     *
+     * @param string $owned_gift_id Unique identifier of the regular gift that should be upgraded to a unique one
+     * @param bool|null $keep_original_details Pass True to keep the original gift text, sender and receiver in the upgraded gift
+     * @param int|null $star_count The amount of Telegram Stars that will be paid for the upgrade from the business account balance. If
+     *                                       gift.prepaid_upgrade_star_count > 0, then pass 0, otherwise, the can_transfer_stars business bot
+     *                                       right is required and gift.upgrade_star_count must be passed.
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#upgradegift
+     */
+    public function upgradeGift(
+        string $owned_gift_id,
+        string $business_connection_id,
+        bool $keep_original_details = null,
+        int $star_count = null
+    ): \stdClass {
+        $args = [
+            'owned_gift_id' => $owned_gift_id,
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $keep_original_details) $args['keep_original_details'] = $keep_original_details;
+        if (null !== $star_count) $args['star_count'] = $star_count;
+
+        return $this->Request('upgradeGift', $args);
+    }
+
+    /**
+     * Transfers an owned unique gift to another user. Requires the can_transfer_and_upgrade_gifts business
+     * bot right. Requires can_transfer_stars business bot right if the transfer is paid. Returns True on
+     * success.
+     *
+     * @param string $owned_gift_id Unique identifier of the regular gift that should be transferred
+     * @param int $new_owner_chat_id Unique identifier of the chat which will own the gift. The chat must be active in the last 24 hours.
+     * @param int|null $star_count The amount of Telegram Stars that will be paid for the transfer from the business account balance.
+     *                                       If positive, then the can_transfer_stars business bot right is required.
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#transfergift
+     */
+    public function transferGift(
+        string $owned_gift_id,
+        int $new_owner_chat_id,
+        string $business_connection_id,
+        int $star_count = null
+    ): \stdClass {
+        $args = [
+            'owned_gift_id' => $owned_gift_id,
+            'new_owner_chat_id' => $new_owner_chat_id,
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $star_count) $args['star_count'] = $star_count;
+
+        return $this->Request('transferGift', $args);
+    }
+
+    /**
+     * Posts a story on behalf of a managed business account. Requires the can_manage_stories business bot
+     * right. Returns Story on success.
+     *
+     * @param array $content Content of the story
+     * @param int $active_period Period after which the story is moved to the archive, in seconds; must be one of 6 * 3600, 12 *
+     *                                       3600, 86400, or 2 * 86400
+     * @param string|null $caption Caption of the story, 0-2048 characters after entities parsing
+     * @param string|null $parse_mode Mode for parsing entities in the story caption. See formatting options for more details.
+     * @param array|null $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
+     *                                       instead of parse_mode
+     * @param array|null $areas A JSON-serialized list of clickable areas to be shown on the story
+     * @param bool|null $post_to_chat_page Pass True to keep the story accessible after it expires
+     * @param bool|null $protect_content Pass True if the content of the story must be protected from forwarding and screenshotting
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#poststory
+     */
+    public function postStory(
+        array $content,
+        int $active_period,
+        string $business_connection_id,
+        string $caption = null,
+        string $parse_mode = null,
+        array $caption_entities = null,
+        array $areas = null,
+        bool $post_to_chat_page = null,
+        bool $protect_content = null
+    ): \stdClass {
+        $args = [
+            'content' => json_encode($content),
+            'active_period' => $active_period,
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $caption) $args['caption'] = $caption;
+        if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
+        if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
+        if (null !== $areas) $args['areas'] = json_encode($areas);
+        if (null !== $post_to_chat_page) $args['post_to_chat_page'] = $post_to_chat_page;
+        if (null !== $protect_content) $args['protect_content'] = $protect_content;
+
+        return $this->Request('postStory', $args);
+    }
+
+    /**
+     * Edits a story previously posted by the bot on behalf of a managed business account. Requires the
+     * can_manage_stories business bot right. Returns Story on success.
+     *
+     * @param int $story_id Unique identifier of the story to edit
+     * @param array $content Content of the story
+     * @param string|null $caption Caption of the story, 0-2048 characters after entities parsing
+     * @param string|null $parse_mode Mode for parsing entities in the story caption. See formatting options for more details.
+     * @param array|null $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified
+     *                                       instead of parse_mode
+     * @param array|null $areas A JSON-serialized list of clickable areas to be shown on the story
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#editstory
+     */
+    public function editStory(
+        int $story_id,
+        array $content,
+        string $business_connection_id,
+        string $caption = null,
+        string $parse_mode = null,
+        array $caption_entities = null,
+        array $areas = null
+    ): \stdClass {
+        $args = [
+            'story_id' => $story_id,
+            'content' => json_encode($content),
+            'business_connection_id' => $business_connection_id
+        ];
+
+        if (null !== $caption) $args['caption'] = $caption;
+        if (null !== $parse_mode) $args['parse_mode'] = $parse_mode;
+        if (null !== $caption_entities) $args['caption_entities'] = json_encode($caption_entities);
+        if (null !== $areas) $args['areas'] = json_encode($areas);
+
+        return $this->Request('editStory', $args);
+    }
+
+    /**
+     * Deletes a story previously posted by the bot on behalf of a managed business account. Requires the
+     * can_manage_stories business bot right. Returns True on success.
+     *
+     * @param int $story_id Unique identifier of the story to delete
+     * @param string $business_connection_id Unique identifier of the business connection
+     * @return \stdClass
+     *
+     * @see https://core.telegram.org/bots/api#deletestory
+     */
+    public function deleteStory(
+        int $story_id,
+        string $business_connection_id
+    ): \stdClass {
+        $args = [
+            'story_id' => $story_id,
+            'business_connection_id' => $business_connection_id
+        ];
+
+
+        return $this->Request('deleteStory', $args);
+    }
+
+    /**
      * Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent
      * Message is returned.
      *
@@ -3918,153 +4590,6 @@ abstract class Api implements ApiInterface {
     }
 
     /**
-     * Returns the list of gifts that can be sent by the bot to users and channel chats. Requires no
-     * parameters. Returns a Gifts object.
-     *
-     * @return \stdClass
-     *
-     * @see https://core.telegram.org/bots/api#getavailablegifts
-     */
-    public function getAvailableGifts(): \stdClass {
-        return $this->Request('getAvailableGifts', []);
-    }
-
-    /**
-     * Sends a gift to the given user or channel chat. The gift can't be converted to Telegram Stars by the
-     * receiver. Returns True on success.
-     *
-     * @param int|null $user_id Required if chat_id is not specified. Unique identifier of the target user who will receive the
-     *                                       gift.
-     * @param int|string|null $chat_id Required if user_id is not specified. Unique identifier for the chat or username of the channel (in
-     *                                       the format @channelusername) that will receive the gift.
-     * @param string $gift_id Identifier of the gift
-     * @param bool|null $pay_for_upgrade Pass True to pay for the gift upgrade from the bot's balance, thereby making the upgrade free for
-     *                                       the receiver
-     * @param string|null $text Text that will be shown along with the gift; 0-128 characters
-     * @param string|null $text_parse_mode Mode for parsing entities in the text. See formatting options for more details. Entities other than
-     *                                       “bold”, “italic”, “underline”, “strikethrough”, “spoiler”, and
-     *                                       “custom_emoji” are ignored.
-     * @param array|null $text_entities A JSON-serialized list of special entities that appear in the gift text. It can be specified instead
-     *                                       of text_parse_mode. Entities other than “bold”, “italic”, “underline”,
-     *                                       “strikethrough”, “spoiler”, and “custom_emoji” are ignored.
-     * @return \stdClass
-     *
-     * @see https://core.telegram.org/bots/api#sendgift
-     */
-    public function sendGift(
-        string $gift_id,
-        int $user_id = null,
-        int|string $chat_id = null,
-        bool $pay_for_upgrade = null,
-        string $text = null,
-        string $text_parse_mode = null,
-        array $text_entities = null
-    ): \stdClass {
-        $args = [
-            'gift_id' => $gift_id
-        ];
-
-        if (null !== $user_id) $args['user_id'] = $user_id;
-        if (null !== $chat_id) $args['chat_id'] = $chat_id;
-        if (null !== $pay_for_upgrade) $args['pay_for_upgrade'] = $pay_for_upgrade;
-        if (null !== $text) $args['text'] = $text;
-        if (null !== $text_parse_mode) $args['text_parse_mode'] = $text_parse_mode;
-        if (null !== $text_entities) $args['text_entities'] = json_encode($text_entities);
-
-        return $this->Request('sendGift', $args);
-    }
-
-    /**
-     * Verifies a user on behalf of the organization which is represented by the bot. Returns True on
-     * success.
-     *
-     * @param int $user_id Unique identifier of the target user
-     * @param string|null $custom_description Custom description for the verification; 0-70 characters. Must be empty if the organization isn't
-     *                                       allowed to provide a custom verification description.
-     * @return \stdClass
-     *
-     * @see https://core.telegram.org/bots/api#verifyuser
-     */
-    public function verifyUser(
-        int $user_id,
-        string $custom_description = null
-    ): \stdClass {
-        $args = [
-            'user_id' => $user_id
-        ];
-
-        if (null !== $custom_description) $args['custom_description'] = $custom_description;
-
-        return $this->Request('verifyUser', $args);
-    }
-
-    /**
-     * Verifies a chat on behalf of the organization which is represented by the bot. Returns True on
-     * success.
-     *
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
-     *                                       @channelusername)
-     * @param string|null $custom_description Custom description for the verification; 0-70 characters. Must be empty if the organization isn't
-     *                                       allowed to provide a custom verification description.
-     * @return \stdClass
-     *
-     * @see https://core.telegram.org/bots/api#verifychat
-     */
-    public function verifyChat(
-        int|string $chat_id,
-        string $custom_description = null
-    ): \stdClass {
-        $args = [
-            'chat_id' => $chat_id
-        ];
-
-        if (null !== $custom_description) $args['custom_description'] = $custom_description;
-
-        return $this->Request('verifyChat', $args);
-    }
-
-    /**
-     * Removes verification from a user who is currently verified on behalf of the organization represented
-     * by the bot. Returns True on success.
-     *
-     * @param int $user_id Unique identifier of the target user
-     * @return \stdClass
-     *
-     * @see https://core.telegram.org/bots/api#removeuserverification
-     */
-    public function removeUserVerification(
-        int $user_id
-    ): \stdClass {
-        $args = [
-            'user_id' => $user_id
-        ];
-
-
-        return $this->Request('removeUserVerification', $args);
-    }
-
-    /**
-     * Removes verification from a chat that is currently verified on behalf of the organization
-     * represented by the bot. Returns True on success.
-     *
-     * @param int|string $chat_id Unique identifier for the target chat or username of the target channel (in the format
-     *                                       @channelusername)
-     * @return \stdClass
-     *
-     * @see https://core.telegram.org/bots/api#removechatverification
-     */
-    public function removeChatVerification(
-        int|string $chat_id
-    ): \stdClass {
-        $args = [
-            'chat_id' => $chat_id
-        ];
-
-
-        return $this->Request('removeChatVerification', $args);
-    }
-
-    /**
      * Use this method to send answers to an inline query. On success, True is returned.No more than 50
      * results per query are allowed.
      *
@@ -4305,7 +4830,7 @@ abstract class Api implements ApiInterface {
      *                                       be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000
      *                                       (30 days) if specified. Any number of subscriptions can be active for a given bot at the same time,
      *                                       including multiple concurrent subscriptions from the same user. Subscription price must no exceed
-     *                                       2500 Telegram Stars.
+     *                                       10000 Telegram Stars.
      * @param int|null $max_tip_amount The maximum accepted amount for tips in the smallest units of the currency (integer, not
      *                                       float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp
      *                                       parameter in currencies.json, it shows the number of digits past the decimal point for each currency
